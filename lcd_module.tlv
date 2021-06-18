@@ -1,8 +1,7 @@
 \m4_TLV_version 1d: tl-x.org
 
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Shaastra-FPGA-Workshop/main/artix7_lcd.tlv'])
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Shaastra-FPGA-Workshop/main/artix_init.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/artix7_board.tlv'])
                    
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
