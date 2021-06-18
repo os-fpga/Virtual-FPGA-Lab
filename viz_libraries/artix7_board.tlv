@@ -20,7 +20,7 @@
                    width: 20,
                    height: 20
                   })
-                  let fpga_img_url = "https://github.com/BalaDhinesh/Shaastra-FPGA-Workshop/blob/main/IMG_20210618_145611-removebg.png?raw=true"
+                  let fpga_img_url = "https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/artix7.png?raw=true"
                   let fpga_img = new fabric.Image.fromURL(
                         fpga_img_url,
                         function (img) {
@@ -115,7 +115,7 @@
                    width: 20,
                    height: 20
                   })
-                  let fpga_img_url = "https://github.com/BalaDhinesh/Shaastra-FPGA-Workshop/blob/main/IMG_20210618_150838-removebg.png?raw=true"
+                  let fpga_img_url = "https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/artix7_lcd.png?raw=true"
                   let fpga_img = new fabric.Image.fromURL(
                         fpga_img_url,
                         function (img) {
