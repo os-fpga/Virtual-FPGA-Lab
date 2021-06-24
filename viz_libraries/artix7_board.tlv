@@ -53,7 +53,7 @@
                      fill: "black",
                      opacity: 1
                   })
-                return {objects :{logic_block}};
+                return {objects :{logic_block, seg}};
                 }
          /digit[3:0]
             /led[7:0]
@@ -76,7 +76,7 @@
                            skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
                            opacity: 1
                         })
-                     return{objects : {}};
+                     return{objects : {sseg}};
                   }
          
 \TLV artix7_led(|_pipe, @_stage, $leds)
