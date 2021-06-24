@@ -31,7 +31,7 @@
                         {originX: "center",
                          originY: "center",
                          left: 0,
-                         top: 0,
+                         top: 10,
                          scaleX: 0.18,
                          scaleY: 0.18,
                          angle: 0
