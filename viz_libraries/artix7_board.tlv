@@ -1,8 +1,6 @@
-\m4_TLV_version 1d: tl-x.org
-
-\TLV artix7_init()
-   |top_pipe
-      @0
+\TLV artix7_init(|_pipe, @_stage)
+   |_pipe
+      @_stage
          \viz_alpha
             initEach() {
                   let block_square = new fabric.Rect(
@@ -26,13 +24,14 @@
                         function (img) {
                            logic_block.add(img)
                            global.canvas.renderAll()
+                           //global.canvas.sendToBack(logic_block);
                         },
                         {originX: "center",
                          originY: "center",
                          left: 0,
                          top: 0,
-                         scaleX: 0.2,
-                         scaleY: 0.2,
+                         scaleX: 0.18,
+                         scaleY: 0.18,
                          angle: 0
                         }
                      )
@@ -44,11 +43,125 @@
                         fill: "red",
                         opacity: 1
                      })
+                  let seg = new fabric.Rect({
+                     top: 60,
+                     left: -244,
+                     width: 140, 
+                     height: 60, 
+                     fill: "black",
+                     opacity: 1
+                  })
                 return {objects :{logic_block}};
-                },
-                renderEach(){
                 }
-                
+         /digit[3:0]
+            /led[7:0]
+               \viz_alpha
+                  initEach() {
+                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
+                           top: 109,
+                           left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
+                           radius: 2,
+                           opacity: 1,
+                           fill: "grey"
+                        }) 
+                        :
+                        new fabric.Rect({
+                           top: 76 + ((scopes.led.index == 5) ? -4 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 31 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -4 : (scopes.led.index == 0) ? 11 : -8),
+                           left: ((scopes.digit.index == 0) ? -224 : (scopes.digit.index == 1) ? -194 : (scopes.digit.index == 2) ? -164 : -134) + ((scopes.led.index == 5) ? 13 : (scopes.led.index == 4) ? 11 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : -1),
+                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 14 : 3,
+                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 14 : 3,
+                           fill: "grey",
+                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
+                           opacity: 1
+                        })
+                     return{objects : {}};
+                  }
+         
+\TLV artix7_led(|_pipe, @_stage, $leds)
+   |_pipe
+      @_stage
+         //$viz_leds[15:0] = {$L1,$P1,$N3,$P3,$U3,$W3,$V3,$V13,$V14,$U14,$U15,$W18,$V19,$U19,$E19,$U16};
+         /led[15:0]
+            \viz_alpha
+               initEach() {
+               debugger
+                  let led = new fabric.Rect({
+                        top: 150,
+                        left: 218 - 27.5 * (this.getIndex() + 1),
+                        width: 12, 
+                        height: 12, 
+                        fill: "red",
+                        opacity: 0
+                     })
+                  /*let done_led = new fabric.Rect({
+                        top: -108,
+                        left: 191, 
+                        width: 5, 
+                        height: 8, 
+                        fill: "green",
+                        opacity: 1
+                     }) */
+                  return{objects : {led /*, done_led*/}}; 
+               }, 
+               renderEach() {
+                     var mod = ((('/top|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                     this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
+                     //global.canvas.on('led:moving', function () {console.log('Event object:moving Triggered');});
+                  }        
+\TLV artix7_sseg(|_pipe, @_stage, $enable, $sseg)
+   |_pipe
+      @_stage
+         /sseg
+            \viz_alpha
+               initEach() {
+                            let seg = new fabric.Rect({
+                        top: 60,
+                        left: -244,
+                        width: 140, 
+                        height: 60, 
+                        fill: "black",
+                        opacity: 1
+                     })
+                              return {objects : {seg}}; 
+                         },
+         /digit[3:0]
+            /led[7:0]
+               \viz_alpha
+                  initEach() {
+                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
+                           top: 109,
+                           left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
+                           radius: 2,
+                           opacity: 1,
+                           fill: "grey"
+                        }) 
+                        :
+                        new fabric.Rect({
+                           top: 76 + ((scopes.led.index == 5) ? -4 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 31 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -4 : (scopes.led.index == 0) ? 11 : -8),
+                           left: ((scopes.digit.index == 0) ? -224 : (scopes.digit.index == 1) ? -194 : (scopes.digit.index == 2) ? -164 : -134) + ((scopes.led.index == 5) ? 13 : (scopes.led.index == 4) ? 11 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : -1),
+                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 14 : 3,
+                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 14 : 3,
+                           fill: "grey",
+                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
+                           opacity: 1
+                        })
+                     return{objects : {sseg}};
+                  },
+                  renderEach() {
+                     var enable = ('/top|_pipe$enable'.asBinaryStr());
+                     var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
+                     var fp_valid = sseg1[0] == 0
+                     if(scopes.led.index == 7)
+                     {
+                        console.log("scopes.digit.index:", scopes.digit.index)
+                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
+                     }
+                     else {
+                        var hamm = ((('/top|_pipe$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
+                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
+                     }
+                  }
+            
 \TLV artix7_lcd(|_pipe, @_stage, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
    //for viz part
    |_pipe
@@ -83,12 +196,12 @@
                              $inc_or_dec == 2 ? >>1$wr_index2 - 1 : >>1$wr_index2) : 
                              >>1$wr_index2;    // cursor index if line 2
          /chars1[40-1:0]
-            $char1[7:0] = |top_pipe$out == 8'h01 & |top_pipe$lcd_reset == 0 ? 8'h20 : 
-                          |top_pipe>>1$wr_index1 == #chars1 && |top_pipe$line == 1 && |top_pipe$read_enable && |top_pipe$lcd_reset == 1 ? |top_pipe$out : 
+            $char1[7:0] = |_pipe$out == 8'h01 & |_pipe$lcd_reset == 0 ? 8'h20 : 
+                          |_pipe>>1$wr_index1 == #chars1 && |_pipe$line == 1 && |_pipe$read_enable && |_pipe$lcd_reset == 1 ? |_pipe$out : 
                           $RETAIN;
          /chars2[40-1:0]
-            $char2[7:0] = |top_pipe$out == 8'h01 & |top_pipe$lcd_reset == 0 ? 8'h20 : 
-                          ((|top_pipe>>1$wr_index2 == #chars2 && |top_pipe$line == 2) | (|top_pipe>>1$wr_index1 - 40 == #chars2 && |top_pipe$line == 1)) && |top_pipe$read_enable && |top_pipe$lcd_reset == 1 ? |top_pipe$out : 
+            $char2[7:0] = |_pipe$out == 8'h01 & |_pipe$lcd_reset == 0 ? 8'h20 : 
+                          ((|_pipe>>1$wr_index2 == #chars2 && |_pipe$line == 2) | (|_pipe>>1$wr_index1 - 40 == #chars2 && |_pipe$line == 1)) && |_pipe$read_enable && |_pipe$lcd_reset == 1 ? |_pipe$out : 
                           $RETAIN;
          $str1[8*16-1:0] = (/chars1[*]$char1 >> 8*$shift_left) << 8*$shift_right;
          $str2[8*16-1:0] = (/chars2[*]$char2 >> 8*$shift_left) << 8*$shift_right;
@@ -103,32 +216,27 @@
                   let block_square = new fabric.Rect(
                      {originX: "center",
                       originY: "center",
-                      width: 490,
-                      height: 300,
-                      fill: "white"
+                      fill : "transparent"
                      }
                   )
                   let logic_block = new fabric.Group([block_square],
                   {originX: "center",
                    originY: "center",
-                   angle: 0,
-                   width: 20,
-                   height: 20
                   })
-                  let fpga_img_url = "https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/artix7_lcd.png?raw=true"
-                  let fpga_img = new fabric.Image.fromURL(
-                        fpga_img_url,
+                  let lcd_img_url = "https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/lcd_module.png?raw=true"
+                  let lcd_img = new fabric.Image.fromURL(
+                        lcd_img_url,
                         function (img) {
                            logic_block.add(img)
                            global.canvas.renderAll()
                         },
                         {originX: "center",
                          originY: "center",
-                         left: 0,
-                         top: 0,
-                         scaleX: 0.25,
-                         scaleY: 0.25,
-                         angle: -1.3
+                         left: -35,
+                         top: 320,
+                         scaleX: 0.2,
+                         scaleY: 0.2,
+                         angle: 0.4
                         }
                      )
                    let start_led = new fabric.Rect({
@@ -140,46 +248,47 @@
                         opacity: 1
                      })
                     let lcd = new fabric.Rect({
-                        top: 270,
-                        left: -120,
-                        width: 350,
-                        height: 90,
+                        top: 280,
+                        left: -165,
+                        width: 295,
+                        height: 80,
                         fill: "#FDFF32",
                         opacity: 1
                      })
                      let line1 = new fabric.Text("", {
-                       left: -110,
-                       top: 270,
-                       fontSize: 35,
+                       left: -160,
+                       top: 290,
+                       fontSize: 30,
                        fontFamily: "Courier New",
                      })
                      let line2 = new fabric.Text("", {
-                       left: -110,
-                       top: 310,
+                       left: -160,
+                       top: 320,
                        fontSize: 35,
                        fontFamily: "Courier New",
                      })
                      let info = new fabric.Text("", {
                        left: -300,
-                       top: -300,
+                       top: -250,
                        fontSize: 15,
                        fontFamily: "Courier New",
                      })
                      let clock = new fabric.Text("Clock Frequency = 100Hz", {
                        left: 80,
-                       top: -300,
+                       top: -250,
                        fontSize: 15,
                        fontFamily: "Courier New",
                      })
+                
                 return {objects :{logic_block, lcd, line1, line2, info, clock}};
                 },
              renderEach(){
-                 let str1 = '|top_pipe$str1'.asString().split("").reverse().join("")
-                 let str2 = '|top_pipe$str2'.asString().split("").reverse().join("")
-                 let lcd_rst = '|top_pipe$lcd_reset'.asBool()
+                 let str1 = '/top|_pipe$str1'.asString().split("").reverse().join("")
+                 let str2 = '/top|_pipe$str2'.asString().split("").reverse().join("")
+                 let lcd_rst = '/top|_pipe$lcd_reset'.asBool()
                  this.getInitObjects().line1.setText(str1)
                  this.getInitObjects().line2.setText(str2)
-                 let value_bin = '|top_pipe$out'.asBinaryStr();
+                 let value_bin = '/top|_pipe$out'.asBinaryStr();
                  if(!lcd_rst){
                  if (value_bin == "00111000"){
                     //8'h38
