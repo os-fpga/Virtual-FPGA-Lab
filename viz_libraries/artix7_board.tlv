@@ -208,10 +208,6 @@
          $str1[8*16-1:0] = (/chars1[*]$char1 >> 8*$shift_left) << 8*$shift_right;
          $str2[8*16-1:0] = (/chars2[*]$char2 >> 8*$shift_left) << 8*$shift_right;
 
-         '],
-         ['
-         ']
-         )
 
          \viz_alpha
             initEach() {
@@ -349,3 +345,8 @@
                  this.getInitObjects().info.setText("data instruction")
               }
              }
+          
+         '],
+         ['
+         ']
+         )
