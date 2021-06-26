@@ -5,4 +5,5 @@ More details about the project : https://summerofcode.withgoogle.com/projects/#6
 
 ## Demos:
 LED Module : http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK
+7 segment display : http://makerchip.com/sandbox/0DkfBh89L/0AnhZDo
 LCD Module : http://makerchip.com/sandbox/0v2fWhwZy/0Q1hXWx#
