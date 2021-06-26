@@ -2,6 +2,7 @@
 \TLV artix7_init(|_pipe, @_stage)
    |_pipe
       @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1, ['
          \viz_alpha
             initEach() {
                   let block_square = new fabric.Rect(
@@ -77,10 +78,15 @@
                         })
                      return{objects : {sseg}};
                   }
+         '],
+         ['
+         ']
+         )
          
 \TLV artix7_led(|_pipe, @_stage, $leds)
    |_pipe
       @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1, ['
          //$viz_leds[15:0] = {$L1,$P1,$N3,$P3,$U3,$W3,$V3,$V13,$V14,$U14,$U15,$W18,$V19,$U19,$E19,$U16};
          /led[15:0]
             \viz_alpha
@@ -107,10 +113,15 @@
                      var mod = ((('/top|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                      console.log('/top|_pipe$leds'.asInt(-1))
                      this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
-                  }        
+                  }   
+         '],
+         ['
+         ']
+         )
 \TLV artix7_sseg(|_pipe, @_stage, $enable, $sseg)
    |_pipe
       @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1, ['
          /sseg
             \viz_alpha
                initEach() {
@@ -161,7 +172,11 @@
                         this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
                      }
                   }
-            
+          
+         '],
+         ['
+         ']
+         )
 \TLV artix7_lcd(|_pipe, @_stage, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
    //for viz part
    |_pipe
