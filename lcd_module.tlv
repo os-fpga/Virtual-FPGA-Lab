@@ -8,10 +8,10 @@
    m4_makerchip_module   
    '],['
    module top(input clk, input reset, output lcd_e, output lcd_rs, output [7:0] data);
-      clock_divider dut1 (clk, divided_clk);
-      test dut2 (clk, reset, lcd_e, lcd_rs, data);
+      clock_divider #(.DIV_VALUE(249999)) dut1 (clk, divided_clk);
+      test dut2 (divided_clk, reset, lcd_e, lcd_rs, data);
    endmodule
-   module test (input divided_clk, input reset, output lcd_e, output lcd_rs, output [7:0] data);
+   module test (input clk, input reset, output lcd_e, output lcd_rs, output [7:0] data);
    ']
    )
 
@@ -41,8 +41,21 @@
          *lcd_rs = $lcd_reset;
          ']
          )
+   |sseg_pipe
+      @0   
+         $reset = *reset;
+         $digit[3:0] = $reset ? 0 : >>1$digit-1;
+         $sseg[7:0] = 8'b00000001;
+   |led_pipe
+      @0      
+         $reset = *reset;
+         $leds[15:0] = $reset ? 0 : >>1$leds+1;
+         
+         
          
    m4+artix7_init(|top_pipe, @0)
+   m4+artix7_led(|led_pipe, @0, $leds)
+   m4+artix7_sseg(|sseg_pipe, @0, $digit, $sseg)
    m4+artix7_lcd(|lcd_pipe, @0, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
 \SV
    endmodule
