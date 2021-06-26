@@ -1,4 +1,4 @@
-\m4_TLV_version 1d: tl-x.org
+\m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 
 \SV
    m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/artix7_board.tlv'])
@@ -6,8 +6,7 @@
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
-   '],
-   ['
+   '],['
    module top(input clk, input reset, output lcd_e, output lcd_rs, output [7:0] data);
       clock_divider dut1 (clk, divided_clk);
       test dut2 (clk, reset, lcd_e, lcd_rs, data);
@@ -17,7 +16,14 @@
    )
 
 \TLV
-   |top_pipe
+   m4_ifelse_block(M4_MAKERCHIP, 1,['
+   $reset = *reset;
+   *passed = *cyc_cnt > 400;
+   *failed = 1'b0;   
+   '],['
+   ']
+   )
+   |lcd_pipe
       @0
          $reset = *reset;
          $datas[25*8-1:0] = {8'h18, 8'h2D, 8'h2D, 8'hC0, 8'h21, 8'h21, 8'h21, 8'h6E, 8'h75, 8'h66, 8'h20, 8'h65, 8'h72, 8'h61,
@@ -37,6 +43,6 @@
          )
          
    m4+artix7_init(|top_pipe, @0)
-   m4+artix7_lcd(|top_pipe, @0, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
+   m4+artix7_lcd(|lcd_pipe, @0, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
 \SV
    endmodule
