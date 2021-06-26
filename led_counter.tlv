@@ -9,27 +9,22 @@
    '],['
    module top(input clk, input reset, output [15:0] led);
       clock_divider dut1 (clk, divided_clk);
-      test #(div_value = 24999999) dut2 (divided_clk, reset, led);
+      test dut2 (clk, reset, led);
    endmodule
-   module test (input clk, input reset, output [15:0] led);
+   module test (input divided_clk, input reset, output [15:0] led);
    ']
    )
 
                   
 
 \TLV
-   m4_ifelse_block(M4_MAKERCHIP, 1,['
-   $reset = *reset;
-   *passed = *cyc_cnt > 400;
-   *failed = 1'b0;   
-   '],['
-   ']
-   )
    |led_pipe
       @0      
-         $reset = *reset;
          $leds[15:0] = $reset ? 0 : >>1$leds+1;
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         $reset = *reset;
+         *passed = *cyc_cnt > 400;
+         *failed = 1'b0;   
          '],
          ['
          *led = $leds;
