@@ -1,5 +1,4 @@
 \m4_TLV_version 1d: tl-x.org
-
 \TLV artix7_init(|_pipe, @_stage)
    |_pipe
       @_stage
@@ -26,7 +25,7 @@
                         function (img) {
                            logic_block.add(img)
                            global.canvas.renderAll()
-                           //global.canvas.sendToBack(logic_block);
+                           global.canvas.sendToBack(logic_block);
                         },
                         {originX: "center",
                          originY: "center",
@@ -86,7 +85,6 @@
          /led[15:0]
             \viz_alpha
                initEach() {
-               debugger
                   let led = new fabric.Rect({
                         top: 150,
                         left: 218 - 27.5 * (this.getIndex() + 1),
@@ -107,8 +105,8 @@
                }, 
                renderEach() {
                      var mod = ((('/top|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                     console.log('/top|_pipe$leds'.asInt(-1))
                      this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
-                     //global.canvas.on('led:moving', function () {console.log('Event object:moving Triggered');});
                   }        
 \TLV artix7_sseg(|_pipe, @_stage, $enable, $sseg)
    |_pipe
