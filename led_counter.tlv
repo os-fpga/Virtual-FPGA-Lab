@@ -19,10 +19,10 @@
 
 \TLV
    |led_pipe
-      @0      
+      @0  
+         $reset = *reset;
          $leds[15:0] = $reset ? 0 : >>1$leds+1;
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         $reset = *reset;
          *passed = *cyc_cnt > 400;
          *failed = 1'b0;   
          '],
