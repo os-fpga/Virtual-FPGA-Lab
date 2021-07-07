@@ -16,16 +16,24 @@ Within Makerchip, you’ll use Verilog or the latest Transaction-Level Verilog t
 ## Demos:
 ### LED:
 __Counter Demo:__  [http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK](http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK)
+
 __Output on Makerchip:__
+
 __Output on Basys3 board:__
+
 __Output on Edge Artix7 board:__
+
 __Output on ZedBoard:__
 
 ### Seven Segment Display:
 __Counter Demo:__  [http://makerchip.com/sandbox/0DkfBh89L/0AnhZDo](http://makerchip.com/sandbox/0DkfBh89L/0AnhZDo)
+
 __Output on Makerchip:__
+
 __Output on Basys3 board:__
+
 __Output on Edge Artix7 board:__
+
 __Output on ZedBoard:__
 
 ## Run in FPGA:
