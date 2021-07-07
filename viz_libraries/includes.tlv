@@ -592,6 +592,7 @@
                   renderEach() {
                      var enable = ('/top|_pipe$enable'.asBinaryStr());
                      var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
+                     this.getInitObject("sseg").bringToFront()
                      var fp_valid = sseg1[0] == 0
                      if(scopes.led.index == 7)
                      {
