@@ -23,6 +23,8 @@ __Counter Demo:__  [http://makerchip.com/sandbox/0jRfjhMkx/0DRhjj0](http://maker
 
 __Output on Virtual Basys3 board:__ 
 
+![Basys3_LED](https://user-images.githubusercontent.com/15063738/124799122-d4d59e00-df71-11eb-94c8-ed500c5f8945.gif)
+
 __Output on Virtual Edge Artix7 board:__ 
 
 ![EDGE_Artix7_LED](https://user-images.githubusercontent.com/15063738/124793980-27ac5700-df6c-11eb-81ea-5728abba6777.gif)
