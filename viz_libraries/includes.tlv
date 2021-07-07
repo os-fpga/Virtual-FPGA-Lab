@@ -553,19 +553,6 @@
 \TLV basys3_sseg(|_pipe, @_stage, $enable, $sseg)
    |_pipe
       @_stage
-         /sseg
-            \viz_alpha
-               initEach() {
-                           let seg = new fabric.Rect({
-                           top: 50,
-                           left: -182,
-                           width: 124, 
-                           height: 39, 
-                           fill: "black",
-                           opacity: 1
-                        })
-                              return {objects : {seg}}; 
-                         },
          /digit[3:0]
             /led[7:0]
                \viz_alpha
@@ -579,7 +566,7 @@
                         }) 
                         :
                         new fabric.Rect({
-                           top: 56 + ((scopes.led.index == 5) ? 1 : (scopes.led.index == 4) ? 13 : (scopes.led.index == 3) ? 23 : (scopes.led.index == 2) ? 13 : (scopes.led.index == 1) ? 1 : (scopes.led.index == 0) ? 11 : 0),
+                           top: 56 + ((scopes.led.index == 1) ? 1 : (scopes.led.index == 2) ? 13 : (scopes.led.index == 3) ? 23 : (scopes.led.index == 4) ? 13 : (scopes.led.index == 5) ? 1 : (scopes.led.index == 6) ? 11 : 0),
                            left: ((scopes.digit.index == 0) ? -169 : (scopes.digit.index == 1) ? -139 : (scopes.digit.index == 2) ? -109 : -79) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -6 : (scopes.led.index == 1) ? -4 : 0),
                            width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 11 : 3,
                            height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
