@@ -216,19 +216,7 @@
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         /sseg
-            \viz_alpha
-               initEach() {
-                            let seg = new fabric.Rect({
-                        top: 60,
-                        left: -244,
-                        width: 140, 
-                        height: 60, 
-                        fill: "black",
-                        opacity: 1
-                     })
-                              return {objects : {seg}}; 
-                         },
+         
          /digit[3:0]
             /led[7:0]
                \viz_alpha
@@ -254,6 +242,7 @@
                   },
                   renderEach() {
                      var enable = ('/top|_pipe$enable'.asBinaryStr());
+                     this.getInitObject("sseg").bringToFront()
                      var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
                      var fp_valid = sseg1[0] == 0
                      if(scopes.led.index == 7)
