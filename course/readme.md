@@ -25,16 +25,23 @@ __Output on Virtual Basys3 board:__
 
 __Output on Virtual Edge Artix7 board:__ 
 
-![simplescreenrecorder-2](https://user-images.githubusercontent.com/15063738/124790744-0bf38180-df69-11eb-812c-1fd1da1055f9.gif)
-
+![EDGE_Artix7_LED](https://user-images.githubusercontent.com/15063738/124793980-27ac5700-df6c-11eb-81ea-5728abba6777.gif)
 
 __Output on Virtual ZedBoard:__
+
+![Zedboard_LED](https://user-images.githubusercontent.com/15063738/124794052-3c88ea80-df6c-11eb-9da2-1e250868b6de.gif)
+
 
 ### 2. Seven Segment Display:
 __Counter Demo:__  [http://makerchip.com/sandbox/0jRfjhMkx/0Elh119](http://makerchip.com/sandbox/0jRfjhMkx/0Elh119)
 
 __Output on Virtual Basys3 board:__
 
+![Basys3_7seg](https://user-images.githubusercontent.com/15063738/124794130-532f4180-df6c-11eb-8541-0f83f9ec47c6.gif)
+
 __Output on Virtual Edge Artix7 board:__
+
+![EDGE_Artix7_7seg](https://user-images.githubusercontent.com/15063738/124794148-57f3f580-df6c-11eb-8dca-5805e6d32887.gif)
+
 
 ## Run on FPGA:
