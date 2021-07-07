@@ -144,7 +144,6 @@
                      fill: "black",
                      opacity: 1
                   })
-                this.sendBackwards(seg)
                 return {objects :{logic_block, seg}};
                 
                 }
@@ -169,7 +168,6 @@
                            skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
                            opacity: 1
                         })
-                     this.sendBackwards(sseg)
                      return{objects : {sseg}};
                   }
          '],
