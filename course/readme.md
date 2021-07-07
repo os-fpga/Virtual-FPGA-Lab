@@ -9,8 +9,23 @@ Within Makerchip, you’ll use Verilog or the latest Transaction-Level Verilog t
 ## Makerchip and TL-Verilog:
 [Makerchip](https://www.makerchip.com/) is a free online environment for developing high-quality integrated circuits. You can code, compile, simulate, and debug Verilog designs, all from your browser. Your code, block diagrams, and waveforms are tightly integrated. [Makerchip](https://www.makerchip.com/) supports the emerging Transaction-Level Verilog standard. [Transaction-Level Verilog](http://tl-x.org/), or [TL-Verilog](http://tl-x.org/), represents a huge step forward, by eliminating the need for the legacy language features of Verilog and by introducing simpler syntax. At the same time, TL-Verilog adds powerful constructs for pipelines and transactions. More details about TL-Verilog: [https://www.redwoodeda.com/tl-verilog](https://www.redwoodeda.com/tl-verilog)
 
-## LED:
-__Counter Demo:__  [http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK](http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK)
+## Features of Virtual FPGA Lab:
+- Move back and forth between cycles so that we can visualize what's happening in each and every cycle.
+- Faster to see the output for simple designs. No need to wait for Synthesis, Implementation and Bitstream Generation.
 
-## Seven Segment Display:
+## Demos:
+### LED:
+__Counter Demo:__  [http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK](http://makerchip.com/sandbox/0DkfBh89L/0wjhvwK)
+__Output on Makerchip:__
+__Output on Basys3 board:__
+__Output on Edge Artix7 board:__
+__Output on ZedBoard:__
+
+### Seven Segment Display:
 __Counter Demo:__  [http://makerchip.com/sandbox/0DkfBh89L/0AnhZDo](http://makerchip.com/sandbox/0DkfBh89L/0AnhZDo)
+__Output on Makerchip:__
+__Output on Basys3 board:__
+__Output on Edge Artix7 board:__
+__Output on ZedBoard:__
+
+## Run in FPGA:
