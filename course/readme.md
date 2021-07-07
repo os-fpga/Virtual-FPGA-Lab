@@ -12,28 +12,28 @@ Within Makerchip, you’ll use Verilog or the latest Transaction-Level Verilog t
 ## Features of Virtual FPGA Lab:
 - Move back and forth between cycles so that we can visualize what's happening in each and every cycle.
 - Faster to see the output for simple designs. No need to wait for Synthesis, Implementation and Bitstream Generation.
+### Supported FPGA Boards:
+1. Basys 3 Artix-7 FPGA Trainer Board ([Product Link](https://store.digilentinc.com/basys-3-artix-7-fpga-beginner-board-recommended-for-introductory-users/)) 
+3. EDGE Artix 7 FPGA Development Board ([Product Link](https://allaboutfpga.com/product/edge-artix-7-fpga-development-board/))
+4. Zedboard Zynq-7000 ARM/FPGA SoC Development Board ([Product Link](https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/))
 
 ## Demos:
 ### 1. LED:
 __Counter Demo:__  [http://makerchip.com/sandbox/0jRfjhMkx/0DRhjj0](http://makerchip.com/sandbox/0jRfjhMkx/0DRhjj0)
 
-__Output on Makerchip:__
+__Output on Virtual Basys3 board:__
 
-__Output on Basys3 board:__
+__Output on Virtual Edge Artix7 board:__
 
-__Output on Edge Artix7 board:__
-
-__Output on ZedBoard:__
+__Output on Virtual ZedBoard:__
 
 ### 2. Seven Segment Display:
 __Counter Demo:__  [http://makerchip.com/sandbox/0jRfjhMkx/0Elh119](http://makerchip.com/sandbox/0jRfjhMkx/0Elh119)
 
-__Output on Makerchip:__
+__Output on Virtual Basys3 board:__
 
-__Output on Basys3 board:__
+__Output on Virtual Edge Artix7 board:__
 
-__Output on Edge Artix7 board:__
-
-__Output on ZedBoard:__
+__Output on Virtual ZedBoard:__
 
 ## Run on FPGA:
