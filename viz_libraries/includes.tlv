@@ -446,7 +446,6 @@
          )
          
          
- \m4_TLV_version 1d: tl-x.org
 \TLV basys3_init(|_pipe, @_stage)
    |_pipe
       @_stage
@@ -473,7 +472,7 @@
                         function (img) {
                            logic_block.add(img)
                            global.canvas.renderAll()
-                           //global.canvas.sendToBack(logic_block);
+                           global.canvas.sendToBack(logic_block);
                         },
                         {originX: "center",
                          originY: "center",
