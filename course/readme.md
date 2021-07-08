@@ -12,7 +12,7 @@ Within Makerchip, you’ll use Verilog or the latest Transaction-Level Verilog t
 ## Features of Virtual FPGA Lab:
 - Move back and forth between cycles so that we can visualize what's happening in each and every cycle.
 - Faster to see the output for simple designs. No need to wait for Synthesis, Implementation and Bitstream Generation.
-### Supported FPGA Boards:
+### FPGA Boards demonstrated in Makerchip:
 1. Basys 3 Artix-7 FPGA Trainer Board ([Product Link](https://store.digilentinc.com/basys-3-artix-7-fpga-beginner-board-recommended-for-introductory-users/)) 
 3. EDGE Artix 7 FPGA Development Board ([Product Link](https://allaboutfpga.com/product/edge-artix-7-fpga-development-board/))
 4. Zedboard Zynq-7000 ARM/FPGA SoC Development Board ([Product Link](https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/))
