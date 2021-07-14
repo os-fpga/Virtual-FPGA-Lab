@@ -19,4 +19,3 @@ set_property IOSTANDARD LVCMOS33 [get_ports {out[4]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {out[5]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {out[6]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {out[7]}]
-

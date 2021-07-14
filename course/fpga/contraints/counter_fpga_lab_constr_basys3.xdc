@@ -24,4 +24,3 @@ set_property PACKAGE_PIN V8 [get_ports {out[3]}]
 set_property PACKAGE_PIN U5 [get_ports {out[2]}]
 set_property PACKAGE_PIN V5 [get_ports {out[1]}]
 set_property PACKAGE_PIN U7 [get_ports {out[0]}]
-

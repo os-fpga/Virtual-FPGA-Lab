@@ -88,25 +88,25 @@ set timing_report [open $outputDir/route/reports/post_route_timing_summary.rpt]
     if {[string match *[string toupper $search]* [string toupper $data]] } {
 		set met_timing "Met Timing Constrains: false"
 		#set fid [open Vivado/out/status.txt w]
-		#puts $fid "false" 
+		#puts $fid "false"
 		#close $fid
 		close $timing_report
 		puts $met_timing
 		puts "check your timing constraints and run the script again"
 		puts "----------------EXITING -----------------"
-		exit 
-		#STEP 6 - write bitstream will not get performed  
+		exit
+		#STEP 6 - write bitstream will not get performed
     } elseif {[string match *[string toupper $no_timing_search]* [string toupper $data]] } {
 		set no_timing "Timing constraints given : false"
 		#set fid [open Vivado/out/status.txt w]
-		#puts $fid "false" 
+		#puts $fid "false"
 		#close $fid
 		close $timing_report
 		puts $no_timing
 		puts "check your timing constraints and run the script again"
 		puts "----------------EXITING -----------------"
 		exit
-		#STEP 6 - write bitstream will not get performed 
+		#STEP 6 - write bitstream will not get performed
     } else {}
  }
 close $timing_report
@@ -132,7 +132,7 @@ puts [lindex $theWords 4]
 write_bitstream -force $outputDir/$file_name.bit
 
 #
-# STEP#7: connect to your board 
+# STEP#7: connect to your board
 #
 open_hw
 connect_hw_server
