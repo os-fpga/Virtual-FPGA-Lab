@@ -14,7 +14,7 @@
   
 3.  Three inputs will be asked by shell script
 
-    a. Input file name
+    a. Input file name of TL-Verilog file
  
        ![image](https://user-images.githubusercontent.com/15063738/125674121-a9217314-dfd8-4980-b068-73c670678938.png)
 
