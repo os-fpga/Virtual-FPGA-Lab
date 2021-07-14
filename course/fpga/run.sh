@@ -1,7 +1,7 @@
 # shell script to run complete FPGA flow
 echo "================================================"
 echo "WELCOME TO VIRTUAL FPGA LAB"
-echo "================================================" 
+echo "================================================"
 
 #path=$(pwd)
 shell_path=$(cd "$(dirname "$0")" && pwd)
@@ -10,34 +10,31 @@ echo "================================================"
 echo "GOING TO THE REQUIRED DIRECTORY"
 echo "================================================"
 
-### TAKING THE REQUIRED INPUT FROM THE USER 
+### TAKING THE REQUIRED INPUT FROM THE USER
 echo "================================================"
 read -p "WHICH FILE YOU WANT TO UPLOAD ON VIVADO : " filename
 echo "================================================"
 
 echo "================================================"
-echo "WHICH BOARD YOU WANT TO USE (basys3, edge_artix-7, zedboard)" 
-read -p "IF YOU HAVE A DIFFERENT BOARD , WRITE THE PART NO: " board 
+echo "WHICH BOARD YOU WANT TO USE (basys3, edge_artix-7, zedboard)"
+read -p "IF YOU HAVE A DIFFERENT BOARD , WRITE THE PART NO: " board
 echo "================================================"
 
-if [ "$board" == "basys3" ]
-then
-	partname="xc7a35tcpg236-1"
-	cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
+if [ "$board" == "basys3" ]; then
+  partname="xc7a35tcpg236-1"
+  cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
 
-elif [ "$board" == "edge_artix-7" ]
-then 
-	partname=""
-	cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
+elif [ "$board" == "edge_artix-7" ]; then
+  partname=""
+  cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
 
-elif [ "$board" == "zedboard" ]
-then 
-	partname=""
-	cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
+elif [ "$board" == "zedboard" ]; then
+  partname=""
+  cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
 
 else
-	partname=$board
-	cons_name="${filename}_$board.xdc"
+  partname=$board
+  cons_name="${filename}_$board.xdc"
 fi
 
 echo "================================================"
@@ -61,8 +58,8 @@ sandpiper-saas -i pseudo_rand.tlv -o pseudo_rand.sv --bestsv --noline
 mv ./proj_verilog/sp_verilog.vh ./
 mv ./proj_default/* ./
 
-cd .. 
-cd ..  
+cd ..
+cd ..
 echo "================================================"
 
 echo "================================================="
@@ -71,38 +68,38 @@ echo "-------------------------------------------------"
 read -p "INPUT THE CLOCK(in ns) AT WHICH YOU WANT TO RUN YOUR PROGRAM : " clock_rate
 echo "================================================="
 
-### GENERATING A CLOCK CONSTRAINTS FILE WHICH WILL BE  USED AS CONSTRAINTS FILE IN TCL 
+### GENERATING A CLOCK CONSTRAINTS FILE WHICH WILL BE  USED AS CONSTRAINTS FILE IN TCL
 echo "================================================="
 echo "GENERATING CLOCK CONSTRAINTS"
 
-var1=`expr "scale=3; $clock_rate/1" | bc`
-var2=`expr "scale=3; $clock_rate/2" | bc`
+var1=$(expr "scale=3; $clock_rate/1" | bc)
+var2=$(expr "scale=3; $clock_rate/2" | bc)
 
-echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >> ./out_"${filename}_$partname"/clock_constraints.xdc
-echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >> ./out_"${filename}_$partname"/clock_constraints.xdc
-echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >> ./out_"${filename}_$partname"/clock_constraints.xdc
+echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./out_"${filename}_$partname"/clock_constraints.xdc
+echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
+echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
 
 echo "==================================================="
 
-## CREATING A COPY OF INPUT VARIABLES IN THE TCL FILE 
-echo "$filename" >> tmp.txt  
-echo "$partname" >> tmp.txt
-echo "$cons_name" >> tmp.txt
+## CREATING A COPY OF INPUT VARIABLES IN THE TCL FILE
+echo "$filename" >>tmp.txt
+echo "$partname" >>tmp.txt
+echo "$cons_name" >>tmp.txt
 
 path=$PWD
 echo "================================================"
 
-cd 
+cd
 echo "================================================"
 echo "SOURCING VIVADO"
 echo "================================================"
 
 cd vivado
 source Vivado/2020.2/settings64.sh
-cd 
+cd
 cd "$path"
 rm vivado*
 rm usage_*
 
-vivado -mode batch -source "$shell_path"/run.tcl 
+vivado -mode batch -source "$shell_path"/run.tcl
 rm -f tmp.txt
