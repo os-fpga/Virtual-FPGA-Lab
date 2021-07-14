@@ -24,12 +24,14 @@
     
        ![image](https://user-images.githubusercontent.com/15063738/125674297-52e8536d-b2f0-4b13-842e-92e6050e5e00.png)
        
-     If board is not from given options:
+      If board is not from given options:
      
        ![image](https://user-images.githubusercontent.com/15063738/125675066-9f5e92cb-9067-4685-b66d-a6625bf4366a.png)
 
           
     c. (Optional) If board is not from given options then constraints file should be present in your working directory as `<filename_partno>.xdc`.
+
+       For example: From above iamge it should be `design_xc7a100tcsg324-1.xdc`
     
     d. Clock period (in ns)
       
