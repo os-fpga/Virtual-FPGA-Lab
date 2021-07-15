@@ -1,7 +1,7 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/artix7_board.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes.tlv'])
                    
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
@@ -41,21 +41,8 @@
          *lcd_rs = $lcd_reset;
          ']
          )
-   |sseg_pipe
-      @0   
-         $reset = *reset;
-         $digit[3:0] = $reset ? 0 : >>1$digit-1;
-         $sseg[7:0] = 8'b00000001;
-   |led_pipe
-      @0      
-         $reset = *reset;
-         $leds[15:0] = $reset ? 0 : >>1$leds+1;
-         
-         
-         
+    
    m4+artix7_init(|top_pipe, @0)
-   m4+artix7_led(|led_pipe, @0, $leds)
-   m4+artix7_sseg(|sseg_pipe, @0, $digit, $sseg)
    m4+artix7_lcd(|lcd_pipe, @0, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
 \SV
    endmodule
