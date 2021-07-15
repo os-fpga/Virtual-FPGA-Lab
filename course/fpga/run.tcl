@@ -45,7 +45,7 @@ close $fp
 #
 # STEP#3: run synthesis, report utilization and timing estimates, write checkpoint design
 #
-synth_design -top test -part $part_name -retiming
+synth_design -top top -part $part_name -retiming
 file mkdir $outputDir/syn/reports
 write_checkpoint -force $outputDir/syn/post_synth
 report_timing_summary -file $outputDir/syn/reports/post_synth_timing_summary.rpt

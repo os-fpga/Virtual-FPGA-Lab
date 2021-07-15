@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Jul 15 21:50:35 2021
+# Process ID: 38292
+# Current directory: /home/atom/Virtual-FPGA-Lab
+# Command line: vivado -mode batch -source /home/atom/Virtual-FPGA-Lab/course/fpga/run.tcl
+# Log file: /home/atom/Virtual-FPGA-Lab/vivado.log
+# Journal file: /home/atom/Virtual-FPGA-Lab/vivado.jou
+#-----------------------------------------------------------
+source /home/atom/Virtual-FPGA-Lab/course/fpga/run.tcl

@@ -79,7 +79,7 @@
 # ----------------------------------------------------------------------------
 # Clock Source - Bank 13
 # ---------------------------------------------------------------------------- 
-#set_property PACKAGE_PIN Y9 [get_ports {GCLK}];  # "GCLK"
+#set_property PACKAGE_PIN Y9 [get_ports {clk}];  # "GCLK"
 
 # ----------------------------------------------------------------------------
 # JA Pmod - Bank 13 
@@ -234,7 +234,7 @@
 ## ----------------------------------------------------------------------------
 ## User DIP Switches - Bank 35
 ## ---------------------------------------------------------------------------- 
-#set_property PACKAGE_PIN F22 [get_ports {SW0}];  # "SW0"
+#set_property PACKAGE_PIN F22 [get_ports {reset}];  # "SW0"
 #set_property PACKAGE_PIN G22 [get_ports {SW1}];  # "SW1"
 #set_property PACKAGE_PIN H22 [get_ports {SW2}];  # "SW2"
 #set_property PACKAGE_PIN F21 [get_ports {SW3}];  # "SW3"
