@@ -22,15 +22,15 @@ echo "================================================"
 
 if [ "$board" == "basys3" ]; then
   partname="xc7a35tcpg236-1"
-  cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
+  cons_name="$shell_path/contraints/fpga_lab_constr_$board.xdc"
 
 elif [ "$board" == "edge_artix-7" ]; then
-  partname=""
-  cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
+  partname="xc7a35tftg256-1"
+  cons_name="$shell_path/contraints/fpga_lab_constr_$board.xdc"
 
 elif [ "$board" == "zedboard" ]; then
-  partname=""
-  cons_name="$shell_path/contraints/${filename}_fpga_lab_constr_$board.xdc"
+  partname="xc7z020clg484-1"
+  cons_name="$shell_path/contraints/fpga_lab_constr_$board.xdc"
 
 else
   partname=$board
@@ -85,6 +85,7 @@ echo "==================================================="
 echo "$filename" >>tmp.txt
 echo "$partname" >>tmp.txt
 echo "$cons_name" >>tmp.txt
+echo "$shell_path" >>tmp.txt
 
 path=$PWD
 echo "================================================"

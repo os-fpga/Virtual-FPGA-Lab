@@ -11,6 +11,7 @@ set lines [split $content \n]
 set file_name [lindex $lines 0]
 set part_name [lindex $lines 1]
 set cons_name [lindex $lines 2]
+set shell_path [lindex $lines 3]
 
 #
 # STEP#1: define output directory area.
@@ -24,6 +25,7 @@ file mkdir $outputDir
 read_verilog -v ./out_${file_name}_${part_name}/${file_name}.v
 read_verilog -sv ./out_${file_name}_${part_name}/includes/clk_gate.sv
 read_verilog -sv ./out_${file_name}_${part_name}/includes/pseudo_rand.sv
+read_verilog -v ${shell_path}/../../includes/clock_divider.v
 set_property include_dirs ./out_${file_name}_${part_name}/includes [current_fileset]
 read_xdc $cons_name
 read_xdc ./out_${file_name}_${part_name}/clock_constraints.xdc
@@ -43,7 +45,7 @@ close $fp
 #
 # STEP#3: run synthesis, report utilization and timing estimates, write checkpoint design
 #
-synth_design -top counter -part $part_name -retiming
+synth_design -top test -part $part_name -retiming
 file mkdir $outputDir/syn/reports
 write_checkpoint -force $outputDir/syn/post_synth
 report_timing_summary -file $outputDir/syn/reports/post_synth_timing_summary.rpt
