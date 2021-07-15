@@ -31,8 +31,11 @@
          *sseg = $sseg;
          ']
          )
-         
+   m4_ifelse_block(M4_MAKERCHIP, 1,['      
    m4+artix7_init(|top_pipe, @0)
    m4+artix7_sseg(|sseg_pipe, @0, $digit, $sseg)
+   '],['
+   ']
+   )
 \SV
    endmodule
