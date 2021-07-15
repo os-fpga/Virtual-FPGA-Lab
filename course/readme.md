@@ -21,7 +21,7 @@ Within Makerchip, you’ll use Verilog or the latest Transaction-Level Verilog t
 
 ## Demos:
 ### 1. LED:
-__Counter Demo:__  [http://makerchip.com/sandbox/0jRfjhMkx/0DRhjj0](http://makerchip.com/sandbox/0jRfjhMkx/0DRhjj0)
+__Counter Demo:__  http://makerchip.com/sandbox/0n5fGhvDP/0Z4hPDm
 
 __Output on Virtual Basys3 board:__ 
 
@@ -37,7 +37,7 @@ __Output on Virtual ZedBoard:__
 
 
 ### 2. Seven Segment Display:
-__Counter Demo:__  [http://makerchip.com/sandbox/0jRfjhMkx/0Elh119](http://makerchip.com/sandbox/0jRfjhMkx/0Elh119)
+__Counter Demo:__  http://makerchip.com/sandbox/0n5fGhvDP/01jhnkv
 
 __Output on Virtual Basys3 board:__
 
