@@ -11,3 +11,6 @@ LED Module : http://makerchip.com/sandbox/0n5fGhvDP/0Z4hPDm
 
 
 LCD Module : http://makerchip.com/sandbox/0n5fGhvDP/02RhKRO
+
+
+VGA display : http://makerchip.com/sandbox/0n5fGhvDP/03lh7GA
