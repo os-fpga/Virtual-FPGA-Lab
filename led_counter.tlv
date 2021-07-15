@@ -8,7 +8,7 @@
    m4_makerchip_module   
    '],['
    module top(input clk, input reset, output [15:0] led);
-      clock_divider dut1 (clk, divided_clk);
+      clock_divider #(.DIV_VALUE(249999)) dut1 (clk, divided_clk);
       test dut2 (clk, reset, led);
    endmodule
    module test (input divided_clk, input reset, output [15:0] led);
