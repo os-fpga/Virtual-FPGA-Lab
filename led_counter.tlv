@@ -5,11 +5,11 @@
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
    '],['
-   module top(input clk, input reset, output [15:0] led);
+   module top(input clk, input reset, output [7:0] led);
       clock_divider #(.DIV_VALUE(24999999)) dut1 (clk, divided_clk);
       test dut2 (divided_clk, reset, led);
    endmodule
-   module test (input clk, input reset, output [15:0] led);
+   module test (input clk, input reset, output [7:0] led);
    ']
    )      
 \TLV
