@@ -49,19 +49,6 @@ echo "------------------------------------------------"
 sandpiper-saas -i "$filename".tlv -o "$filename".v --iArgs --default_includes --outdir=out_"${filename}_$partname"
 echo "================================================"
 
-cd out_"${filename}_$partname"/includes/
-
-echo "================================================"
-echo "PROCESSING INCLUDES USING SANDPIPER(TM) SaaS EDITION."
-sandpiper-saas -i pseudo_rand.tlv -o pseudo_rand.sv --bestsv --noline
-
-mv ./proj_verilog/sp_verilog.vh ./
-mv ./proj_default/* ./
-
-cd ..
-cd ..
-echo "================================================"
-
 echo "================================================="
 echo "SETTING UP THE BOARD REQUIREMENTS"
 echo "-------------------------------------------------"
