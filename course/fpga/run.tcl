@@ -1,4 +1,4 @@
-# FPGA Implementation of MYTH CORE
+# FPGA Implementation of Virtual FPGA lab
 
 #
 #STEP#0: define your customized top file and setting up the board
@@ -22,30 +22,22 @@ file mkdir $outputDir
 #
 # STEP#2: setup design sources and constraints
 #
-read_verilog -v ./out_${file_name}_${part_name}/${file_name}.v
-read_verilog -sv ./out_${file_name}_${part_name}/includes/clk_gate.sv
-read_verilog -sv ./out_${file_name}_${part_name}/includes/pseudo_rand.sv
-read_verilog -v ${shell_path}/../../includes/clock_divider.v
-set_property include_dirs ./out_${file_name}_${part_name}/includes [current_fileset]
+read_verilog ./out_${file_name}_${part_name}/${file_name}.v
+read_verilog ./out_${file_name}_${part_name}/includes/proj_verilog/clk_gate.v
+read_verilog ${shell_path}/../../includes/clock_divider.v
+#set_property -include_dirs {./out_${file_name}_${part_name}/includes/* ./out_${file_name}_${part_name}/includes/proj_verilog/* ./out_${file_name}_${part_name}/includes/proj_default/*} [current_fileset]
 read_xdc $cons_name
 read_xdc ./out_${file_name}_${part_name}/clock_constraints.xdc
-
-set fp [open $cons_name]
-while {-1 != [gets $fp line]} {
-    puts "The current line is '$line'."
-}
-close $fp
-
-set fp [open ./out_${file_name}_${part_name}/clock_constraints.xdc]
-while {-1 != [gets $fp line]} {
-    puts "The current line is '$line'."
-}
-close $fp
 
 #
 # STEP#3: run synthesis, report utilization and timing estimates, write checkpoint design
 #
-synth_design -top top -part $part_name -retiming
+set multi_include_dirs " \
+./out_${file_name}_${part_name}/includes \
+./out_${file_name}_${part_name}/includes/proj_verilog \
+./out_${file_name}_${part_name}/includes/proj_default \
+"
+synth_design -top top -part $part_name -retiming -include_dirs $multi_include_dirs
 file mkdir $outputDir/syn/reports
 write_checkpoint -force $outputDir/syn/post_synth
 report_timing_summary -file $outputDir/syn/reports/post_synth_timing_summary.rpt
@@ -89,9 +81,6 @@ set timing_report [open $outputDir/route/reports/post_route_timing_summary.rpt]
  while {[gets $timing_report data] != -1} {
     if {[string match *[string toupper $search]* [string toupper $data]] } {
 		set met_timing "Met Timing Constrains: false"
-		#set fid [open Vivado/out/status.txt w]
-		#puts $fid "false"
-		#close $fid
 		close $timing_report
 		puts $met_timing
 		puts "check your timing constraints and run the script again"
@@ -100,9 +89,6 @@ set timing_report [open $outputDir/route/reports/post_route_timing_summary.rpt]
 		#STEP 6 - write bitstream will not get performed
     } elseif {[string match *[string toupper $no_timing_search]* [string toupper $data]] } {
 		set no_timing "Timing constraints given : false"
-		#set fid [open Vivado/out/status.txt w]
-		#puts $fid "false"
-		#close $fid
 		close $timing_report
 		puts $no_timing
 		puts "check your timing constraints and run the script again"
