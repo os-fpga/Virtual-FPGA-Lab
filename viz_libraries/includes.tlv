@@ -241,7 +241,7 @@
                      var enable = ('/top|_pipe$enable'.asBinaryStr());
                      this.getInitObject("sseg").bringToFront()
                      var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
-                     var fp_valid = sseg1[0] == 0
+                     var fp_valid = sseg1[0] == 1
                      if(scopes.led.index == 7)
                      {
                         console.log("scopes.digit.index:", scopes.digit.index)
@@ -249,7 +249,7 @@
                      }
                      else {
                         var hamm = ((('/top|_pipe$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
-                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
+                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 1 ? {fill: "red"} : {fill: "grey"});
                      }
                   }
           
