@@ -16,7 +16,7 @@
    |sseg_pipe
       @0   
          $reset = *reset;
-         $digit[3:0] = 4'b0000;
+         $digit[3:0] = 4'b1100;
          $led_bcd[3:0] = $reset ? 4'h0 : >>1$led_bcd + 1;
          $sseg[6:0] = ($led_bcd == 0) ? 7'b0000001 : // '0'
                             ($led_bcd == 1) ? 7'b1001111 : // '1'
