@@ -25,15 +25,15 @@ __Counter Demo:__  http://makerchip.com/sandbox/0n5fGhvDP/0Z4hPDm
 
 __Output on Virtual Basys3 board:__ 
 
-![Basys3_LED](https://user-images.githubusercontent.com/15063738/124799122-d4d59e00-df71-11eb-94c8-ed500c5f8945.gif)
+<img src="https://user-images.githubusercontent.com/15063738/124799122-d4d59e00-df71-11eb-94c8-ed500c5f8945.gif" alt="Basys3_LED" width="600">
 
 __Output on Virtual Edge Artix7 board:__ 
 
-![EDGE_Artix7_LED](https://user-images.githubusercontent.com/15063738/124793980-27ac5700-df6c-11eb-81ea-5728abba6777.gif)
+<img src="https://user-images.githubusercontent.com/15063738/124793980-27ac5700-df6c-11eb-81ea-5728abba6777.gif" alt="EDGE_Artix7_LED" width="600">
 
 __Output on Virtual ZedBoard:__
 
-![Zedboard_LED](https://user-images.githubusercontent.com/15063738/124794052-3c88ea80-df6c-11eb-9da2-1e250868b6de.gif)
+<img src="https://user-images.githubusercontent.com/15063738/124794052-3c88ea80-df6c-11eb-9da2-1e250868b6de.gif" alt="Zedboard_LED" width="600">
 
 
 ### 2. Seven Segment Display:
@@ -41,11 +41,13 @@ __Counter Demo:__  http://makerchip.com/sandbox/0n5fGhvDP/01jhnkv
 
 __Output on Virtual Basys3 board:__
 
-![Basys3_7seg](https://user-images.githubusercontent.com/15063738/124794130-532f4180-df6c-11eb-8541-0f83f9ec47c6.gif)
+<img src="https://user-images.githubusercontent.com/15063738/124794130-532f4180-df6c-11eb-8541-0f83f9ec47c6.gif" alt="Basys3_7seg" width="600">
+
 
 __Output on Virtual Edge Artix7 board:__
 
-![EDGE_Artix7_7seg](https://user-images.githubusercontent.com/15063738/124794148-57f3f580-df6c-11eb-8dca-5805e6d32887.gif)
+<img src="https://user-images.githubusercontent.com/15063738/124794148-57f3f580-df6c-11eb-8dca-5805e6d32887.gif" alt="EDGE_Artix7_7seg" width="600">
+
 
 
 ## Run on FPGA:
@@ -54,10 +56,15 @@ __Output on Basys3 board:__
 
 __Output on Edge Artix7 board:__ 
 
+![EDGE_Artix7_LED](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/led_fpga.gif?raw=true)
+
 __Output on ZedBoard:__
 
 ### 2. Seven Segment Display:
 __Output on Basys3 board:__
 
 __Output on Edge Artix7 board:__
+
+![EDGE_Artix7_7seg](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/seven_segment_fpga.gif?raw=true)
+
 
