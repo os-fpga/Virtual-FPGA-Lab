@@ -355,7 +355,7 @@
                      let line2 = new fabric.Text("", {
                        left: -160,
                        top: 320,
-                       fontSize: 35,
+                       fontSize: 30,
                        fontFamily: "Courier New",
                      })
                      let info = new fabric.Text("", {
