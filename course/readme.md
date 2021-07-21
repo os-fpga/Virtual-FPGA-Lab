@@ -53,20 +53,22 @@ __Output on Virtual Edge Artix7 board:__
 ## Run on FPGA:
 ### 1. LED:
 __Output on Basys3 board:__
-![Basys3_LED](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/led_basys.gif?raw=true)
+
+<img src="https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/led_basys.gif?raw=true" alt="Basys3_LED" width="600">
 
 __Output on Edge Artix7 board:__ 
 
-![EDGE_Artix7_LED](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/led_fpga.gif?raw=true)
+<img src="https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/led_fpga.gif?raw=true" alt="EDGE_Artix7_LED" width="600">
 
 __Output on ZedBoard:__
 
 ### 2. Seven Segment Display:
 __Output on Basys3 board:__
-![Basys3_7seg](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/sevn_segment_basys.gif?raw=true)
+
+<img src="https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/sevn_segment_basys.gif?raw=true" alt="Basys3_7seg" width="600">
 
 __Output on Edge Artix7 board:__
 
-![EDGE_Artix7_7seg](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/seven_segment_fpga.gif?raw=true)
+<img src="https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/seven_segment_fpga.gif?raw=true" alt="EDGE_Artix7_7seg" width="600">
 
 
