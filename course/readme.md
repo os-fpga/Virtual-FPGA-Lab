@@ -53,6 +53,7 @@ __Output on Virtual Edge Artix7 board:__
 ## Run on FPGA:
 ### 1. LED:
 __Output on Basys3 board:__
+![Basys3_LED](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/led_basys.gif?raw=true)
 
 __Output on Edge Artix7 board:__ 
 
@@ -62,6 +63,7 @@ __Output on ZedBoard:__
 
 ### 2. Seven Segment Display:
 __Output on Basys3 board:__
+![Basys3_7seg](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/sevn_segment_basys.gif?raw=true)
 
 __Output on Edge Artix7 board:__
 
