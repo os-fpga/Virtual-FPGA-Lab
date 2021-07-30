@@ -616,7 +616,7 @@
          ['
          ']
          )
-\TLV iceboard_sseg(|_pipe, @_stage, $digit, $sseg, $dp)
+\TLV iceboard_sseg(|_pipe, @_stage, $_digit, $_sseg, $_dp)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -680,17 +680,17 @@
                      return{objects : {sseg}};
                   },
                   renderEach() {
-                     var enable = ('/top|_pipe$digit'.asBinaryStr());
-                     var dp = ('/top|_pipe$dp'.asBinaryStr());
+                     var enable = ('/top|_pipe$_digit'.asBinaryStr());
+                     var dp = ('/top|_pipe$_dp'.asBinaryStr());
                      this.getInitObject("sseg").bringToFront()
-                     var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
+                     var sseg1 = ('/top|_pipe$_sseg'.asBinaryStr());
                      var fp_valid = dp == 0
                      if(scopes.led.index == 7)
                      {
                         this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
                      }
                      else {
-                        var hamm = ((('/top|_pipe$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
+                        var hamm = ((('/top|_pipe$_sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
                         this.getInitObject("sseg").set(hamm && (enable[scopes.digit.index] == 0) ? {fill: "red"} : {fill: "grey"});
                      }
                   }
