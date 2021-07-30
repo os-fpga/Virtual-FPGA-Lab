@@ -699,3 +699,145 @@
          ['
          ']
          )
+         
+ \TLV nexys_init(|_pipe, @_stage)
+   |_pipe
+      @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         \viz_alpha
+            initEach() {
+                  let fpga_img_url = "https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/NEXYS_A7.png?raw=true"
+                  let fpga_img = new fabric.Image.fromURL(
+                        fpga_img_url,
+                        function (img) {
+                           global.canvas.add(img)
+                           global.canvas.sendToBack(img);
+                        },
+                        {originX: "center",
+                         originY: "center",
+                         scaleX: 1,
+                         scaleY: 1,
+                        }
+                     )
+                let seg = new fabric.Rect({
+                     top: 90,
+                     left: -126,
+                     width: 218, 
+                     height: 35, 
+                     fill: "black",
+                     opacity: 1
+                  })
+                
+                return {objects :{seg}};
+             }
+         /digit[7:0]
+            /led[7:0]
+               \viz_alpha
+                  initEach() {
+                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
+                           top: 119,
+                           //left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
+                           left : ((scopes.digit.index == 7) ? -104 : (scopes.digit.index == 6) ? -79 : (scopes.digit.index == 5) ? -54 : (scopes.digit.index == 4) ? -29 : (scopes.digit.index == 3) ? 6 : (scopes.digit.index == 2) ? 31 : (scopes.digit.index == 1) ? 56 : 81),
+                           radius: 2,
+                           opacity: 1,
+                           fill: "grey"
+                        }) 
+                        :
+                        new fabric.Rect({
+                           top: 76 + ((scopes.led.index == 5) ? 19 : (scopes.led.index == 4) ? 32 : (scopes.led.index == 3) ? 43 : (scopes.led.index == 2) ? 32 : (scopes.led.index == 1) ? 19 : (scopes.led.index == 0) ? 30 : 18),
+                           left: ((scopes.digit.index == 7) ? -114 : (scopes.digit.index == 6) ? -89 : (scopes.digit.index == 5) ? -64 : (scopes.digit.index == 4) ? -39 : (scopes.digit.index == 3) ? -4 : (scopes.digit.index == 2) ? 21 : (scopes.digit.index == 1) ? 46 : 71) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -4 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : (scopes.led.index == 0) ? -2 : -1),
+                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 12 : 3,
+                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
+                           fill: "grey",
+                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
+                           opacity: 1
+                        })
+                     return{objects : {sseg}};
+                  },
+         '],
+         ['
+         ']
+         )
+\TLV nexys_led(|_pipe, @_stage, $_leds)
+   |_pipe
+      @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         //$viz_leds[15:0] = {$L1,$P1,$N3,$P3,$U3,$W3,$V3,$V13,$V14,$U14,$U15,$W18,$V19,$U19,$E19,$U16};
+         /led[15:0]
+            \viz_alpha
+               initEach() {
+                  let led = new fabric.Rect({
+                        top: 128,
+                        left: 185 - 21.2 * (this.getIndex() + 1),
+                        width: 8, 
+                        height: 8, 
+                        fill: "red",
+                        opacity: 0
+                     })
+                  /*let done_led = new fabric.Rect({
+                        top: -108,
+                        left: 191, 
+                        width: 5, 
+                        height: 8, 
+                        fill: "green",
+                        opacity: 1
+                     }) */
+                  return{objects : {led /*, done_led*/}}; 
+               }, 
+               renderEach() {
+                     var mod = ((('/top|_pipe$_leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                     console.log('/top|_pipe$_leds'.asInt(-1))
+                     this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
+                  }   
+         '],
+         ['
+         ']
+         )
+\TLV nexys_sseg(|_pipe, @_stage, $_digit, $_sseg, $_dp)
+   |_pipe
+      @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         
+         /digit[7:0]
+            /led[7:0]
+               \viz_alpha
+                  initEach() {
+                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
+                           top: 119,
+                           //left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
+                           left : ((scopes.digit.index == 7) ? -104 : (scopes.digit.index == 6) ? -79 : (scopes.digit.index == 5) ? -54 : (scopes.digit.index == 4) ? -29 : (scopes.digit.index == 3) ? 6 : (scopes.digit.index == 2) ? 31 : (scopes.digit.index == 1) ? 56 : 81),
+                           radius: 2,
+                           opacity: 1,
+                           fill: "grey"
+                        }) 
+                        :
+                        new fabric.Rect({
+                           top: 76 + ((scopes.led.index == 5) ? 19 : (scopes.led.index == 4) ? 32 : (scopes.led.index == 3) ? 43 : (scopes.led.index == 2) ? 32 : (scopes.led.index == 1) ? 19 : (scopes.led.index == 0) ? 30 : 18),
+                           left: ((scopes.digit.index == 7) ? -114 : (scopes.digit.index == 6) ? -89 : (scopes.digit.index == 5) ? -64 : (scopes.digit.index == 4) ? -39 : (scopes.digit.index == 3) ? -4 : (scopes.digit.index == 2) ? 21 : (scopes.digit.index == 1) ? 46 : 71) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -4 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : (scopes.led.index == 0) ? -2 : -1),
+                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 12 : 3,
+                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
+                           fill: "grey",
+                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
+                           opacity: 1
+                        })
+                     return{objects : {sseg}};
+                  },
+                  renderEach() {
+                     var enable = ('/top|_pipe$_digit'.asBinaryStr().split("").reverse().join(""));
+                     this.getInitObject("sseg").bringToFront()
+                     var sseg1 = ('/top|_pipe$_sseg'.asBinaryStr());
+                     var fp_valid = '/top|_pipe$_dp'.asBool() == 0
+                     if(scopes.led.index == 7)
+                     {
+                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
+                     }
+                     else {
+                        var hamm = ((('/top|_pipe$_sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
+                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
+                     }
+                  }
+          
+         '],
+         ['
+         ']
+         )
