@@ -35,6 +35,7 @@
                             ($led_bcd == 14) ? 7'b0010000 : // 'e'
                             ($led_bcd == 15) ? 7'b0111000 : // 'f'
                             7'b1111111 ;                   // 'nothing'
+         $dp = 0;
          m4_ifelse_block(M4_MAKERCHIP, 1,['
          *passed = *cyc_cnt > 400;
          *failed = 1'b0;   
@@ -45,7 +46,7 @@
          )
    m4_ifelse_block(M4_MAKERCHIP, 1,['      
    m4+artix7_init(|top_pipe, @0)
-   m4+artix7_sseg(|sseg_pipe, @0, $digit, $sseg)
+   m4+artix7_sseg(|sseg_pipe, @0, $digit, $sseg, $dp)
    '],['
    ']
    )
