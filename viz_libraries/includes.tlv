@@ -209,7 +209,7 @@
          ['
          ']
          )
-\TLV artix7_sseg(|_pipe, @_stage, $enable, $sseg)
+\TLV artix7_sseg(|_pipe, @_stage, $_digit, $_sseg, $_dp)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -220,7 +220,7 @@
                   initEach() {
                      let sseg = (scopes.led.index == 7) ? new fabric.Circle({
                            top: 109,
-                           left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
+                           left: (scopes.digit.index == 0) ? -122 : (scopes.digit.index == 3) ? -212 : (scopes.digit.index == 2) ? -182 : -152 ,
                            radius: 2,
                            opacity: 1,
                            fill: "grey"
@@ -228,7 +228,7 @@
                         :
                         new fabric.Rect({
                            top: 76 + ((scopes.led.index == 5) ? -4 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 31 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -4 : (scopes.led.index == 0) ? 11 : -8),
-                           left: ((scopes.digit.index == 0) ? -224 : (scopes.digit.index == 1) ? -194 : (scopes.digit.index == 2) ? -164 : -134) + ((scopes.led.index == 5) ? 13 : (scopes.led.index == 4) ? 11 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : -1),
+                           left: ((scopes.digit.index == 3) ? -224 : (scopes.digit.index == 2) ? -194 : (scopes.digit.index == 1) ? -164 : -134) + ((scopes.led.index == 5) ? 13 : (scopes.led.index == 4) ? 11 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : -1),
                            width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 14 : 3,
                            height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 14 : 3,
                            fill: "grey",
@@ -238,17 +238,17 @@
                      return{objects : {sseg}};
                   },
                   renderEach() {
-                     var enable = ('/top|_pipe$enable'.asBinaryStr());
+                     var enable = ('/top|_pipe$_digit'.asBinaryStr().split("").reverse().join(""));
                      this.getInitObject("sseg").bringToFront()
-                     var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
-                     var fp_valid = sseg1[0] == 1
+                     var sseg1 = ('/top|_pipe$_sseg'.asBinaryStr());
+                     var fp_valid = '/top|_pipe$_dp'.asBool() == 1
                      if(scopes.led.index == 7)
                      {
                         console.log("scopes.digit.index:", scopes.digit.index)
-                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
+                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 1 && fp_valid ? {fill: "red"} : {fill: "grey"})
                      }
                      else {
-                        var hamm = ((('/top|_pipe$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
+                        var hamm = ((('/top|_pipe$_sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
                         this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 1 ? {fill: "red"} : {fill: "grey"});
                      }
                   }
@@ -546,7 +546,7 @@
                      var mod = ((('/top|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                      this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
                   }  
-\TLV basys3_sseg(|_pipe, @_stage, $enable, $sseg)
+\TLV basys3_sseg(|_pipe, @_stage, $_digit, $_sseg, $_dp)
    |_pipe
       @_stage
          /digit[3:0]
@@ -555,7 +555,7 @@
                   initEach() {
                      let sseg = (scopes.led.index == 7) ? new fabric.Circle({
                            top: 79,
-                           left: (scopes.digit.index == 0) ? -157 : (scopes.digit.index == 1) ? -127 : (scopes.digit.index == 2) ? -97 : -67 ,
+                           left: (scopes.digit.index == 3) ? -157 : (scopes.digit.index == 2) ? -127 : (scopes.digit.index == 1) ? -97 : -67 ,
                            radius: 2,
                            opacity: 1,
                            fill: "grey"
@@ -563,7 +563,7 @@
                         :
                         new fabric.Rect({
                            top: 56 + ((scopes.led.index == 5) ? 1 : (scopes.led.index == 4) ? 13 : (scopes.led.index == 3) ? 23 : (scopes.led.index == 2) ? 13 : (scopes.led.index == 1) ? 1 : (scopes.led.index == 0) ? 11 : 0),
-                           left: ((scopes.digit.index == 0) ? -169 : (scopes.digit.index == 1) ? -139 : (scopes.digit.index == 2) ? -109 : -79) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -6 : (scopes.led.index == 1) ? -4 : 0),
+                           left: ((scopes.digit.index == 3) ? -169 : (scopes.digit.index == 2) ? -139 : (scopes.digit.index == 1) ? -109 : -79) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -6 : (scopes.led.index == 1) ? -4 : 0),
                            width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 11 : 3,
                            height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
                            fill: "grey",
@@ -573,17 +573,17 @@
                      return{objects : {sseg }};
                   },
                   renderEach() {
-                     var enable = ('/top|_pipe$enable'.asBinaryStr());
-                     var sseg1 = ('/top|_pipe$sseg'.asBinaryStr());
+                     var enable = ('/top|_pipe$_digit'.asBinaryStr().split("").reverse().join(""));
+                     var sseg1 = ('/top|_pipe$_sseg'.asBinaryStr());
                      this.getInitObject("sseg").bringToFront()
-                     var fp_valid = sseg1[0] == 0
+                     var fp_valid = '/top|_pipe$_dp'.asBool() == 0
                      if(scopes.led.index == 7)
                      {
                         console.log("scopes.digit.index:", scopes.digit.index)
                         this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
                      }
                      else {
-                        var hamm = ((('/top|_pipe$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
+                        var hamm = ((('/top|_pipe$_sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
                         this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
                      }
                   }
@@ -662,7 +662,7 @@
                   initEach() {
                      let sseg = (scopes.led.index == 7) ? new fabric.Circle({
                            top: 42,
-                           left: (scopes.digit.index == 1) ? 270 : 195 ,
+                           left: (scopes.digit.index == 0) ? 270 : 195 ,
                            radius: 4,
                            opacity: 1,
                            fill: "grey"
@@ -680,7 +680,7 @@
                      return{objects : {sseg}};
                   },
                   renderEach() {
-                     var enable = ('/top|_pipe$_digit'.asBinaryStr());
+                     var enable = ('/top|_pipe$_digit'.asBinaryStr().split("").reverse().join(""));
                      var dp = ('/top|_pipe$_dp'.asBinaryStr());
                      this.getInitObject("sseg").bringToFront()
                      var sseg1 = ('/top|_pipe$_sseg'.asBinaryStr());
@@ -700,7 +700,7 @@
          ']
          )
          
- \TLV nexys_init(|_pipe, @_stage)
+\TLV nexys_init(|_pipe, @_stage)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
