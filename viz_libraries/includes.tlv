@@ -257,7 +257,7 @@
          ['
          ']
          )
-\TLV artix7_lcd(|_pipe, @_stage, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
+\TLV artix7_lcd(|_pipe, @_stage, $out, $lcd_enable, $lcd_reset)
    //for viz part
    |_pipe
       @_stage
