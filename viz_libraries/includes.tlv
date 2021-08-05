@@ -632,13 +632,26 @@
                         },
                         {originX: "center",
                          originY: "center",
-                         left: 155,
+                         left: 177,
                          top: 10,
                          scaleX: 0.3,
                          scaleY: 0.3,
                         }
                      )
-                   
+                   let sseg_img2 = new fabric.Image.fromURL(
+                        sseg_img_url,
+                        function (img) {
+                           global.canvas.add(img)
+                           global.canvas.sendToBack(img);
+                        },
+                        {originX: "center",
+                         originY: "center",
+                         left: 177,
+                         top: -145,
+                         scaleX: 0.3,
+                         scaleY: 0.3,
+                        }
+                     )
                    let seg = new fabric.Rect({
                      top: -60,
                      left: 130,
@@ -647,7 +660,15 @@
                      fill: "black",
                      opacity: 1
                   })
-                return {objects :{seg}};
+                  let seg1 = new fabric.Rect({
+                     top: -215,
+                     left: 130,
+                     width: 176, 
+                     height: 140, 
+                     fill: "black",
+                     opacity: 1
+                  })
+                return {objects :{seg, seg1}};
                 }
                 
          '],
@@ -656,21 +677,21 @@
          )
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
          
-         /digit[1:0]
+         /digit[3:0]
             /led[7:0]
                \viz_alpha
                   initEach() {
                      let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 42,
-                           left: (scopes.digit.index == 0) ? 270 : 195 ,
+                           top: (scopes.digit.index == 2) || (scopes.digit.index == 3) ? -110 : 42,
+                           left: (scopes.digit.index == 0 | scopes.digit.index == 2) ? 270 : 195 ,
                            radius: 4,
                            opacity: 1,
                            fill: "grey"
                         }) 
                         :
                         new fabric.Rect({
-                           top: -10 + ((scopes.led.index == 5) ? -28 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 54 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -28 : (scopes.led.index == 0) ? 10 : -30),
-                           left: ((scopes.digit.index == 0) ? 240 : 165) + ((scopes.led.index == 5) ? 26 : (scopes.led.index == 4) ? 19 : (scopes.led.index == 3) ? -12 : (scopes.led.index == 2) ? -20 : (scopes.led.index == 1) ? -13 : (scopes.led.index == 6) ? 1 : -5),
+                           top: (((scopes.digit.index == 2) || (scopes.digit.index == 3)) ? -160 : -10) + ((scopes.led.index == 5) ? -28 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 54 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -28 : (scopes.led.index == 0) ? 10 : -30),
+                           left: ((scopes.digit.index == 0) || (scopes.digit.index == 2) ? 240 : 165) + ((scopes.led.index == 5) ? 26 : (scopes.led.index == 4) ? 19 : (scopes.led.index == 3) ? -12 : (scopes.led.index == 2) ? -20 : (scopes.led.index == 1) ? -13 : (scopes.led.index == 6) ? 1 : -5),
                            width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 30 : 6,
                            height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 40 : 6,
                            fill: "grey",
