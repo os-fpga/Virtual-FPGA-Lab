@@ -1,6 +1,6 @@
 \m4_TLV_version 1d: tl-x.org
 
-\TLV init1(|_pipe, @_stage)
+\TLV init(|_pipe, @_stage)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -12,7 +12,7 @@
                         fpga_img_url,
                         function (img) {
                            global.canvas.add(img)
-                           //global.canvas.sendToBack(img);
+                           global.canvas.sendToBack(img);
                         },
                         {originX: "center",
                          originY: "center",
