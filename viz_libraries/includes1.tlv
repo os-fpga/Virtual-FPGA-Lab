@@ -1,42 +1,4 @@
-m4_ifelse_block(M4_MAKERCHIP, 1,['
-   m4_makerchip_module   
-   '],['
-   module top(
-    input clk, vauxp7, vauxn7, vauxp15, vauxn15,
-    output lcd_e, lcd_rs,
-    output [7:0] data
-	);
-   wire [15:0] data_adc;
-   reg [6:0] addr_in;
-   wire enable, ready;
-   xadc_wiz_0 ADC1
-		(
-          .daddr_in(addr_in),            // Address bus for the dynamic reconfiguration port
-          .dclk_in(clk),             // Clock input for the dynamic reconfiguration port
-          .den_in(1),              // Enable Signal for the dynamic reconfiguration port
-          .di_in(0),               // Input data bus for the dynamic reconfiguration port
-          .dwe_in(0),              // Write Enable for the dynamic reconfiguration port
-          .vauxp6(),              // Auxiliary channel 6
-          .vauxn6(),
-          .vauxp7(vauxp7),              // Auxiliary channel 7
-          .vauxn7(vauxn7),
-          .vauxp14(),             // Auxiliary channel 14
-          .vauxn14(),
-          .vauxp15(vauxp15),             // Auxiliary channel 15
-          .vauxn15(vauxn15),
-          .busy_out(),            // ADC Busy signal
-          .channel_out(),         // Channel Selection Outputs
-          .do_out(data_adc),              // Output data bus for dynamic reconfiguration port
-          .drdy_out(ready),            // Data ready signal for the dynamic reconfiguration port
-          .eoc_out(enable),             // End of Conversion Signal
-          .eos_out(),             // End of Sequence Signal
-          .alarm_out(),           // OR'ed output of all the Alarms    
-          .vp_in(0),               // Dedicated Analog Input Pair
-          .vn_in(0)
-		);
-   module test (input clk, input data_adc, input ready, output addr_in);
-   ']
-   )  
+
 \TLV init(|_pipe, @_stage)
    |_pipe
       @_stage
