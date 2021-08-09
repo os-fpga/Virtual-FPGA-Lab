@@ -12,7 +12,7 @@
                         fpga_img_url,
                         function (img) {
                            global.canvas.add(img)
-                           global.canvas.sendToBack(img);
+                           //global.canvas.sendToBack(img);
                         },
                         {originX: "center",
                          originY: "center",
