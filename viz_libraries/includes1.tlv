@@ -1,4 +1,3 @@
-
 \TLV init(|_pipe, @_stage)
    |_pipe
       @_stage
@@ -533,7 +532,7 @@
          '])
          '])
          '])
-         
+         '])
 \TLV switch(|_pipe, @_stage, $_sw)
    |_pipe
       @_stage
@@ -883,4 +882,31 @@
          '])
          '])
          '])
-         '])
+\TLV led_rgb(|_pipe, @_stage, $_dutyr, $_dutyg, $_dutyb)
+   |_pipe
+      @_stage
+         /led[4:0]
+            \viz_alpha
+               initEach() {
+                  let led = new fabric.Rect({
+                        top: (this.getIndex() == 1) ? 166 : (this.getIndex() == 2) ? 208 : 188,
+                        left: (this.getIndex() == 3) ? -112 : (this.getIndex() == 4) ?  -153 : -132,
+                        width: 8, 
+                        height: 7, 
+                        fill: "transparent",
+                        opacity: 1
+                     })
+                  return{objects : {led}}; 
+               }, 
+               renderEach() {
+                     let r = '/top|_pipe$_dutyr'.asInt()
+                     let g = '/top|_pipe$_dutyg'.asInt()
+                     let b = '/top|_pipe$_dutyb'.asInt()
+                     let value = "rgb(" + r + "," + g + "," + b + ")"
+                     this.getInitObjects().led.set({fill: value})
+                     //this.getInitObjects().g.set({opacity: g})
+                     //this.getInitObjects().b.set({opacity: b})
+                     //var mod = ((('/top|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                     //this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
+                  } 
+  
