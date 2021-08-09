@@ -1,6 +1,6 @@
 \m4_TLV_version 1d: tl-x.org
 
-\TLV init(|_pipe, @_stage)
+\TLV init1(|_pipe, @_stage)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -210,6 +210,7 @@
          '])
          '])
          '])
+         
 \TLV led(|_pipe, @_stage, $_leds)
    |_pipe
       @_stage
