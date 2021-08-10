@@ -1103,6 +1103,8 @@
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1,['
+         m4_define(M4_MAX_H, 640 / M4_COUNTER)
+         m4_define(M4_MAX_V, 480 / M4_COUNTER)
          $hori_counter[9:0] = $reset ? 10'b1111111111 : >>1$sx >= M4_LINE ? 0 : >>1$hori_counter + 1;
          $vert_counter[9:0] = $reset ? 10'b1111111111 : $sy == 0 ? 0 : >>1$sx >=  M4_LINE ? >>1$vert_counter + 1 : $RETAIN;
          $width[9:0] = (800 % M4_COUNTER) > 0 ? 800 / M4_COUNTER + 2 : 800 / M4_COUNTER + 1;
