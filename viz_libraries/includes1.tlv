@@ -1099,3 +1099,138 @@
          ['
          ']
          )
+\TLV vga(|_pipe, @_stage, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
+   |_pipe
+      @_stage
+         m4_ifelse_block(M4_MAKERCHIP, 1,['
+         $hori_counter[9:0] = $reset ? 10'b1111111111 : >>1$sx >= M4_LINE ? 0 : >>1$hori_counter + 1;
+         $vert_counter[9:0] = $reset ? 10'b1111111111 : $sy == 0 ? 0 : >>1$sx >=  M4_LINE ? >>1$vert_counter + 1 : $RETAIN;
+         $width[9:0] = (800 % M4_COUNTER) > 0 ? 800 / M4_COUNTER + 2 : 800 / M4_COUNTER + 1;
+         $height[9:0] = (525 % M4_COUNTER) > 0 ? 525 / M4_COUNTER + 2 : 525 / M4_COUNTER + 1;
+         $tot_cyc[19:0] = $width * $height;
+         *passed = !clk || *cyc_cnt > ($tot_cyc * M4_FRAMES) - 1;
+         *failed = !clk || 1'b0;
+         \viz_alpha
+            initEach(){
+            // https://www.google.com/search?q=monitor&tbm=isch&tbs=il:cl&client=ubuntu&hs=JlM&hl=en&sa=X&ved=0CAAQ1vwEahcKEwjgkNDes_DxAhUAAAAAHQAAAAAQAg&biw=1846&bih=978#imgrc=q9qZvDIpiEqJBM
+                  let monitor_img_url = "https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/images/blank-monitor-removebg.png?raw=true"
+                  let monitor_img = new fabric.Image.fromURL(
+                        monitor_img_url,
+                        function (img) {
+                           global.canvas.add(img)
+                           global.canvas.renderAll()
+                        },
+                        {originX: "center",
+                         originY: "center",
+                         left: 216,
+                         top: -150,
+                         scaleX: 0.606,
+                         scaleY: 0.72,
+                         angle: 0
+                        }
+                     )
+               let frame = new fabric.Text("", {
+                 left: -330,
+                 top: -300,
+                 fontSize: 20,
+                 fontFamily: "Courier New",
+               })
+               let hsync = new fabric.Text("hsync:", {
+                 left: -200,
+                 top: -300,
+                 fontSize: 20,
+                 fontFamily: "Courier New",
+               })
+               let vsync = new fabric.Text("vsync:", {
+                 left: -80,
+                 top: -300,
+                 fontSize: 20,
+                 fontFamily: "Courier New",
+               })
+               let row_pointer = new fabric.Text("->", {
+                     top: -270,
+                     left: 75,
+                     fill: "black",
+                     fontSize: 14,
+                     fontFamily: "monospace"
+                  })
+               let column_pointer = new fabric.Text("->", {
+                     top: - 300,
+                     left: 110,
+                     fill: "black",
+                     angle: 90,
+                     fontSize: 14,
+                     fontFamily: "monospace"
+                  })
+               return {objects: {frame, hsync, vsync, row_pointer, column_pointer}}
+            },
+            renderEach(){
+               let hori_cnt_now = '/top|_pipe$hori_counter'.asInt()
+               let vert_cnt_now = '/top|_pipe$vert_counter'.asInt()
+               let vga_hsync = '/top|_pipe$vga_hsync'.asInt()
+               let vga_vsync = '/top|_pipe$vga_vsync'.asInt()
+               let width = '/top|_pipe$width'.asInt()
+               let height = '/top|_pipe$height'.asInt()
+               let cycle = '/top|_pipe$hori_counter'.getCycle()
+               let count = '/top|_pipe$tot_cyc'.asInt()
+               let frame = parseInt(cycle / count)
+               let sq_width = Math.sqrt(40000 / (M4_MAX_H * M4_MAX_V))
+               this.getInitObjects().frame.setText("Frame: " + (frame + 1))
+               this.getInitObjects().hsync.setText("hsync: " + vga_hsync)
+               this.getInitObjects().vsync.setText("vsync: " + vga_vsync)
+               if (vert_cnt_now < M4_MAX_V){
+               this.getInitObjects().row_pointer.set({top:-270 + (sq_width * vert_cnt_now), opacity : 1})
+               }else{
+               this.getInitObjects().column_pointer.set({opacity : 0})
+               }
+               if (hori_cnt_now < M4_MAX_H){
+               this.getInitObjects().column_pointer.set({left:110 + (sq_width * hori_cnt_now), opacity: 1})
+               }else{
+               this.getInitObjects().column_pointer.set({opacity : 0})
+               }
+               for(j=0; j<M4_MAX_H; j++){
+                   for(k=0; k<M4_MAX_V; k++){
+                      let grid = new fabric.Rect({
+                      top: (sq_width * k) - 269,
+                      left: (sq_width * j) + 100,
+                      width: sq_width,
+                      height: sq_width,
+                      fill:"black"
+                   })
+                   i = k * width + j
+                   if(frame){
+                     let red = '/top|_pipe$vga_r'.goTo(((frame-1) * count)+i).asBinaryStr()
+                     red = red.concat(red)
+                     red = parseInt(red, 2);
+                     let green = '/top|_pipe$vga_g'.goTo(((frame-1) * count)+i).asBinaryStr()
+                     green = green.concat(green)
+                     green = parseInt(green, 2);
+                     let blue = '/top|_pipe$vga_b'.goTo(((frame-1) * count)+i).asBinaryStr()
+                     blue = blue.concat(blue)
+                     blue = parseInt(blue, 2);
+                     let color = "rgb(" + red + "," + green + "," + blue + ")"
+                     grid.set({fill:color, stroke:color, strokeWidth:1})
+                   }
+                     let red = '/top|_pipe$vga_r'.goTo(((frame) * count) + i).asBinaryStr()
+                     red = red.concat(red)
+                     red = parseInt(red, 2);
+                     let green = '/top|_pipe$vga_g'.goTo(((frame) * count) + i).asBinaryStr()
+                     green = green.concat(green)
+                     green = parseInt(green, 2);
+                     let blue = '/top|_pipe$vga_b'.goTo(((frame) * count) + i).asBinaryStr()
+                     blue = blue.concat(blue)
+                     blue = parseInt(blue, 2);
+                     color = "rgb(" + red + "," + green + "," + blue + ")"
+                   if(k<vert_cnt_now){
+                     grid.set({fill:color, stroke:color, strokeWidth:1})
+                   }else if(k==vert_cnt_now){
+                      if(j<=hori_cnt_now){
+                         grid.set({fill:color, stroke:color, strokeWidth:1})
+                      }
+                   }
+                   global.canvas.add(grid)
+                   }
+                }
+            }
+         ']
+         )
