@@ -46,3 +46,5 @@
    m4+artix7_lcd(|lcd_pipe, @0, $datas, $out, $ii, $jj, $lcd_enable, $lcd_reset)
 \SV
    endmodule
+
+
