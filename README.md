@@ -26,3 +26,6 @@ Push buttons : http://makerchip.com/sandbox/0PNf4hWpx/0AnhrvA
 
 
 Slideswitches : http://makerchip.com/sandbox/0PNf4hWpx/0BghPgK
+
+
+RGB LED : http://makerchip.com/sandbox/0PNf4hWpx/0DRhjRm
