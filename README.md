@@ -4,13 +4,25 @@ This repository contains codebase for Virtual FPGA Lab in Makerchip as part of m
 More details about the project : https://summerofcode.withgoogle.com/projects/#6560715852218368
 
 ## Demos:
-LED Module : http://makerchip.com/sandbox/0n5fGhvDP/0Z4hPDm
+LED Module : https://makerchip.com/sandbox/0PNf4hWpx/0vghODn
 
 
-7 segment display : http://makerchip.com/sandbox/0qxfOhMDD/0AnhrBG
+Seven segment displays : https://makerchip.com/sandbox/0PNf4hWpx/0wjh0D5
 
 
-LCD Module : http://makerchip.com/sandbox/0n5fGhvDP/02RhKRO
+LCD Module : https://makerchip.com/sandbox/0PNf4hWpx/0xGhm2n
 
 
 VGA display : http://makerchip.com/sandbox/0n5fGhvDP/03lh7GA
+
+
+Temperature sensor : https://makerchip.com/sandbox/0PNf4hWpx/0y8h6lZ
+
+
+Light sensor : https://makerchip.com/sandbox/0PNf4hWpx/0y8h6lZ
+
+
+Push buttons : http://makerchip.com/sandbox/0PNf4hWpx/0AnhrvA
+
+
+Slideswitches : http://makerchip.com/sandbox/0PNf4hWpx/0BghPgK

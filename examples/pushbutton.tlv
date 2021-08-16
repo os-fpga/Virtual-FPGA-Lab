@@ -1,6 +1,6 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes1.tlv'])                   
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])                   
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
@@ -19,7 +19,6 @@
          '],['
          $pb[4:0] = *pb;
          '])
-         
    |led_pipe
       @0
          $reset = *reset;
@@ -27,17 +26,19 @@
          m4_ifelse_block(M4_MAKERCHIP, 1, [''],['
          *led = $leds;
          '])
-         
-      
-   m4_define(M4_BOARD, 5)
-   m4+init(|top_pipe, @0)
-   m4+led(|led_pipe, @0, $leds)
-   m4+push(|push_pipe, @0, $pb)
-   
    m4_ifelse_block(M4_MAKERCHIP, 1, ['
+   // M4_BOARD numbering
+   // 1 - Zedboard
+   // 2 - Artix-7
+   // 3 - Basys3
+   // 4 - Icebreaker
+   // 5 - Nexys
+   m4_define(M4_BOARD, 5)
+   m4+fpga_init(|top_pipe, @0)
+   m4+fpga_led(|led_pipe, @0, $leds)
+   m4+fpga_push(|push_pipe, @0, $pb)
    *passed = *cyc_cnt > 400;
    *failed = 1'b0;   
    '])
-   
 \SV
    endmodule

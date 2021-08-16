@@ -1,6 +1,6 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes1.tlv'])                   
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])                   
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    `include "sqrt32.v";
@@ -112,8 +112,6 @@
              return {objects:{logic_block}}
             },
             renderEach(){
-            
-                     
             let left = '|temp_pipe$left'.asInt()
             let top = '|temp_pipe$top'.asInt()
             this.getInitObjects().logic_block.animate({left: left * 10, top:-top * 10}, { onChange: this.global.canvas.renderAll.bind(this.global.canvas), duration:300 })
@@ -126,7 +124,6 @@
          *addr_in = $addr_in;
          ']
          )
-         
    |sseg_pipe
       @0   
          $data_adc[15:0] = /top|temp_pipe$data_adc;         
@@ -168,19 +165,19 @@
          *sseg = $sseg;
          *dp = $dp;
          '])
-         
-         \viz_alpha
-            initEach(){},
-            renderEach(){
-            //var val = '|sseg_pipe$ans'.asInt()
-            //var ans = (val - 816) * 0.9 + 20
-            //console.log("hello")
-              // console.log("val:", val)
-            }
-
+   m4_ifelse_block(M4_MAKERCHIP, 1, ['
+   // M4_BOARD numbering
+   // 1 - Zedboard
+   // 2 - Artix-7
+   // 3 - Basys3
+   // 4 - Icebreaker
+   // 5 - Nexys
    m4_define(M4_BOARD, 3)
-   m4+init(|top_pipe, @0)
-   m4+sseg(|sseg_pipe, @0, $digit, $sseg, $dp)
+   m4+fpga_init(|top_pipe, @0)
+   m4+fpga_sseg(|sseg_pipe, @0, $digit, $sseg, $dp)   
+   *passed = *cyc_cnt > 400;
+   *failed = 1'b0;   
+   '])
    
 \SV
    endmodule

@@ -1,6 +1,6 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes1.tlv'])                   
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])                   
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    `include "sqrt32.v";
@@ -167,10 +167,20 @@
          *sseg = $sseg;
          *dp = $dp;
          '])
-
+   m4_ifelse_block(M4_MAKERCHIP, 1, ['
+   // M4_BOARD numbering
+   // 1 - Zedboard
+   // 2 - Artix-7
+   // 3 - Basys3
+   // 4 - Icebreaker
+   // 5 - Nexys
    m4_define(M4_BOARD, 3)
-   m4+init(|top_pipe, @0)
-   m4+sseg(|sseg_pipe, @0, $digit, $sseg, $dp)
+   m4+fpga_init(|top_pipe, @0)
+   m4+fpga_sseg(|sseg_pipe, @0, $digit, $sseg, $dp)
+   *passed = *cyc_cnt > 400;
+   *failed = 1'b0;   
+   '])
+   
    
 \SV
    endmodule
