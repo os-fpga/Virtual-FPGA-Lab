@@ -1,7 +1,6 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes1.tlv'])                   
-   
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])                   
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
@@ -18,7 +17,6 @@
    $_var = $counter;
    '])     
 \TLV
-      
    |led_pipe
       @0  
          m4+counter($refresh, 100000000 - 1) 
@@ -28,13 +26,10 @@
          m4_ifelse_block(M4_MAKERCHIP, 1, [''],['
          *led = $Leds;
          '])
-   
-   
-   
    m4_ifelse_block(M4_MAKERCHIP, 1, ['
    m4_define(M4_BOARD, 1)
-   m4+init(|top_pipe, @0)
-   m4+led(|led_pipe, @0, $Leds)
+   m4+fpga_init(|top_pipe, @0)
+   m4+fpga_led(|led_pipe, @0, $Leds)
    *passed = *cyc_cnt > 400;
    *failed = 1'b0;   
    '])
