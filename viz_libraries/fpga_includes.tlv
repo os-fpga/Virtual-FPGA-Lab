@@ -10,6 +10,8 @@
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         *passed = *cyc_cnt > 400;
+         *failed = 1'b0;   
          m4_ifelse_block(M4_BOARD, 1,['
          \viz_alpha
             initEach() {
