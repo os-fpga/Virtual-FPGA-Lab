@@ -13,17 +13,6 @@ m4_define(['M4_SCALE'], 10)
     module top(input clk, input reset, input [14:0] sw, output reg [6:0] sseg, output reg [3:0] digit, output reg led); 
 	'])
 
-       
-\TLV counter($_var, #_delay)
-   m4_ifelse_block(M4_MAKERCHIP, 1, ['
-   $_var = 1;
-   '], ['
-   $count[26:0] = /top|cpu<>0$reset ? 1'b0 : ($RETAIN >= #_delay) ? 1'b0 : >>1$count + 1 ; 
-   $counter = ($count == #_delay) ? 1'b1 : 1'b0 ;
-   $_var = $counter;
-   '])                   
-   
-
 //#####################################################################################
        //   FPGA  //
 //#####################################################################################
@@ -142,7 +131,7 @@ m4_define(['M4_SCALE'], 10)
 \TLV fpga_seg(@_stage, $_final_reg)
    |fpga
       @_stage
-         m4+counter($refresh, 250000 - 1) 
+         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 250000))  
          
          $led_activating_counter[2:0] = /top|cpu<>0$reset ? 0 : ($RETAIN >=4) ? 0 : ($_final_reg == 0) ? 0 : $refresh ? >>1$led_activating_counter+1 : $RETAIN; // 2.5ms 
          // REMEMBER - SAME APPLIES HERE . 

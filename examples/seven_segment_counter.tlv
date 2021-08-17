@@ -7,19 +7,10 @@
    '],['
    module top(input clk, input reset, output [3:0] digit, output [6:0] sseg);
    '])
-\TLV counter($_var, #_delay)
-   m4_ifelse_block(M4_MAKERCHIP, 1, ['
-   $_var = 1;
-   '], ['
-   $rst = *reset;
-   $count[\$clog2(#_delay)-1:0] = $rst ? 1'b0 : ($RETAIN >= #_delay) ? 1'b0 : >>1$count + 1 ; 
-   $counter = ($count == #_delay) ? 1'b1 : 1'b0 ;
-   $_var = $counter;
-   ']) 
 \TLV
    |sseg_pipe
       @0   
-         m4+counter($refresh, 50000000 - 1) 
+         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 50000000))
          $reset = *reset;
          ?$refresh
             //All 4 digits can be enabled by sending logic ‘0’.

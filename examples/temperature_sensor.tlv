@@ -40,15 +40,6 @@
 		);
    ']
    )  
-\TLV counter($_var, #_delay)
-   m4_ifelse_block(M4_MAKERCHIP, 1, ['
-   $_var = 1;
-   '], ['
-   $rst = *reset;
-   $count[\$clog2(#_delay)-1:0] = $rst ? 1'b0 : ($RETAIN >= #_delay) ? 1'b0 : >>1$count + 1 ; 
-   $counter = ($count == #_delay) ? 1'b1 : 1'b0 ;
-   $_var = $counter;
-   ']) 
 \TLV
    |temp_pipe
       @0
@@ -127,7 +118,7 @@
    |sseg_pipe
       @0   
          $data_adc[15:0] = /top|temp_pipe$data_adc;         
-         m4+counter($refresh, 500000 - 1) 
+         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 500000))  
          $reset = *reset;
          ?$refresh
             //All 4 digits can be enabled by sending logic ‘0’.
