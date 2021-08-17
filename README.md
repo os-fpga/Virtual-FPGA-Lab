@@ -7,19 +7,19 @@ More details about the project : https://summerofcode.withgoogle.com/projects/#6
 LED Module : https://makerchip.com/sandbox/0PNf4hWpx/0vghODn
 
 
-Seven segment displays : https://makerchip.com/sandbox/0PNf4hWpx/0wjh0D5
+Seven segment displays : https://makerchip.com/sandbox/0mZf5hLRG/0X6hBW4
 
 
 LCD Module : https://makerchip.com/sandbox/0PNf4hWpx/0xGhm2n
 
 
-VGA display : http://makerchip.com/sandbox/0n5fGhvDP/03lh7GA
+VGA display : https://makerchip.com/sandbox/0mZf5hLRG/0Y6hkwk
 
 
-Temperature sensor : https://makerchip.com/sandbox/0PNf4hWpx/0y8h6lZ
+Temperature sensor : https://makerchip.com/sandbox/0mZf5hLRG/03lh7OG
 
 
-Light sensor : https://makerchip.com/sandbox/0PNf4hWpx/0y8h6lZ
+Light sensor : https://makerchip.com/sandbox/0mZf5hLRG/02RhKgZ
 
 
 Push buttons : http://makerchip.com/sandbox/0PNf4hWpx/0AnhrvA

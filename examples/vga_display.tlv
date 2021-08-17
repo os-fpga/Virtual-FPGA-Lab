@@ -1,78 +1,52 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
-
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes1.tlv'])
-                   
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
-   m4_define(M4_COUNTER, 32) // required for VIZ
-   m4_define(M4_FRAMES, 2)  // required for VIZ
    '],['
-    m4_define(['M4_COUNTER'], 1)
-	 module top_square (
-    input  clk,     // 50 MHz clock
-    input  btn_rst,      // reset button (active low)
-    output reg vga_hsync,    // horizontal sync
-    output reg vga_vsync,    // vertical sync
-    output reg [3:0] vga_r,  // 4-bit VGA red
-    output reg [3:0] vga_g,  // 4-bit VGA green
-    output reg [3:0] vga_b   // 4-bit VGA blue
-    );   
-       wire clk_pix;  //25MHz
-       clock_divider #(.DIV_VALUE(0)) dut(clk, clk_pix);
-       test dut2 (clk_pix, btn_rst, vga_hsync, vga_vsync, vga_r, vga_g, vga_b);
-   endmodule
-   module test (input clk, input reset, output reg vga_hsync, output reg vga_vsync, output reg [3:0] vga_r, output reg [3:0] vga_g, output reg [3:0] vga_b);
+   module top(input clk, input reset, output lcd_e, output lcd_rs, output [7:0] data);
    ']
-    )
-      
-\TLV init_monitor(|_pipe, @_stage)
-   |_pipe
-      @_stage
-         m4_define(M4_HA_END, 639)
-         m4_define(M4_HS_STA, M4_HA_END + 16)
-         m4_define(M4_HS_END, M4_HS_STA + 96)
-         m4_define(M4_LINE, 799)
-         m4_define(M4_VA_END, 479)
-         m4_define(M4_VS_STA, M4_VA_END + 10)
-         m4_define(M4_VS_END, M4_VS_STA + 2)
-         m4_define(M4_SCREEN, 524)
-
-\TLV init_cursor(|_pipe, @_stage, $_reset, $hsync, $vsync, M4_COUNTER, $_sx , $_sy)
-   |_pipe
-      @_stage
-         $hsync = ~($_sx >= M4_HS_STA && $_sx < M4_HS_END);
-         $vsync = ~($_sy >= M4_VS_STA && $_sy < M4_VS_END);
-         $_sx[9:0] = $_reset ? 10'b1111111111 : >>1$_sx >= M4_LINE ? 0 : >>1$_sx + M4_COUNTER;
-         $_sy[9:0] = $_reset ? 10'b1111111111 : (>>1$_sx >= M4_LINE ? (>>1$_sy >= M4_SCREEN ? 0 : >>1$_sy + M4_COUNTER) : $RETAIN);
-
-         
+   )
+\TLV counter($_var, #_delay)
+   m4_ifelse_block(M4_MAKERCHIP, 1, ['
+   $_var = 1;
+   '], ['
+   $rst = *reset;
+   $count[\$clog2(#_delay)-1:0] = $rst ? 1'b0 : ($RETAIN >= #_delay) ? 1'b0 : >>1$count + 1 ; 
+   $counter = ($count == #_delay) ? 1'b1 : 1'b0 ;
+   $_var = $counter;
+   ']) 
 \TLV
-   m4+init_monitor(|vga_pipe, @0)
-   m4+init_cursor(|vga_pipe, @0, $reset, $hsync, $vsync, M4_COUNTER, $sx, $sy) 
-   m4_define(M4_BOARD, 4)
-   m4+init(|top_pipe, @0)
-   |vga_pipe
+   |lcd_pipe
       @0
-         $reset = *reset; 
-         $de = ($sx < M4_HA_END && $sy < M4_VA_END);
-         $q_draw = ($sx < 64 && $sy < 64);
-         $vga_hsync = $reset ? 0 : >>1$hsync;
-         $vga_vsync = $reset ? 0 : >>1$vsync;
-         $vga_r[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'hF : 4'h0);
-         $vga_g[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h8 : 4'h8);
-         $vga_b[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h0 : 4'hF);
-         m4_ifelse_block(M4_MAKERCHIP, 1,['
-         '],['
-         *vga_hsync = $vga_hsync;
-         *vga_vsync = $vga_vsync;
-         *vga_r = $vga_r;
-         *vga_g = $vga_g;
-         *vga_b = $vga_b;
-         ']
-         )
-   m4+vga(|vga_pipe, @0, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
+         m4+counter($refresh, 500000 - 1) 
+         $reset = *reset;
+         ?$refresh
+            $Ii[3:0] <= $reset ? 5'b0 : ($Ii < 4) ? $Ii + 1 : 0;
+            $Jj[4:0] <= $reset ? 0 : ($Ii == 4) ? $Jj + 1 : ($Jj == 25) ? 4 : $Jj;
+            $datas[25*8-1:0] = {8'h18, 8'h2D, 8'h2D, 8'hC0, 8'h21, 8'h21, 8'h21, 8'h6E, 8'h75, 8'h66, 8'h20, 8'h65, 8'h72, 8'h61,
+                           8'h20, 8'h73, 8'h41, 8'h47, 8'h50, 8'h46, 8'h80, 8'h01, 8'h06, 8'h0C, 8'h38};
+            $out[7:0] = $reset ? 0 : ($Ii <= 2) ? $datas >> 8*$Jj : >>1$out;
+            $lcd_enable = $reset ? 0 : ($Ii <= 2) ?  1 : ($Ii > 2 & $Ii < 4) ? 0 : >>1$lcd_enable;;
+            $lcd_reset = ($Jj > 4 & $Jj != 21 & $Jj != 24) ? 1 : 0;
+         m4_ifelse_block(M4_MAKERCHIP, 1, [''],['
+         *data = $out;
+         *lcd_e = $lcd_enable;
+         *lcd_rs = $lcd_reset;
+         '])
+   m4_ifelse_block(M4_MAKERCHIP, 1, ['
+   // M4_BOARD numbering
+   // 1 - Zedboard
+   // 2 - Artix-7
+   // 3 - Basys3
+   // 4 - Icebreaker
+   // 5 - Nexys
+   m4_define(M4_BOARD, 2)
+   m4+fpga_init(|top_pipe, @0)
+   m4+fpga_lcd(|lcd_pipe, @0, $out, $lcd_enable, $lcd_reset)
+   *passed = *cyc_cnt > 400;
+   *failed = 1'b0;   
+   '])
 \SV
    endmodule
-

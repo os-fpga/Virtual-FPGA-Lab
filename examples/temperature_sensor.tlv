@@ -57,7 +57,7 @@
          $addr_in[6:0] = $ready ? 7'b0010111 : 0;
          m4_ifelse_block(M4_MAKERCHIP, 1,['
          $ready = 1;
-         $check = (/top|sseg_pipe$Count_2bit == 0);
+         $check = (/top|sseg_pipe$Count == 0);
          $left[5:0] = 0;
          $top[5:0] = $reset ? 0 : $check ? >>1$top + 1 : $RETAIN;
          //$data_adc[15:0] = (640 - $left) * (640 + $top);
@@ -132,15 +132,15 @@
          ?$refresh
             //All 4 digits can be enabled by sending logic ‘0’.
             //Each segment can be enabled by sending logic ‘0’
-            $Count_2bit[1:0] <= $reset ? 0 : $Count_2bit + 1;
-            $digit[3:0] = $Count_2bit == 0 ? 4'b1110 : 
-                       $Count_2bit == 1 ? 4'b1101 : 
-                       $Count_2bit == 2 ? 4'b1011 : 
+            $Count[1:0] <= $reset ? 0 : $Count + 1;
+            $digit[3:0] = $Count == 0 ? 4'b1110 : 
+                       $Count == 1 ? 4'b1101 : 
+                       $Count == 2 ? 4'b1011 : 
                        4'b0111; 
-            $led_bcd[3:0] =    (($Count_2bit == 0) ? ((($data_adc % 1000) % 100) % 10)  : // 1st digit in 16-bit no.
-                            ($Count_2bit == 1) ?  (($data_adc % 1000) % 100) / 10:  // 2nd digit in 16-bit no. 
-                            ($Count_2bit == 2) ?  ($data_adc % 1000) / 100 :   // 3rd digit in 16-bit no.
-                            ($Count_2bit == 3) ? $data_adc / 1000 : 
+            $led_bcd[3:0] =    (($Count == 0) ? ((($data_adc % 1000) % 100) % 10)  : // 1st digit in 16-bit no.
+                            ($Count == 1) ?  (($data_adc % 1000) % 100) / 10:  // 2nd digit in 16-bit no. 
+                            ($Count == 2) ?  ($data_adc % 1000) / 100 :   // 3rd digit in 16-bit no.
+                            ($Count == 3) ? $data_adc / 1000 : 
                              4'b0);  
             $sseg[6:0] = ($led_bcd == 0) ? 7'b0000001 : // '0'
                          ($led_bcd == 1) ? 7'b1001111 : // '1'
