@@ -37,8 +37,6 @@
    m4+fpga_init(|top_pipe, @0)
    m4+fpga_led(|led_pipe, @0, $leds)
    m4+fpga_switch(|switch_pipe, @0, $sw)
-   *passed = *cyc_cnt > 400;
-   *failed = 1'b0;   
    '])
 \SV
    endmodule

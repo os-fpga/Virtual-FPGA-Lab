@@ -36,9 +36,7 @@
    m4_define(M4_BOARD, 5)
    m4+fpga_init(|top_pipe, @0)
    m4+fpga_led(|led_pipe, @0, $leds)
-   m4+fpga_push(|push_pipe, @0, $pb)
-   *passed = *cyc_cnt > 400;
-   *failed = 1'b0;   
+   m4+fpga_push(|push_pipe, @0, $pb)  
    '])
 \SV
    endmodule

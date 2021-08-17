@@ -166,8 +166,6 @@ m4_define(['M4_SCALE'], 10)
                          7'b1111111 ;                   // 'nothing'
                          
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         *passed = *cyc_cnt > 500;
-         *failed = 1'b0;
          '], ['
          \SV_plus 
             always @(posedge clk) begin 

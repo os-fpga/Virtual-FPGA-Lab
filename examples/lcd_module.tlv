@@ -35,9 +35,7 @@
    // 5 - Nexys
    m4_define(M4_BOARD, 2)
    m4+fpga_init(|top_pipe, @0)
-   m4+fpga_lcd(|lcd_pipe, @0, $out, $lcd_enable, $lcd_reset)
-   *passed = *cyc_cnt > 400;
-   *failed = 1'b0;   
+   m4+fpga_lcd(|lcd_pipe, @0, $out, $lcd_enable, $lcd_reset) 
    '])
 \SV
    endmodule

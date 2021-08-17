@@ -166,8 +166,6 @@
    m4_define(M4_BOARD, 3)
    m4+fpga_init(|top_pipe, @0)
    m4+fpga_sseg(|sseg_pipe, @0, $digit, $sseg, $dp)   
-   *passed = *cyc_cnt > 400;
-   *failed = 1'b0;   
    '])
    
 \SV
