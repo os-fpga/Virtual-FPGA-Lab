@@ -1,7 +1,7 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/includes1.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])
                    
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
@@ -71,6 +71,6 @@
          *vga_b = $vga_b;
          ']
          )
-   m4+vga(|vga_pipe, @0, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
+   m4+fpga_vga(|vga_pipe, @0, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
 \SV
    endmodule
