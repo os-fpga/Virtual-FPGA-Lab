@@ -4,31 +4,31 @@ This repository contains codebase for Virtual FPGA Lab in Makerchip as part of m
 More details about the project : https://summerofcode.withgoogle.com/projects/#6560715852218368
 
 ## Demos:
-LED Module : https://makerchip.com/sandbox/0PNf4hWpx/0vghODn
+[LED Module](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/led_counter.tlv)
 
 
-Seven segment displays : https://makerchip.com/sandbox/0mZf5hLRG/0X6hBW4
+[Seven segment displays](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/seven_segment_counter.tlv) 
 
 
-LCD Module : https://makerchip.com/sandbox/0PNf4hWpx/0xGhm2n
+[LCD Module](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/lcd_module.tlv) 
 
 
-VGA display : https://makerchip.com/sandbox/0mZf5hLRG/0Y6hkwk
+[VGA display](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/vga_display.tlv)
 
 
-Temperature sensor : https://makerchip.com/sandbox/0mZf5hLRG/03lh7OG
+[Temperature sensor](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/temperature_sensor.tlv) 
 
 
-Light sensor : https://makerchip.com/sandbox/0mZf5hLRG/02RhKgZ
+[Light sensor](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/light_sensor.tlv) 
 
 
-Push buttons : http://makerchip.com/sandbox/0PNf4hWpx/0AnhrvA
+[Push buttons](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/pushbutton.tlv) 
 
 
-Slideswitches : http://makerchip.com/sandbox/0PNf4hWpx/0BghPgK
+[Slideswitches](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/slideswitch.tlv) 
 
 
-RGB LED : http://makerchip.com/sandbox/0PNf4hWpx/0DRhjRm
+[RGB LED](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/ice_rgb.tlv) 
 
 
-RISC-V MYTH Core : http://www.makerchip.com/sandbox/0xkfJhgZE/0y8h6ml#
+[RISC-V MYTH Core](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/riscv_myth_core.tlv) 
