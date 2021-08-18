@@ -63,7 +63,6 @@
             *led_b = $led_b;
             ']) 
        
-      m4_ifelse_block(M4_MAKERCHIP, 1, ['
       // M4_BOARD numbering
       // 1 - Zedboard
       // 2 - Artix-7
@@ -74,6 +73,5 @@
       m4+fpga_init(|top_pipe, @0)  
       *passed = *cyc_cnt > 400;
       *failed = 1'b0;   
-      '])
 \SV
    endmodule

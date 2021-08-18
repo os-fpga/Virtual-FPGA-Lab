@@ -2,7 +2,6 @@
 
 \TLV fpga_refresh($_var, #_delay)
    $rst = *reset;
-   $delay[31:0] = #_delay;
    $count[31:0] = $rst ? 1'b0 : ($RETAIN + 1 >= #_delay) ? 1'b0 : >>1$count + 1 ; 
    $_var = ($count == #_delay - 1) ? 1'b1 : 1'b0 ;
    

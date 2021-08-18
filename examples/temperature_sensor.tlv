@@ -156,7 +156,6 @@
          *sseg = $sseg;
          *dp = $dp;
          '])
-   m4_ifelse_block(M4_MAKERCHIP, 1, ['
    // M4_BOARD numbering
    // 1 - Zedboard
    // 2 - Artix-7
@@ -166,7 +165,6 @@
    m4_define(M4_BOARD, 3)
    m4+fpga_init(|top_pipe, @0)
    m4+fpga_sseg(|sseg_pipe, @0, $digit, $sseg, $dp)   
-   '])
    
 \SV
    endmodule

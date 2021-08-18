@@ -26,7 +26,6 @@
          *lcd_e = $lcd_enable;
          *lcd_rs = $lcd_reset;
          '])
-   m4_ifelse_block(M4_MAKERCHIP, 1, ['
    // M4_BOARD numbering
    // 1 - Zedboard
    // 2 - Artix-7
@@ -36,6 +35,5 @@
    m4_define(M4_BOARD, 2)
    m4+fpga_init(|top_pipe, @0)
    m4+fpga_lcd(|lcd_pipe, @0, $out, $lcd_enable, $lcd_reset) 
-   '])
 \SV
    endmodule

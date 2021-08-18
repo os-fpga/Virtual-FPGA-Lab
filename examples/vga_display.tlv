@@ -49,7 +49,7 @@
    m4+init_monitor(|vga_pipe, @0)
    m4+init_cursor(|vga_pipe, @0, $reset, $hsync, $vsync, M4_COUNTER, $sx, $sy) 
    m4_define(M4_BOARD, 4)
-   m4+init(|top_pipe, @0)
+   m4+fpga_init(|top_pipe, @0)
    |vga_pipe
       @0
          m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 4))
