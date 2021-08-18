@@ -1,9 +1,16 @@
 \m4_TLV_version 1d: tl-x.org
 
-\TLV init(|_pipe, @_stage)
+\TLV fpga_refresh($_var, #_delay)
+   $rst = *reset;
+   $count[31:0] = $rst ? 1'b0 : ($RETAIN + 1 >= #_delay) ? 1'b0 : >>1$count + 1 ; 
+   $_var = ($count == #_delay - 1) ? 1'b1 : 1'b0 ;
+   
+\TLV fpga_init(|_pipe, @_stage)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         *passed = *cyc_cnt > 500;
+         *failed = 1'b0;   
          m4_ifelse_block(M4_BOARD, 1,['
          \viz_alpha
             initEach() {
@@ -211,7 +218,7 @@
          '])
          '])
          
-\TLV led(|_pipe, @_stage, $_leds)
+\TLV fpga_led(|_pipe, @_stage, $_leds)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -301,7 +308,7 @@
          '])
          '])
          
-\TLV template(|_pipe, @_stage, $leds)
+\TLV fpga_template(|_pipe, @_stage, $leds)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -321,7 +328,7 @@
          '])
          '])
          
-\TLV sseg(|_pipe, @_stage, $_digit, $_sseg, $_dp)
+\TLV fpga_sseg(|_pipe, @_stage, $_digit, $_sseg, $_dp)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -536,7 +543,7 @@
          '])
          '])
          '])
-\TLV switch(|_pipe, @_stage, $_sw)
+\TLV fpga_switch(|_pipe, @_stage, $_sw)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -756,7 +763,7 @@
          '])
          '])
          '])
-\TLV push(|_pipe, @_stage, $_pb)
+\TLV fpga_push(|_pipe, @_stage, $_pb)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -913,7 +920,7 @@
                      //this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
                   } 
   
-\TLV lcd(|_pipe, @_stage, $out, $lcd_enable, $lcd_reset)
+\TLV fpga_lcd(|_pipe, @_stage, $out, $lcd_enable, $lcd_reset)
    //for viz part
    |_pipe
       @_stage
@@ -1099,7 +1106,7 @@
          ['
          ']
          )
-\TLV vga(|_pipe, @_stage, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
+\TLV fpga_vga(|_pipe, @_stage, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
    |_pipe
       @_stage
          m4_ifelse_block(M4_MAKERCHIP, 1,['
