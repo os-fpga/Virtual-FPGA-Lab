@@ -1,9 +1,10 @@
 \m4_TLV_version 1d: tl-x.org
 
 \TLV fpga_refresh($_var, #_delay)
-   $rst = *reset;
-   $count[31:0] = $rst ? 1'b0 : ($RETAIN + 1 >= #_delay) ? 1'b0 : >>1$count + 1 ; 
-   $_var = ($count == #_delay - 1) ? 1'b1 : 1'b0 ;
+   /* verilator lint_off UNSIGNED */
+   $rst['']m4_plus_inst_id = *reset;
+   $count['']m4_plus_inst_id[31:0] = ($RETAIN >= #_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ; 
+   $_var = ($count['']m4_plus_inst_id == #_delay - 1) ? 1'b1 : 1'b0 ;
    
 \TLV fpga_init(|_pipe, @_stage)
    |_pipe
