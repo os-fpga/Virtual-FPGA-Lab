@@ -4,7 +4,7 @@ This repository contains codebase for Virtual FPGA Lab in Makerchip as part of m
 More details about the project : https://summerofcode.withgoogle.com/projects/#6560715852218368
 
 # Contents
-[1. Abstract](./#abstract)
+[1. Abstract](#abstract)
 
 2. Makerchip
 3. What makes the project __Virtual FPGA Lab__ special?
