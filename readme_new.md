@@ -6,14 +6,20 @@ More details about the project : https://summerofcode.withgoogle.com/projects/#6
 # Contents
 [1. Abstract](#abstract)
 
-2. Makerchip
-3. What makes the project __Virtual FPGA Lab__ special?
-4. FPGA Boards demonstrated
-5. Demos
-6. Visual Debug
-    6.1 How Visual Debug is built?
-    6.2 Simple example for visualizing logic gates
-    6.3 Simple example on how to add own FPGA boards and peripherals
+[2. Makerchip](#makerchip)
+
+[3. What makes the project __Virtual FPGA Lab__ special?](#what-makes-the-project-virtual-fpga-lab-special)
+
+[4. FPGA Boards demonstrated](#fpga-boards-demonstrated)
+
+[5. Demos](#demos)
+
+[6. Visual Debug](#visual-debug)
+- [6.1 How Visual Debug is built?](#1-how-visual-debug-is-built)
+    
+- [6.2 Simple example for visualizing logic gates](#2-simple-example-for-visualizing-logic-gates)
+    
+- [6.3 Simple example on how to add own FPGA boards and peripherals](#3-simple-example-on-how-to-add-own-fpga-boards-and-peripherals)
 
 ## Abstract: 
 Field-Programmable Gate Array(FPGA) is a hardware circuit that a user can program to carry out logical operations. FPGAs are beneficial for prototyping application-specific integrated circuits (ASICs) or processors. The advantage of FPGA being energy-efficient, flexible to reprogram, support parallelism, decreased latency made them widely used in many applications. But the flexibility of FPGAs comes at the price of the difficulty of reprogramming the circuit. FPGA’s are a bit costly and difficult to learn for beginners. Also, students don’t have access to physical FPGA Lab classes in their curriculum amidst this pandemic situation. So there is a massive demand in having an alternative option of having an online simulator for FPGA curriculum development. 
