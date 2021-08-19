@@ -1,6 +1,5 @@
 # Virtual-FPGA-Lab
-This repository contains codebase for Virtual FPGA Lab in Makerchip as part of my Open Source contribution to the Open Source Silicon Foundation. 
-
+This repository contains codebase for Virtual FPGA Lab in Makerchip contributing as a participant in Google Summer of Code 2021, under FOSSi Foundation.
 
 ## Contributors:
 - Steve Hoover, Founder, Redwood EDA
