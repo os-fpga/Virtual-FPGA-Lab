@@ -10,6 +10,9 @@ This repository contains codebase for Virtual FPGA Lab in Makerchip as part of m
 - Shivani Shah, student at the International Institute of Information Technology, Bangalore
 - Mayank Kabra, student at the International Institute of Information Technology, Bangalore
 
+__Funding for this work provided by the Open Source Silicon Foundation__
+
+
 ## Demos:
 [LED Module](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/led_counter.tlv)
 
