@@ -1,13 +1,12 @@
 # Virtual-FPGA-Lab
-This repository contains codebase for Virtual FPGA Lab in Makerchip contributing as a participant in Google Summer of Code 2021, under FOSSi Foundation.
 
 ## Contributors:
-- Steve Hoover, Founder, Redwood EDA
-- Akos Hadnagy, advisor
-- Dylan McNamee, advisor
-- Bala Dhinesh, Participant in Google Summer of Code 2021, under FOSSi Foundation
-- Shivani Shah, student at the International Institute of Information Technology, Bangalore
-- Mayank Kabra, student at the International Institute of Information Technology, Bangalore
+- [Steve Hoover](https://github.com/stevehoover), Founder, Redwood EDA
+- [Akos Hadnagy](https://github.com/ahadnagy), Advisor
+- [Dylan McNamee](https://github.com/dylanmc), Advisor
+- [Bala Dhinesh](https://github.com/BalaDhinesh), Contributing as a participant in Google Summer of Code 2021, under FOSSi Foundation
+- [Shivani Shah](https://github.com/shivanishah269), Student at the International Institute of Information Technology, Bangalore
+- [Mayank Kabra](https://github.com/mayank-kabra2001), Student at the International Institute of Information Technology, Bangalore
 
 __Funding for this work provided by the Open Source Silicon Foundation__
 
