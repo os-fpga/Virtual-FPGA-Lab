@@ -1,12 +1,15 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
    '],['
    module top(input clk, input reset, output [3:0] digit, output [6:0] sseg);
    '])
+      logic [3:0] digit;
+      logic [6:0] sseg;
+      logic  dp;
 \TLV
    |sseg_pipe
       @0   
@@ -35,11 +38,9 @@
                          ($LedBcd == 15) ? 7'b0111000 : // 'f'
                          7'b1111111 ;                   // 'nothing'
             $dp = 1;                
-         m4_ifelse_block(M4_MAKERCHIP, 1,[''],['
          *digit = $digit;
          *sseg = $sseg;
          *dp = $dp;
-         '])
    // M4_BOARD numbering
    // 1 - Zedboard
    // 2 - Artix-7
@@ -47,7 +48,7 @@
    // 4 - Icebreaker
    // 5 - Nexys
    m4_define(M4_BOARD, 3)
-   m4+fpga_init(|top_pipe, @0)
-   m4+fpga_sseg(|sseg_pipe, @0, $digit, $sseg, $dp)
+   m4+fpga_init()
+   m4+fpga_sseg(*digit, *sseg, *dp)
 \SV
    endmodule

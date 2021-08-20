@@ -1,7 +1,7 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/viz_libraries/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
                    
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
@@ -21,6 +21,12 @@
     );   
    ']
     )
+      logic vga_hsync;
+      logic vga_vsync;
+      logic [3:0] vga_r;
+      logic [3:0] vga_g;
+      logic [3:0] vga_b;
+   
 \TLV init_monitor(|_pipe, @_stage)
    |_pipe
       @_stage
@@ -48,8 +54,6 @@
 \TLV
    m4+init_monitor(|vga_pipe, @0)
    m4+init_cursor(|vga_pipe, @0, $reset, $hsync, $vsync, M4_COUNTER, $sx, $sy) 
-   m4_define(M4_BOARD, 4)
-   m4+fpga_init(|top_pipe, @0)
    |vga_pipe
       @0
          m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 4))
@@ -62,15 +66,13 @@
             $vga_r[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'hF : 4'h0);
             $vga_g[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h8 : 4'h8);
             $vga_b[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h0 : 4'hF);
-         m4_ifelse_block(M4_MAKERCHIP, 1,['
-         '],['
          *vga_hsync = $vga_hsync;
          *vga_vsync = $vga_vsync;
          *vga_r = $vga_r;
          *vga_g = $vga_g;
          *vga_b = $vga_b;
-         ']
-         )
-   m4+fpga_vga(|vga_pipe, @0, $vga_hsync, $vga_vsync, $vga_r, $vga_g, $vga_b)
+   m4_define(M4_BOARD, 4)
+   m4+fpga_init(|top_pipe, @0)
+   m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /top|vga_pipe$sy)
 \SV
    endmodule
