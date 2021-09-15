@@ -33,9 +33,7 @@
    m4+osfpga_logo()
    |fpga_init_macro
       @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         *passed = *cyc_cnt > 500;
-         *failed = 1'b0;   
+         m4_ifelse_block(M4_MAKERCHIP, 1, [' 
          m4_ifelse_block(M4_BOARD, 1,['
          \viz_alpha
             initEach() {
