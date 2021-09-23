@@ -4,6 +4,7 @@
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1,['
    m4_makerchip_module   
+   logic [15:0] led;
    '],['
    module top(input clk, input reset, output reg [15:0] led);
    '])   
