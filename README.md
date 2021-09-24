@@ -152,31 +152,31 @@ m4+fpga_led(*sw)
 // *sw - switch signal
 ```
 ## 6. Examples:
-[6.1 LED Module](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/led_counter.tlv)
+[6.1 LED Module](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z)
 
 
-[6.2 Seven segment displays](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/seven_segment_counter.tlv) 
+[6.2 Seven segment displays](https://makerchip.com/sandbox/0mZf5hLPG/0zmh8rV) 
 
 
-[6.3 LCD Module](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/lcd_module.tlv) 
+[6.3 LCD Module](https://makerchip.com/sandbox/0mZf5hLPG/0k5hYwz) 
 
 
-[6.4 VGA display](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/vga_display.tlv)
+[6.4 VGA display](https://makerchip.com/sandbox/0mZf5hLPG/0nZhlW1)
 
 
-[6.5 Temperature sensor](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/temperature_sensor.tlv) 
+[6.5 Temperature sensor](https://makerchip.com/sandbox/031fmhpnZ/0JZhpWr) 
 
 
-[6.6 Light sensor](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/light_sensor.tlv) 
+[6.6 Light sensor](https://makerchip.com/sandbox/031fmhpnZ/0KOh8yJ)
 
 
-[6.7 Push buttons](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/pushbutton.tlv) 
+[6.7 Push buttons](https://makerchip.com/sandbox/0mZf5hLPG/0pghQw2) 
 
 
-[6.8 Slideswitches](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/slideswitch.tlv) 
+[6.8 Slideswitches](https://makerchip.com/sandbox/05yf0h91P/066hVzy) 
 
 
-[6.9 RGB LED](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/ice_rgb.tlv) 
+[6.9 RGB LED](https://makerchip.com/sandbox/0mZf5hLPG/0vghOl6) 
 
 
 [6.10 RISC-V MYTH Core](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/riscv_myth_core.tlv) 
