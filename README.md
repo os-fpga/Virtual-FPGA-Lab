@@ -1,5 +1,5 @@
 <h1 align="left"> Virtual FPGA Lab
-</h1>  
+</h1>
 
 <p>
     <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
