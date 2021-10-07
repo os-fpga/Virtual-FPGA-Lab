@@ -1,17 +1,17 @@
 <h1 align="left"> Virtual FPGA Lab
 </h1>
 
-<p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://user-images.githubusercontent.com/11302288/130831451-1c3b1541-06f2-4c0e-bbaf-8e0026db00c1.png" alt="redwoodeda-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://www.fossi-foundation.org/assets/fossi_logo_large.png" alt="fossi-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">
-</p>
 
+## References
 
+This document introduces the Virtual FPGA Lab platform. You can also:
+
+  - [Take this tutorial from the Open Source FPGA Foundation using this platform](https://github.com/stevehoover/GettingStartedWithFPGAs).
+  - [learn how to contribute to the platform, such as adding support for other FPGA boards](AddingBoards.md)
 
 
 ## Contents
+
 [1. Abstract](#1-abstract)
 
 [2. About Makerchip](#2-about-makerchip)
@@ -56,7 +56,8 @@
 
 
 
-## 1. Abstract: 
+## 1. Abstract
+
 <p align="left">
 
 <img src="https://user-images.githubusercontent.com/64545984/130665673-63e52c11-f5e4-4290-8d05-a5a0741fbbbd.png" alt="artix preview" width="600" >
@@ -67,10 +68,12 @@ This project __Virtual FPGA Lab__ aims to solve the problem by taking advantage 
 
 Here is the link to the blog post: [Link](https://medium.com/@m.baladhinesh/fpgas-in-your-browser-bb92be1c1fa3)
 
-## 2. About Makerchip:
+## 2. About Makerchip
+
 [Makerchip](http://makerchip.com/) is a free web-based IDE as well as available as [makerchip-app](https://pypi.org/project/makerchip-app/), a virtual desktop application for developing high-quality integrated circuits. You can __code__, __compile__, __simulate__, and __debug__ Verilog designs, all from your browser. Your code, block diagrams, and waveforms are tightly integrated. Makerchip supports the emerging [Transaction-Level Verilog](http://tl-x.org/) standard. Transaction-Level Verilog, or TL-Verilog, represents a huge step forward, by eliminating the need for the legacy language features of Verilog and by introducing simpler syntax. At the same time, TL-Verilog adds powerful constructs for pipelines and transactions. __More details about TL-Verilog:__ https://www.redwoodeda.com/tl-verilog
 
 ## 3. What makes the project __Virtual FPGA Lab__ special?
+
 - __Easy Learning📖:__ Understanding the basics of FPGA programming without having an actual board 
 - __Time travel😜:__  Move back and forth between cycles so that we can visualize what's happening in each cycle.
 - __Faster🚀:__ No need to wait for Synthesis, Implementation and Bitstream Generation for simple designs.
@@ -78,7 +81,8 @@ Here is the link to the blog post: [Link](https://medium.com/@m.baladhinesh/fpga
 - __Synthesizable😊:__ Code in Virtual Lab works on real FPGAs!!!. We will cover this in the last section.
 - __Open Source🥰:__ Licensed under MIT.
 
-## 4. FPGA Boards demonstrated:
+## 4. FPGA Boards demonstrated
+
 1. Zedboard Zynq-7000 ARM/FPGA SoC Development Board ([Product Link](https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/))
 2. EDGE Artix 7 FPGA Development Board ([Product Link](https://allaboutfpga.com/product/edge-artix-7-fpga-development-board/))
 3. Basys 3 Artix-7 FPGA Trainer Board ([Product Link](https://store.digilentinc.com/basys-3-artix-7-fpga-beginner-board-recommended-for-introductory-users/)) 
@@ -87,8 +91,10 @@ Here is the link to the blog post: [Link](https://medium.com/@m.baladhinesh/fpga
 
 Currently we demonstrate using only these boards and we plan to add more boards in the future. You can very easily to add your own FPGA boards. Contributions are welcome.
 
-## 5. FPGA peripheral macro instantiations:
-#### 5.1 Board select:
+## 5. FPGA peripheral macro instantiations
+
+#### 5.1 Board select
+
 ```
 m4_define(M4_BOARD, 1)      // This should always be declared for below macros to work
 
@@ -99,14 +105,18 @@ m4_define(M4_BOARD, 1)      // This should always be declared for below macros t
 // 4 - Icebreaker
 // 5 - Nexys
 ```
-#### 5.2 LED Module:
+
+#### 5.2 LED Module
+
 ```
 m4+fpga_led(*led)
 
 // Arguments:
 // *led - led signal
 ```
-#### 5.3 Seven segment displays:
+
+#### 5.3 Seven segment displays
+
 ```
 m4+fpga_sseg(*digit, *sseg, *dp)
 
@@ -115,7 +125,9 @@ m4+fpga_sseg(*digit, *sseg, *dp)
 // *sseg - seven segments
 // *dp - decimal point
 ```
-#### 5.4 LCD Module:
+
+#### 5.4 LCD Module
+
 ```
 m4+fpga_lcd(*data, *lcd_e, *lcd_rs) 
 
@@ -124,7 +136,9 @@ m4+fpga_lcd(*data, *lcd_e, *lcd_rs)
 // *lcd_e - lcd enable signal
 // *lcd_rs - lcd reset signal, 0 for command and 1 for data
 ```
-#### 5.5 VGA display:
+
+#### 5.5 VGA display
+
 ```
 m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /top|vga_pipe$sy)
 
@@ -137,21 +151,27 @@ m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /t
 // $sx - horizontal count
 // $sy - vertical count
 ```
-#### 5.6 Push buttons:
+
+#### 5.6 Push buttons
+
 ```
 m4+fpga_push(*pb) 
 
 // Arguments:
 // *pb - push button signal
 ```
-#### 5.7 Slideswitches:
+
+#### 5.7 Slideswitches
+
 ```
 m4+fpga_led(*sw)
 
 // Arguments:
 // *sw - switch signal
 ```
-## 6. Examples:
+
+## 6. Examples
+
 [6.1 LED Module](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z)
 
 
@@ -184,10 +204,15 @@ m4+fpga_led(*sw)
 
 
 ## 7. Visual Debug:
+
 ### 7.1 How Visual Debug is built?
+
 Visual Debug is a __JavaScript__ canvas where we used [fabric.js](http://fabricjs.com/), which is a powerful and simple Javascript HTML5 canvas library framework. It provides us to use interactive object models on top of canvas element.
-### 7.2 Examples 
+
+### 7.2 Examples
+
 #### 7.2.1 Visualizing logic gates
+
 [Makerchip Sandbox](http://makerchip.com/sandbox/0mZf5hLDQ/0X6hB6q)
 
 Let us first visualize the output of simple digital **logic gates**. From the GIF below, we can see that the left portion is the coding part where you can see the logic of the gates and right portion is the Visual Debug(VIZ) part where you can see the visualization of each logic gates. We can move back and forth between cycles and see in the top right which cycle currently is. Also, look at the waveform of the logic from the below image.
@@ -227,7 +252,9 @@ __NOTE: This visualization supports only 8 bit data/command mode__
 
 
 ## 8. How to add own FPGA boards and peripherals
-#### 8.1 Adding custom FPGA board:
+
+#### 8.1 Adding custom FPGA board
+
 ```
 // Macro definition for adding fpga board
 \TLV fpga_init()
@@ -254,7 +281,9 @@ __NOTE: This visualization supports only 8 bit data/command mode__
                     )
             }
 ```
-#### 8.2 Interfacing LEDs:
+
+#### 8.2 Interfacing LEDs
+
 ```
 \TLV fpga_led($_leds)
    |led_pipe_macro
@@ -284,7 +313,8 @@ __NOTE: This visualization supports only 8 bit data/command mode__
                 }
 ```
 
-## 9. Steps to run in an actual FPGA:
+## 9. Steps to run in an actual FPGA
+
 Detailed step-by-step instructions are provided in this [link](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/tree/main/fpga). Credit goes to [Mayank Kabra](https://www.linkedin.com/in/mayank-kabra-6993701ab/) for helping me build this part.
 
 LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
@@ -297,28 +327,38 @@ LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
   <img src="https://user-images.githubusercontent.com/64545984/130665845-18b89d49-a5dc-4308-bdf1-45119d93abef.gif" alt="led_artix" width="50%" /> 
 </p>
 
-## 10. Future Scope:
-- To support more FPGA boards and peripherals.
-- The automated shell script that converts TL-V code to run in an actual FPGA currently supports only Xilinx boards with Vivado software. So to provide scripts that target other vendors as well using open source tools.
+## 10. Future Scope
 
-## 11. Contributors:
-- [Steve Hoover](https://github.com/stevehoover), Founder, Redwood EDA
-- [Akos Hadnagy](https://github.com/ahadnagy), Advisor
+- To support more FPGA boards and peripherals.
+- The automated shell script that converts TL-V code to run in an actual FPGA currently supports only Xilinx boards with Vivado software. So to provide scripts that target other vendors as well using open source tools. It would probably be wise to use EDAlize.
+
+## 12. Sponsors
+
+This work has been sponsored through Google Summer of Code (GSoC) 2021, with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization, with mentorship from Redwood EDA, and with training support from VLSI System Design.
+
+<p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="130"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://www.fossi-foundation.org/assets/fossi_logo_large.png" alt="fossi-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://user-images.githubusercontent.com/11302288/130831451-1c3b1541-06f2-4c0e-bbaf-8e0026db00c1.png" alt="redwoodeda-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">VLSI System Design
+</p>
+
+## 11. Contributors
+
+- [Akos Hadnagy](https://github.com/ahadnagy), Primary Mentor
+- [Steve Hoover](https://github.com/stevehoover), Mentor; Founder, Redwood EDA
 - [Dylan McNamee](https://github.com/dylanmc), Advisor
-- [Bala Dhinesh](https://github.com/BalaDhinesh), Contributing as a participant in Google Summer of Code 2021, under FOSSi Foundation
+- [Bala Dhinesh](https://github.com/BalaDhinesh), Contributing as a participant in Google Summer of Code 2021.
 - [Shivani Shah](https://github.com/shivanishah269), Student at the International Institute of Information Technology, Bangalore
 - [Mayank Kabra](https://github.com/mayank-kabra2001), Student at the International Institute of Information Technology, Bangalore
 
-__Funding for this work is provided by the Open Source Silicon Foundation__
 
 ## 12. Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing vehicle to learn, inspire, and create. Any contributions you make are **greatly appreciated**. Kudos for filing bugs. Deepest thanks for fixing them and for contributing new features and support for new boards.
 
 ## 13. License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-## 14. Disclaimer
-Though the algorithms developed has been tested against a large number of custom inputs, there are situations where it can fail. If you come across any such problem, please feel free to raise an issue here and we will try to address the issue as soon as possible.
+Distributed under the MIT License. See [LICENSE.md](LICENSE.md) for more information.
 
 
