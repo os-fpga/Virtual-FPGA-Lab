@@ -101,7 +101,9 @@ m4_define(M4_BOARD, 1)      // This should always be declared for below macros t
 // 5 - Nexys
 ```
 #### 5.2 Board Initailisation:
+```
 m4+fpga_init()
+```
 
 #### 5.3 LED Module:
 ```
