@@ -22,12 +22,13 @@
 
 [5. FPGA peripheral macro instantiations](#5-fpga-peripheral-macro-instantiations)
 - [5.1 Board Select](#51-board-select)
-- [5.2 LED Module](#52-led-module)
-- [5.3 Seven segment displays](#53-seven-segment-displays)
-- [5.4 LCD Module](#54-lcd-module)
-- [5.5 VGA display](#55-vga-display)
-- [5.6 Push buttons](#56-push-buttons)
-- [5.7 Slideswitches](#57-slideswitches)
+- [5.2 Board Initailisation](#52-board-initailisation)
+- [5.3 LED Module](#53-led-module)
+- [5.4 Seven segment displays](#54-seven-segment-displays)
+- [5.5 LCD Module](#55-lcd-module)
+- [5.6 VGA display](#56-vga-display)
+- [5.7 Push buttons](#57-push-buttons)
+- [5.8 Slideswitches](#58-slideswitches)
 
 [6. Examples](#6-examples)
 
@@ -99,14 +100,19 @@ m4_define(M4_BOARD, 1)      // This should always be declared for below macros t
 // 4 - Icebreaker
 // 5 - Nexys
 ```
-#### 5.2 LED Module:
+#### 5.2 Board Initailisation:
+```
+m4+fpga_init()
+```
+
+#### 5.3 LED Module:
 ```
 m4+fpga_led(*led)
 
 // Arguments:
 // *led - led signal
 ```
-#### 5.3 Seven segment displays:
+#### 5.4 Seven segment displays:
 ```
 m4+fpga_sseg(*digit, *sseg, *dp)
 
@@ -115,7 +121,7 @@ m4+fpga_sseg(*digit, *sseg, *dp)
 // *sseg - seven segments
 // *dp - decimal point
 ```
-#### 5.4 LCD Module:
+#### 5.5 LCD Module:
 ```
 m4+fpga_lcd(*data, *lcd_e, *lcd_rs) 
 
@@ -124,7 +130,7 @@ m4+fpga_lcd(*data, *lcd_e, *lcd_rs)
 // *lcd_e - lcd enable signal
 // *lcd_rs - lcd reset signal, 0 for command and 1 for data
 ```
-#### 5.5 VGA display:
+#### 5.6 VGA display:
 ```
 m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /top|vga_pipe$sy)
 
@@ -137,14 +143,14 @@ m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /t
 // $sx - horizontal count
 // $sy - vertical count
 ```
-#### 5.6 Push buttons:
+#### 5.7 Push buttons:
 ```
 m4+fpga_push(*pb) 
 
 // Arguments:
 // *pb - push button signal
 ```
-#### 5.7 Slideswitches:
+#### 5.8 Slideswitches:
 ```
 m4+fpga_led(*sw)
 
