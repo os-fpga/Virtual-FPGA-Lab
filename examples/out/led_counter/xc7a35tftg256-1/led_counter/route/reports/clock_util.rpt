@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-| Date         : Sat Oct 30 00:30:30 2021
+| Date         : Sat Oct 30 02:02:59 2021
 | Host         : DESKTOP-D80LUPK running 64-bit Ubuntu 20.04.3 LTS
 | Command      : report_clock_utilization -file ./out/led_counter/xc7a35tftg256-1/led_counter/route/reports/clock_util.rpt
 | Design       : top
