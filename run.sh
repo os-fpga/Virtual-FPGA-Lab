@@ -15,7 +15,7 @@ read -p "WHICH FILE YOU WANT TO UPLOAD ON VIVADO : " filename
 echo "================================================"
 
 echo "================================================"
-echo "WHICH BOARD YOU WANT TO USE (basys3, edge_artix-7, zedboard)"
+echo "WHICH BOARD YOU WANT TO USE (basys3, edge_artix-7, zedboard, nexys_A7_100T)"
 read -p "IF YOU HAVE A DIFFERENT BOARD , WRITE THE PART NO: " board
 echo "================================================"
 
@@ -30,6 +30,10 @@ elif [ "$board" == "edge_artix-7" ]; then
 
 elif [ "$board" == "zedboard" ]; then
   partname="xc7z020clg484-1"
+  cons_name="$shell_path/fpga/constraints/fpga_lab_constr_$board.xdc"
+
+elif [ "$board" == "nexys_A7_100T" ]; then
+  partname="xc7a100tcsg324-1"
   cons_name="$shell_path/fpga/constraints/fpga_lab_constr_$board.xdc"
 
 else
