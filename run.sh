@@ -64,7 +64,7 @@ fi
 echo "================================================"
 echo "PROCESSING .TLV USING SANDPIPER(TM) SaaS EDITION."
 echo "------------------------------------------------"
-sandpiper-saas -i "$filename".tlv -o "$filename".v --iArgs --default_includes --outdir=../out/$filename/$partname 
+sandpiper-saas -i "$filename".tlv -o "$filename".v --iArgs --default_includes --outdir=../out/$board/$filename/Dependencies 
 echo "================================================"
 
 echo "================================================="
@@ -83,17 +83,18 @@ var2=$(expr "scale=3; $clock_rate/2" | bc)
 # echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./out_"${filename}_$partname"/clock_constraints.xdc
 # echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
 # echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
-echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./../out/$filename/$partname/clock_constraints.xdc
-echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./../out/$filename/$partname/clock_constraints.xdc
-echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./../out/$filename/$partname/clock_constraints.xdc
+echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./../out/$board/$filename/Dependencies/clock_constraints.xdc
+echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./../out/$board/$filename/Dependencies/clock_constraints.xdc
+echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./../out/$board/$filename/Dependencies/clock_constraints.xdc
 
 echo "==================================================="
 
 ## CREATING A COPY OF INPUT VARIABLES IN THE TCL FILE
-echo "$filename" >>tmp.txt
-echo "$partname" >>tmp.txt
-echo "$cons_name" >>tmp.txt
+echo "$filename"   >>tmp.txt
+echo "$partname"   >>tmp.txt
+echo "$cons_name"  >>tmp.txt
 echo "$shell_path" >>tmp.txt
+echo "$board"      >>tmp.txt
 
 path=$PWD
 echo "================================================"
