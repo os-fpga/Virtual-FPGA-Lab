@@ -1,11 +1,10 @@
-# shell script to run complete FPGA flow
+shell script to run complete FPGA flow
 echo "================================================"
 echo "WELCOME TO VIRTUAL FPGA LAB"
 echo "================================================"
 
-#path=$(pwd)
+# path=$(pwd)
 shell_path=$(cd "$(dirname "$0")" && pwd)
-
 echo "================================================"
 echo "GOING TO THE REQUIRED DIRECTORY"
 echo "================================================"
@@ -20,27 +19,32 @@ echo "WHICH BOARD YOU WANT TO USE (basys3, edge_artix-7, zedboard)"
 read -p "IF YOU HAVE A DIFFERENT BOARD , WRITE THE PART NO: " board
 echo "================================================"
 
+
 if [ "$board" == "basys3" ]; then
   partname="xc7a35tcpg236-1"
-  cons_name="$shell_path/constraints/fpga_lab_constr_$board.xdc"
+  cons_name="$shell_path/fpga/constraints/fpga_lab_constr_$board.xdc"
 
 elif [ "$board" == "edge_artix-7" ]; then
   partname="xc7a35tftg256-1"
-  cons_name="$shell_path/constraints/fpga_lab_constr_$board.xdc"
+  cons_name="$shell_path/fpga/constraints/fpga_lab_constr_$board.xdc"
 
 elif [ "$board" == "zedboard" ]; then
   partname="xc7z020clg484-1"
-  cons_name="$shell_path/constraints/fpga_lab_constr_$board.xdc"
+  cons_name="$shell_path/fpga/constraints/fpga_lab_constr_$board.xdc"
 
 else
   partname=$board
   cons_name="${filename}_$board.xdc"
 fi
 
-echo "================================================"
-echo "DELETING THE PREVIOUS BUILD FOLDER"
-rm -R out_"${filename}_$partname"
-echo "================================================"
+cd examples
+# out=out_"${filename}_$partname"
+if [ -d $out_"${filename}_$partname" ]; then
+  echo "================================================"
+  echo "DELETING THE PREVIOUS BUILD FOLDER"
+  rm -R out_"${filename}_$partname"
+  echo "================================================"
+fi
 
 # Give the respective tlv file as top. For eg, for counter test case give it as counter.tlv
 echo "================================================"
@@ -82,12 +86,13 @@ echo "================================================"
 echo "SOURCING VIVADO"
 echo "================================================"
 
-cd vivado
+cd Vivado
 source Vivado/2020.2/settings64.sh
 cd
 cd "$path"
+
+
+vivado -mode batch -source "$shell_path"/fpga/run.tcl
+rm -f tmp.txt
 rm vivado*
 rm usage_*
-
-vivado -mode batch -source "$shell_path"/run.tcl
-rm -f tmp.txt
