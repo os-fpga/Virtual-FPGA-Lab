@@ -1,0 +1,345 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
+| Date         : Sat Oct 30 00:35:00 2021
+| Host         : DESKTOP-D80LUPK running 64-bit Ubuntu 20.04.3 LTS
+| Command      : report_timing_summary -file ./out/led_counter/xc7a35tcpg236-1/led_counter/route/reports/post_route_timing_summary.rpt
+| Design       : top
+| Device       : 7a35t-cpg236
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  No
+  Borrow Time for Max Delay Exceptions       :  Yes
+  Merge Timing Exceptions                    :  Yes
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock (0)
+2. checking constant_clock (0)
+3. checking pulse_width_clock (0)
+4. checking unconstrained_internal_endpoints (0)
+5. checking no_input_delay (0)
+6. checking no_output_delay (16)
+7. checking multiple_clock (0)
+8. checking generated_clocks (0)
+9. checking loops (0)
+10. checking partial_input_delay (0)
+11. checking partial_output_delay (0)
+12. checking latch_loops (0)
+
+1. checking no_clock (0)
+------------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock (0)
+------------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock (0)
+---------------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints (0)
+------------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay (0)
+------------------------------
+ There are 0 input ports with no input delay specified.
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay (16)
+--------------------------------
+ There are 16 ports with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock (0)
+------------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks (0)
+--------------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops (0)
+---------------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay (0)
+------------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay (0)
+-------------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops (0)
+----------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+      0.362        0.000                      0                  114        0.061        0.000                      0                  114        4.500        0.000                       0                    67  
+
+
+All user specified timing constraints are met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock  Waveform(ns)       Period(ns)      Frequency(MHz)
+-----  ------------       ----------      --------------
+clk    {0.000 5.000}      10.000          100.000         
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk                 0.362        0.000                      0                  114        0.061        0.000                      0                  114        4.500        0.000                       0                    67  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk
+  To Clock:  clk
+
+Setup :            0  Failing Endpoints,  Worst Slack        0.362ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.061ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.362ns  (required time - arrival time)
+  Source:                 LED_PIPE_count1_a1_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg/D
+                            (negative level-sensitive latch clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk fall@5.000ns - clk rise@0.000ns)
+  Data Path Delay:        4.579ns  (logic 2.713ns (59.253%)  route 1.866ns (40.747%))
+  Logic Levels:           11  (CARRY4=8 LUT4=2 LUT6=1)
+  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.861ns = ( 9.861 - 5.000 ) 
+    Source Clock Delay      (SCD):    5.159ns
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    W5                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clk_IBUF_inst/O
+                         net (fo=2, routed)           1.967     3.425    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clk_IBUF_BUFG_inst/O
+                         net (fo=50, routed)          1.638     5.159    clk_IBUF_BUFG
+    SLICE_X62Y44         FDRE                                         r  LED_PIPE_count1_a1_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X62Y44         FDRE (Prop_fdre_C_Q)         0.456     5.615 r  LED_PIPE_count1_a1_reg[2]/Q
+                         net (fo=2, routed)           0.594     6.210    LED_PIPE_count1_a1[2]
+    SLICE_X62Y44         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.674     6.884 r  LED_PIPE_count1_a1_reg[4]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     6.884    LED_PIPE_count1_a1_reg[4]_i_1_n_0
+    SLICE_X62Y45         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     6.998 r  LED_PIPE_count1_a1_reg[8]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     6.998    LED_PIPE_count1_a1_reg[8]_i_1_n_0
+    SLICE_X62Y46         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     7.112 r  LED_PIPE_count1_a1_reg[12]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.112    LED_PIPE_count1_a1_reg[12]_i_1_n_0
+    SLICE_X62Y47         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     7.226 r  LED_PIPE_count1_a1_reg[16]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.226    LED_PIPE_count1_a1_reg[16]_i_1_n_0
+    SLICE_X62Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     7.340 r  LED_PIPE_count1_a1_reg[20]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.340    LED_PIPE_count1_a1_reg[20]_i_1_n_0
+    SLICE_X62Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     7.454 r  LED_PIPE_count1_a1_reg[24]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.454    LED_PIPE_count1_a1_reg[24]_i_1_n_0
+    SLICE_X62Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     7.568 r  LED_PIPE_count1_a1_reg[28]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.568    LED_PIPE_count1_a1_reg[28]_i_1_n_0
+    SLICE_X62Y51         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.348     7.916 f  LED_PIPE_count1_a1_reg[31]_i_2/O[1]
+                         net (fo=2, routed)           0.967     8.884    gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg_i_3_4[1]
+    SLICE_X65Y48         LUT6 (Prop_lut6_I0_O)        0.303     9.187 r  gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg_i_7/O
+                         net (fo=1, routed)           0.149     9.336    gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg_i_7_n_0
+    SLICE_X65Y48         LUT4 (Prop_lut4_I0_O)        0.124     9.460 r  gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg_i_3/O
+                         net (fo=1, routed)           0.154     9.614    gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg_i_3_n_0
+    SLICE_X65Y48         LUT4 (Prop_lut4_I0_O)        0.124     9.738 r  gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg_i_1/O
+                         net (fo=1, routed)           0.000     9.738    gen_clkF_LED_PIPE_refresh_a1/LED_PIPE_refresh_a0
+    SLICE_X65Y48         LDCE                                         r  gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk fall edge)        5.000     5.000 f  
+    W5                                                0.000     5.000 f  clk (IN)
+                         net (fo=0)                   0.000     5.000    clk
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     6.388 f  clk_IBUF_inst/O
+                         net (fo=2, routed)           1.862     8.250    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     8.341 f  clk_IBUF_BUFG_inst/O
+                         net (fo=50, routed)          1.520     9.861    gen_clkF_LED_PIPE_refresh_a1/clk_IBUF_BUFG
+    SLICE_X65Y48         LDCE                                         r  gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg/G  (IS_INVERTED)
+                         clock pessimism              0.274    10.135    
+                         clock uncertainty           -0.035    10.100    
+  -------------------------------------------------------------------
+                         required time                         10.100    
+                         arrival time                          -9.738    
+  -------------------------------------------------------------------
+                         slack                                  0.362    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.061ns  (arrival time - required time)
+  Source:                 LED_PIPE_Leds_a0_reg[8]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            led_reg[8]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Hold (Min at Slow Process Corner)
+  Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
+  Data Path Delay:        2.080ns  (logic 0.367ns (17.644%)  route 1.713ns (82.356%))
+  Logic Levels:           0  
+  Clock Path Skew:        1.823ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    5.159ns
+    Source Clock Delay      (SCD):    3.266ns
+    Clock Pessimism Removal (CPR):    0.070ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    W5                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     1.388 r  clk_IBUF_inst/O
+                         net (fo=2, routed)           1.226     2.614    gen_clkF_LED_PIPE_refresh_a1/clk_IBUF
+    SLICE_X64Y46         LUT2 (Prop_lut2_I1_O)        0.100     2.714 r  gen_clkF_LED_PIPE_refresh_a1/LED_PIPE_Leds_a0[15]_i_2/O
+                         net (fo=16, routed)          0.552     3.266    clkF_LED_PIPE_refresh_a1
+    SLICE_X63Y47         FDRE                                         r  LED_PIPE_Leds_a0_reg[8]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X63Y47         FDRE (Prop_fdre_C_Q)         0.367     3.633 r  LED_PIPE_Leds_a0_reg[8]/Q
+                         net (fo=2, routed)           1.713     5.346    LED_PIPE_Leds_a0[8]
+    SLICE_X63Y45         FDRE                                         r  led_reg[8]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        0.000     0.000 r  
+    W5                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clk_IBUF_inst/O
+                         net (fo=2, routed)           1.967     3.425    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clk_IBUF_BUFG_inst/O
+                         net (fo=50, routed)          1.638     5.159    clk_IBUF_BUFG
+    SLICE_X63Y45         FDRE                                         r  led_reg[8]/C
+                         clock pessimism             -0.070     5.089    
+    SLICE_X63Y45         FDRE (Hold_fdre_C_D)         0.196     5.285    led_reg[8]
+  -------------------------------------------------------------------
+                         required time                         -5.285    
+                         arrival time                           5.346    
+  -------------------------------------------------------------------
+                         slack                                  0.061    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk
+Waveform(ns):       { 0.000 5.000 }
+Period(ns):         10.000
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin  Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
+Min Period        n/a     BUFG/I   n/a            2.155         10.000      7.845      BUFGCTRL_X0Y0  clk_IBUF_BUFG_inst/I
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X63Y48   LED_PIPE_Leds_a0_reg[10]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X63Y44   LED_PIPE_count1_a1_reg[0]/C
+
+
+

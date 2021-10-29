@@ -46,11 +46,18 @@ if [ -d $out_"${filename}_$partname" ]; then
   echo "================================================"
 fi
 
+if [ -d out/$filename/$partname ]; then
+  echo "================================================"
+  echo "DELETING THE PREVIOUS BUILD FOLDER"
+  rm -R out/$filename/$partname 
+  echo "================================================"
+fi
+
 # Give the respective tlv file as top. For eg, for counter test case give it as counter.tlv
 echo "================================================"
 echo "PROCESSING .TLV USING SANDPIPER(TM) SaaS EDITION."
 echo "------------------------------------------------"
-sandpiper-saas -i "$filename".tlv -o "$filename".v --iArgs --default_includes --outdir=out_"${filename}_$partname"
+sandpiper-saas -i "$filename".tlv -o "$filename".v --iArgs --default_includes --outdir=out/$filename/$partname 
 echo "================================================"
 
 echo "================================================="
@@ -66,9 +73,12 @@ echo "GENERATING CLOCK CONSTRAINTS"
 var1=$(expr "scale=3; $clock_rate/1" | bc)
 var2=$(expr "scale=3; $clock_rate/2" | bc)
 
-echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./out_"${filename}_$partname"/clock_constraints.xdc
-echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
-echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
+# echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./out_"${filename}_$partname"/clock_constraints.xdc
+# echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
+# echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./out_"${filename}_$partname"/clock_constraints.xdc
+echo "create_clock -period $var1 -name clk -waveform {0.000 $var2} [get_ports clk]" >>./out/$filename/$partname/clock_constraints.xdc
+echo "set_input_delay -clock [get_clocks clk] -min -add_delay 0.000 [get_ports reset]" >>./out/$filename/$partname/clock_constraints.xdc
+echo "set_input_delay -clock [get_clocks clk] -max -add_delay 0.000 [get_ports reset]" >>./out/$filename/$partname/clock_constraints.xdc
 
 echo "==================================================="
 
