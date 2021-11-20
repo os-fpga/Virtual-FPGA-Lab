@@ -5,6 +5,7 @@ m4_define(['M4_SCALE'], 10)
    // This code can be found in: https://github.com/stevehoover/RISC-V_MYTH_Workshop
    
    m4_include_lib(['https://raw.githubusercontent.com/mayank-kabra2001/fpga_lab/main/riscv-shell.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
 
 \SV
    m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -12,6 +13,7 @@ m4_define(['M4_SCALE'], 10)
    '], ['
     module top(input clk, input reset, input [14:0] sw, output reg [6:0] sseg, output reg [3:0] digit, output reg led); 
 	'])
+
 
 //#####################################################################################
        //   FPGA  //
@@ -131,6 +133,7 @@ m4_define(['M4_SCALE'], 10)
 \TLV fpga_seg(@_stage, $_final_reg)
    |fpga
       @_stage
+         //m4+counter($refresh, 250000 - 1)
          m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 250000))  
          
          $led_activating_counter[2:0] = /top|cpu<>0$reset ? 0 : ($RETAIN >=4) ? 0 : ($_final_reg == 0) ? 0 : $refresh ? >>1$led_activating_counter+1 : $RETAIN; // 2.5ms 
@@ -166,6 +169,8 @@ m4_define(['M4_SCALE'], 10)
                          7'b1111111 ;                   // 'nothing'
                          
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
+         *passed = *cyc_cnt > 500;
+         *failed = 1'b0;
          '], ['
          \SV_plus 
             always @(posedge clk) begin 
@@ -178,6 +183,7 @@ m4_define(['M4_SCALE'], 10)
    m4_ifelse_block(M4_MAKERCHIP, 1, ['
    m4+constraints(@_stage)
    m4+segment_viz(@_stage)
+   //m4+fpga_sseg(*digit, *sseg, *dp)
    '], [''])
 
 \TLV silent() 
@@ -525,8 +531,8 @@ m4_define(['M4_SCALE'], 10)
    |cpu
       @0
          $reset = *reset;
-         
-         m4+counter($one_second, 33333333)
+         m4+fpga_refresh($one_second, m4_ifelse(M4_MAKERCHIP, 1, 1, 33333333))  
+         //m4+counter($one_second, 33333333)
       //Fetch
          // Next PC
          $pc[31:0] = (>>1$reset) ? 0 : ($one_second == 0) ? $RETAIN : 
