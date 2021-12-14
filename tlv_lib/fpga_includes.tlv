@@ -796,65 +796,65 @@ m4+definitions(['
                  let str1 = '/_board|fpga_lcd_macro$str1'.asString().split("").reverse().join("")
                  let str2 = '/_board|fpga_lcd_macro$str2'.asString().split("").reverse().join("")
                  let lcd_rst = '/_board|fpga_lcd_macro$lcd_reset'.asBool()
-                 this.getInitObjects().line1.setText(str1)
-                 this.getInitObjects().line2.setText(str2)
+                 this.getInitObjects().line1.set({text: str1})
+                 this.getInitObjects().line2.set({text: str2})
                  let value_bin = '/_board|fpga_lcd_macro$out'.asBinaryStr();
                  if(!lcd_rst){
                  if (value_bin == "00111000"){
                     //8'h38
                     //Function Set: 8-bit, 2 Line, 5x7 Dots
-                    this.getInitObjects().info.setText("Function Set: 8-bit, 2 Line, 5x7 Dots")
+                    this.getInitObjects().info.set({text: "Function Set: 8-bit, 2 Line, 5x7 Dots"})
                  }else if (value_bin == "00110000"){
                     //Function Set: 8-bit,  Line, 5x7 Dots
                     //8'h30
-                    this.getInitObjects().info.setText("Function Set: 8-bit, 1 Line, 5x7 Dots")
+                    this.getInitObjects().info.set({text: "Function Set: 8-bit, 1 Line, 5x7 Dots"})
                  }else if (value_bin == "00001100"){
                     //Display on Cursor off
                     //8'h0C
-                    this.getInitObjects().info.setText("Display on Cursor off")
+                    this.getInitObjects().info.set({text: "Display on Cursor off"})
                  }else if (value_bin == "00000110"){
                     //Entry Mode
                     //8'h06
-                    this.getInitObjects().info.setText("Entry Mode: Increment, entire shift off")
+                    this.getInitObjects().info.set({text: "Entry Mode: Increment, entire shift off"})
                  }else if (value_bin == "00000100"){
                     //Entry Mode
                     //8'h04
-                    this.getInitObjects().info.setText("Entry Mode: Decrement, entire shift off")
+                    this.getInitObjects().info.set({text: "Entry Mode: Decrement, entire shift off"})
                  }else if (value_bin == "00000001"){
                     //Clear Display
                     //8'h01
-                    this.getInitObjects().info.setText("Clear Display")
+                    this.getInitObjects().info.set({text: "Clear Display"})
                  }else if (value_bin == "00000010"){
                     //Return home
                     //8'h02
-                    this.getInitObjects().info.setText("Return home")
+                    this.getInitObjects().info.set({text: "Return home"})
                  }else if (value_bin == "10000000"){
                     //force cursor to begin at first line
                     //8'h80
-                    this.getInitObjects().info.setText("force cursor to begin at first line")
+                    this.getInitObjects().info.set({text: "force cursor to begin at first line"})
                  }else if (value_bin == "11000000"){
                     //force cursor to begin at second line
                     //8'hC0
-                    this.getInitObjects().info.setText("force cursor to begin at second line")
+                    this.getInitObjects().info.set({text: "force cursor to begin at second line"})
                  }else if (value_bin == "00011000"){
                     //Shift display left
                     //8'h18
-                    this.getInitObjects().info.setText("Shift entire display to the left")
+                    this.getInitObjects().info.set({text: "Shift entire display to the left"})
                  }else if (value_bin == "00011100"){
                     //Shift display right
                     //8'h1C
-                    this.getInitObjects().info.setText("Shift entire display to the right")
+                    this.getInitObjects().info.set({text: "Shift entire display to the right"})
                  }else if (value_bin == "00010000"){
                     //Shift cursor left 
                     //8'h10
-                    this.getInitObjects().info.setText("Shift cursor to the left")
+                    this.getInitObjects().info.set({text: "Shift cursor to the left"})
                  }else if (value_bin == "00010100"){
                     //Shift cursor right
                     //8'h14
-                    this.getInitObjects().info.setText("Shift cursor to the right")
+                    this.getInitObjects().info.set({text: "Shift cursor to the right"})
                  }
               }else {
-                 this.getInitObjects().info.setText("data instruction")
+                 this.getInitObjects().info.set({text: "data instruction"})
               }
              }
           
@@ -949,9 +949,9 @@ m4+definitions(['
                let frame = parseInt(cycle / count)
                console.log("hori", hori_cnt_now)
                let sq_width = Math.sqrt(40000 / (M4_MAX_H * M4_MAX_V))
-               this.getInitObjects().frame.setText("Frame: " + (frame + 1))
-               this.getInitObjects().hsync.setText("hsync: " + vga_hsync)
-               this.getInitObjects().vsync.setText("vsync: " + vga_vsync)
+               this.getInitObjects().frame.set({text: "Frame: " + (frame + 1)})
+               this.getInitObjects().hsync.set({text: "hsync: " + vga_hsync})
+               this.getInitObjects().vsync.set({text: "vsync: " + vga_vsync})
                if (vert_cnt_now < M4_MAX_V){
                this.getInitObjects().row_pointer.set({top:-270 + (sq_width * vert_cnt_now), opacity : 1})
                }else{
