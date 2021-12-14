@@ -1,576 +1,316 @@
 \m4_TLV_version 1d: tl-x.org
+\SV
+m4+definitions(['
+   
+   // Board definitions:
+   m4_def(
+      ['# 1st CLaaS'],
+      BOARD_0_IMAGE_URL,  ['['https://raw.githubusercontent.com/stevehoover/1st-CLaaS/1a0a1894f1fe2d831374968a69f3c2697f458145/doc/img/simple.png']'],
+      BOARD_0_IMAGE_SIZE, ['['width: 593, height: 238']'],
+      BOARD_0_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 440, top: 72, width: 90, height: 90']'],
+      BOARD_0_LED_CNT,    0,
+      BOARD_0_SSEG_CNT,   0,
+      BOARD_0_THANKS_ARGS, ['['['left: 390, top: 250, width: 100'], ['']']'],
+      
+      ['# Zedboard'],
+      BOARD_1_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666264-972dfe58-c2c8-4446-b0d3-eb9587fd3458.png']'],
+      BOARD_1_IMAGE_SIZE, ['['width: 2692, height: 2256']'],
+      BOARD_1_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1258, top: 1058, width: 260, height: 260']'],
+      BOARD_1_LED_CNT,    8,
+      BOARD_1_LED_WHERE,  ['['left: 992.7, top: 1863, scale: 3.33']'],
+      BOARD_1_SSEG_CNT,   0,
+      BOARD_1_THANKS_ARGS, ['['['left: 2200, top: 2265, width: 350'], ['AVNET, Xilinx, and ']']'],
+      
+      ['# Artix-7'],
+      BOARD_2_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130667389-08904919-5425-4ef3-aae4-c2dacf41f1c7.png']'],
+      BOARD_2_IMAGE_SIZE, ['['width: 3108, height: 2640']'],
+      BOARD_2_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1459, top: 1490, width: 390, height: 390']'],
+      BOARD_2_LED_CNT,    16,
+      BOARD_2_LED_WHERE,  ['['left: 340, top: 2089, scale: 4.698']'],
+      BOARD_2_SSEG_CNT,   4,
+      BOARD_2_SSEG_WHERE, ['['left: 220, top: 1610, scale: 5.15']'],
+      BOARD_2_THANKS_ARGS, ['['['left: 2700, top: 2750, width: 400'], ['Xilinx and ']']'],
+      
+      ['# Basys3'],
+      BOARD_3_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130667995-6ea5cc8f-400c-470b-9585-5f8ba5bab0b9.png']'],
+      BOARD_3_IMAGE_SIZE, ['['width: 5773, height: 4330']'],
+      BOARD_3_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 2540, top: 1965, width: 400, height: 400']'],
+      BOARD_3_LED_CNT,    16,
+      BOARD_3_LED_WHERE,  ['['left: 675, top: 3116, scale: 8.5, angle: -0.5']'],
+      BOARD_3_SSEG_CNT,   4,
+      BOARD_3_SSEG_WHERE, ['['left: 880, top: 2600, scale: 9.45']'],
+      BOARD_3_THANKS_ARGS, ['['['left: 5000, top: 4400, width: 700'], ['Digilent, Xilinx, and ']']'],
+      
+      ['# Icebreaker'],
+      BOARD_4_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666826-b9e7bc53-104c-4b4b-8b2a-b8105edb00da.png']'],
+      BOARD_4_IMAGE_SIZE, ['['width: 621, height: 1021']'],
+      BOARD_4_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 302.5, top: 562.5, angle: -45, width: 90, height: 90']'],
+      BOARD_4_LED_CNT,    0,
+      BOARD_4_SSEG_CNT,   0,
+      BOARD_4_THANKS_ARGS, ['['['left: 500, top: 1030, width: 130'], ['Lattice, 1BitSquared, and ']']'],
+      
+      ['# Nexys'],
+      BOARD_5_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666896-00e2225d-0d4c-47c5-9493-af6512a430e4.png']'],
+      BOARD_5_IMAGE_SIZE, ['['width: 577, height: 433']'],
+      BOARD_5_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 272.5, top: 205.5, width: 45, height: 45']'],
+      BOARD_5_LED_CNT,    16,
+      BOARD_5_LED_WHERE,  ['['left: 135, top: 342, scale: 0.656']'],
+      BOARD_5_SSEG_CNT,   8,
+      BOARD_5_SSEG_WHERE, ['['left: 163, top: 306, scale: 0.778']'],
+      BOARD_5_THANKS_ARGS, ['['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']']'])
 
+
+
+   // These macros parameterize the top-level FPGA module interface and signal declarations.
+   // Currently, they could be used by m4_lab(), but we currently define a fixed module interface defining the superset
+   // of all possible interface signals. So there's no point to all these macros, unless we change our approach.
+   
+   // A helper macro.
+   m4_def(fpga_ios_list, [''])  // E.g: ['m4_fpga_io_sig(in, ['[7:0] led'])']...
+
+   // Declare LEDs.
+   m4_func(fpga_io_leds, ['
+      m4_def(fpga_io_leds_defined, 1)
+      m4_ifelse(['$1'], [''], ['m4_errprint(['m4_fpga_ios leds arg requires (max:0)'])'])
+      m4_append(fpga_ios_list, ['m4_fpga_io_sig(out, ['[$1] led'])'])
+   '])
+   
+   // Declare RGB LEDs.
+   // TODO: RGB LEDs need to be debugged.
+   m4_func(fpga_io_rgb_leds, ['
+      m4_def(fpga_io_rgb_leds_defined, 1)
+      m4_ifelse(['$1'], [''], ['m4_errprint(['m4_fpga_ios rgb_leds arg requires (max:0)'])'])
+      m4_append(fpga_ios_list, ['m4_fpga_io_sig(out, ['[$1] led_r'])']['m4_fpga_io_sig(out, ['[$1] led_g'])']['m4_fpga_io_sig(out, ['[$1] led_b'])'])
+   '])
+   
+   // Declare LCD (JHD 162A).
+   m4_func(fpga_io_lcd, ['
+      m4_def(fpga_io_lcd_defined, 1)
+      m4_append(fpga_ios_list, ['m4_fpga_io_sig(out, ['[7:0] data'])']['m4_fpga_io_sig(out, ['lcd_rs'])']['m4_fpga_io_sig(out, ['lcd_e'])'])
+   '])
+   
+   // Declare pushbuttons.
+   //..
+                
+   // Declare seven-segment.
+   m4_func(fpga_io_sseg, ['
+      m4_def(fpga_io_sseg_defined, 1)
+      m4_append(fpga_ios_list, ['m4_fpga_io_sig(out, ['[6:0] sseg_segment_n'])']['m4_fpga_io_sig(out, ['sseg_decimal_point_n'])']['m4_fpga_io_sig(out, ['[$1] sseg_digit_n'])'])
+   '])
+   
+   
+   // Define IOs as, e.g.:
+   //   m4_fpga_ios(leds(7:0), ...)
+   m4_func(fpga_ios, ['
+      m4_ifelse(['$1'], [''], [''], ['
+         m4_fpga_io_$1
+         m4_fpga_ios(m4_shift($@))
+      '])
+   '])
+   
+   // Definition of appropriate top-level module.
+   m4_func(fpga_module, ['
+      m4_fpga_ios($@)
+      m4_ifexpr(M4_MAKERCHIP, ['
+         // Makerchip module.
+         m4_def(fpga_io_sig, [' logic ']m4_arg(2)[';'])
+         m4_output(['m4_makerchip_module m4_echo(m4_fpga_ios_list)'])
+      '], ['
+         // FPGA module.
+         m4_def(fpga_io_sig, [', ']m4_arg(1)['put reg ']m4_arg(2))
+         m4_output(['module top(input clk, input reset['']m4_echo(m4_fpga_ios_list))'])
+      '])
+   '])
+
+   m4_func(lab, ['
+      // Possible parameters:
+      //   leds(x:0): Defines logic [x:0] led: lit when asserted
+      //   rgb_leds(x:0): Defines logic [x:0] led_r/g/b: lit with corresponding color component when asserted
+      //   lcd...
+      //   sseg(x:0) Defines:
+      //              logic [6:0] sseg_segment_n: corresponding segments are lit for selected digit(s) when deasserted 
+      //              logic sseg_decimal_point_n: decimal point is lit for selected digit(s) when deasserted
+      //              logic [x:0] sseg_digit_n: corresponding digits are enabled when deasserted
+      // Eg: m4_fpga_module(leds(7:0), sseg(3:0))
+      //m4_output(['m4_fpga_module(leds(15:0), sseg(7:0))'])
+      m4_output(['module top(input wire clk, input wire reset, input wire [31:0] cyc_cnt, output wire passed, output wire failed);    /* verilator lint_save */ /* verilator lint_off UNOPTFLAT */  bit [256:0] RW_rand_raw; bit [256+63:0] RW_rand_vect; pseudo_rand #(.WIDTH(257)) pseudo_rand (clk, reset, RW_rand_raw[256:0]); assign RW_rand_vect[256+63:0] = {RW_rand_raw[62:0], RW_rand_raw};  /* verilator lint_restore */  /* verilator lint_off WIDTH */ /* verilator lint_off UNOPTFLAT */  logic [15:0] led; logic [6:0] sseg_segment_n; logic sseg_decimal_point_n; logic [7:0] sseg_digit_n;'])
+   '])
+   
+   
+   // Macro constants
+   m4_def(RED_LED_COLOR, "#ff4040b0")
+   m4_def(OFF_SEGMENT_COLOR, "#b0b0c8")
+   m4_def(RED_SEGMENT_COLOR, "red")
+   m4_def(FPGA_WHERE_COMMON, ['['visible: true, justifyX: "center", justifyY: "center", fill: "#303030a0", ']'])
+
+                            
+                            
+'])
+// Defines $_var that provides a pulse every #_delay'th cycle.
+// This can be used to artificially slow the logic on the real FPGA.
+// FPGA logic should be designed to operate at the frequency of $_var, with the clock running at a reasonable speed.
 \TLV fpga_refresh($_var, #_delay)
+   /* verilator lint_save */
    /* verilator lint_off UNSIGNED */
    $rst['']m4_plus_inst_id = *reset;
-   $count['']m4_plus_inst_id[31:0] = ($RETAIN >= #_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ; 
+   $count['']m4_plus_inst_id[31:0] = ($RETAIN >= #_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ;
    $_var = ($count['']m4_plus_inst_id == #_delay - 1) ? 1'b1 : 1'b0 ;
+   /* verilator lint_restore */
    
-\TLV osfpga_logo()
-   |osfpga_logo_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         \viz_alpha
-               initEach() {
-                  let osfpga_logo_url = "https://user-images.githubusercontent.com/64545984/131954393-6e21a24e-ee4e-44dc-b30f-2347c2229812.jpg"
-                     let osfpga_img = new fabric.Image.fromURL(
-                           osfpga_logo_url,
-                           function (img) {
-                              global.canvas.add(img)
-                           },
-                           {originX: "center",
-                            originY: "center",
-                            left: 300,
-                            top: -230,
-                            scaleX: 0.15,
-                            scaleY: 0.15,
-                            angle: 0
-                           }
-                        )
-                   }
-         '])
-\TLV fpga_init()
-   //m4+osfpga_logo()
-   |fpga_init_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, [' 
-         m4_ifelse_block(M4_BOARD, 1,['
-         \viz_alpha
-            initEach() {
-                  let fpga_img_url = "https://user-images.githubusercontent.com/64545984/130666264-972dfe58-c2c8-4446-b0d3-eb9587fd3458.png"
-                  let fpga_img = new fabric.Image.fromURL(
-                        fpga_img_url,
-                        function (img) {
-                           global.canvas.add(img)
-                           global.canvas.sendToBack(img);
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         left: 0,
-                         top: 10,
-                         scaleX: 0.3,
-                         scaleY: 0.3,
-                         angle: 0
-                        }
-                     )
-                }
-         '],['
-         m4_ifelse_block(M4_BOARD, 2,['
-         \viz_alpha
-            initEach() {
-                  let fpga_img_url = "https://user-images.githubusercontent.com/64545984/130667389-08904919-5425-4ef3-aae4-c2dacf41f1c7.png"
-                  let fpga_img = new fabric.Image.fromURL(
-                        fpga_img_url,
-                        function (img) {
-                           global.canvas.add(img)
-                           global.canvas.sendToBack(img);
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         left: 0,
-                         top: 10,
-                         scaleX: 0.18,
-                         scaleY: 0.18,
-                         angle: 0
-                        }
-                     )
-                  let seg = new fabric.Rect({
-                     top: 60,
-                     left: -244,
-                     width: 140, 
-                     height: 60, 
-                     fill: "black",
-                     opacity: 1
-                  })
-                return {objects :{seg}};
-                
-                }
-         /digit[3:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 109,
-                           left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
-                           radius: 2,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: 76 + ((scopes.led.index == 1) ? -4 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 3) ? 31 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 5) ? -4 : (scopes.led.index == 6) ? 11 : -8),
-                           left: ((scopes.digit.index == 0) ? -224 : (scopes.digit.index == 1) ? -194 : (scopes.digit.index == 2) ? -164 : -134) + ((scopes.led.index == 5) ? 13 : (scopes.led.index == 4) ? 11 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : -1),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 14 : 3,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 14 : 3,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg}};
-                  }
-         '],['
-         m4_ifelse_block(M4_BOARD, 3,['
-         \viz_alpha
-            initEach() {
-                  let fpga_img_url = "https://user-images.githubusercontent.com/64545984/130667995-6ea5cc8f-400c-470b-9585-5f8ba5bab0b9.png"
-                  let fpga_img = new fabric.Image.fromURL(
-                        fpga_img_url,
-                        function (img) {
-                           global.canvas.add(img)
-                           global.canvas.sendToBack(img);
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         left: 0,
-                         top: 10,
-                         scaleX: 0.09,
-                         scaleY: 0.09,
-                         angle: 0
-                        }
-                     )
-                  let seg = new fabric.Rect({
-                           top: 50,
-                           left: -182,
-                           width: 124, 
-                           height: 39, 
-                           fill: "black",
-                           opacity: 1
-                        })
-                return {objects :{seg}};
-                }
-         /digit[3:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 79,
-                           left: (scopes.digit.index == 0) ? -157 : (scopes.digit.index == 1) ? -127 : (scopes.digit.index == 2) ? -97 : -67 ,
-                           radius: 2,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: 56 + ((scopes.led.index == 5) ? 1 : (scopes.led.index == 4) ? 13 : (scopes.led.index == 3) ? 23 : (scopes.led.index == 2) ? 13 : (scopes.led.index == 1) ? 1 : (scopes.led.index == 0) ? 11 : 0),
-                           left: ((scopes.digit.index == 0) ? -169 : (scopes.digit.index == 1) ? -139 : (scopes.digit.index == 2) ? -109 : -79) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -6 : (scopes.led.index == 1) ? -4 : 0),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 11 : 3,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg }};
-                  }
-         '],['
-         m4_ifelse_block(M4_BOARD, 4,['
-         \viz_alpha
-            initEach() {
-                  console.log(M4_BOARD)
-                  let fpga_img_url = "https://user-images.githubusercontent.com/64545984/130666826-b9e7bc53-104c-4b4b-8b2a-b8105edb00da.png"
-                  let fpga_img = new fabric.Image.fromURL(
-                        fpga_img_url,
-                        function (img) {
-                           global.canvas.add(img)
-                           global.canvas.sendToBack(img);
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         left: -100,
-                         top: 10,
-                         scaleX: 0.5,
-                         scaleY: 0.5,
-                         angle: 180
-                        }
-                     )
-                }
-         '],['
-         m4_ifelse_block(M4_BOARD, 5,['
-         \viz_alpha
-            initEach() {
-                  let fpga_img_url = "https://user-images.githubusercontent.com/64545984/130666896-00e2225d-0d4c-47c5-9493-af6512a430e4.png"
-                  let fpga_img = new fabric.Image.fromURL(
-                        fpga_img_url,
-                        function (img) {
-                           global.canvas.add(img)
-                           global.canvas.sendToBack(img);
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         scaleX: 1,
-                         scaleY: 1,
-                        }
-                     )
-                let seg = new fabric.Rect({
-                     top: 90,
-                     left: -126,
-                     width: 218, 
-                     height: 35, 
-                     fill: "black",
-                     opacity: 1
-                  })
-                
-                return {objects :{seg}};
-             }
-         /digit[7:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 119,
-                           //left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
-                           left : ((scopes.digit.index == 7) ? -104 : (scopes.digit.index == 6) ? -79 : (scopes.digit.index == 5) ? -54 : (scopes.digit.index == 4) ? -29 : (scopes.digit.index == 3) ? 6 : (scopes.digit.index == 2) ? 31 : (scopes.digit.index == 1) ? 56 : 81),
-                           radius: 2,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: 76 + ((scopes.led.index == 5) ? 19 : (scopes.led.index == 4) ? 32 : (scopes.led.index == 3) ? 43 : (scopes.led.index == 2) ? 32 : (scopes.led.index == 1) ? 19 : (scopes.led.index == 0) ? 30 : 18),
-                           left: ((scopes.digit.index == 7) ? -114 : (scopes.digit.index == 6) ? -89 : (scopes.digit.index == 5) ? -64 : (scopes.digit.index == 4) ? -39 : (scopes.digit.index == 3) ? -4 : (scopes.digit.index == 2) ? 21 : (scopes.digit.index == 1) ? 46 : 71) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -4 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : (scopes.led.index == 0) ? -2 : -1),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 12 : 3,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg}};
-                  },
-         '])
-         '])
-         '])
-         '])
-         '])
-         '])
-         
-\TLV fpga_led($_leds)
-   |led_pipe_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         $led[\$size($_leds)-1:0] = $_leds;
-         m4_ifelse_block(M4_BOARD, 1,['
-         /led[7:0]
-            \viz_alpha
-               initEach() {
-                  let led = new fabric.Rect({
-                        top: 233,
-                        left: 151 - 32 * (this.getIndex() + 1),
-                        width: 6, 
-                        height: 11, 
-                        fill: "red",
-                        opacity: 0
-                     })
-                  return{objects : {led}}; 
-               }, 
-               renderEach() {
-                     var mod = ((('/top|led_pipe_macro$led'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
-                     this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
-                  }
-         '],['
-         m4_ifelse_block(M4_BOARD, 2,['
-         /led[15:0]
-            \viz_alpha
-               initEach() {
-                  let led = new fabric.Rect({
-                        top: 150,
-                        left: 218 - 27.5 * (this.getIndex() + 1),
-                        width: 12, 
-                        height: 12, 
-                        fill: "red",
-                        opacity: 0
-                     })
-                  return{objects : {led}}; 
-               }, 
-               renderEach() {
-                     var mod = ((('/top|led_pipe_macro$led'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
-                     this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
-                  } 
-         '],['
-         m4_ifelse_block(M4_BOARD, 3,['
-         /led[15:0]
-            \viz_alpha
-               initEach() {
-                  let led = new fabric.Rect({
-                        top: 92,
-                        left: 195 - 25 * (this.getIndex() + 1),
-                        width: 6, 
-                        height: 10, 
-                        fill: "red",
-                        opacity: 0
-                     })
-                  return{objects : {led}}; 
-               }, 
-               renderEach() {
-                     var mod = ((('/top|led_pipe_macro$led'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
-                     this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
-                  }  
-         '],['
-         m4_ifelse_block(M4_BOARD, 4,['
 
-         
-         '],['
-         m4_ifelse_block(M4_BOARD, 5,['
-         /led[15:0]
-            \viz_alpha
-               initEach() {
-                  let led = new fabric.Rect({
-                        top: 128,
-                        left: 185 - 21.2 * (this.getIndex() + 1),
-                        width: 8, 
-                        height: 8, 
-                        fill: "red",
-                        opacity: 0
-                     })
-                  return{objects : {led}}; 
-               }, 
-               renderEach() {
-                     var mod = ((('/top|led_pipe_macro$led'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
-                     this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
-               } 
-         '])
-         '])
-         '])
-         '])
-         '])
-         '])
-         
-\TLV fpga_template(|_pipe, @_stage, $leds)
-   |_pipe
-      @_stage
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         m4_ifelse_block(M4_BOARD, 1,['
-         '],['
-         m4_ifelse_block(M4_BOARD, 2,['
-         '],['
-         m4_ifelse_block(M4_BOARD, 3,['
-         '],['
-         m4_ifelse_block(M4_BOARD, 4,['
-         '],['
-         m4_ifelse_block(M4_BOARD, 5,['
-         '])
-         '])
-         '])
-         '])
-         '])
-         '])
-         
-\TLV fpga_sseg($_digit, $_sseg, $_dp)
-   |sseg_pipe_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         $digit[\$size($_digit)-1:0] = $_digit;
-         $sseg[\$size($_sseg)-1:0] = $_sseg;
-         $dp = $_dp;
-         m4_ifelse_block(M4_BOARD, 1,['
-         '],['
-         m4_ifelse_block(M4_BOARD, 2,['
-         /digit[3:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 109,
-                           left: (scopes.digit.index == 0) ? -122 : (scopes.digit.index == 3) ? -212 : (scopes.digit.index == 2) ? -182 : -152 ,
-                           radius: 2,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: 76 + ((scopes.led.index == 5) ? -4 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 31 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -4 : (scopes.led.index == 0) ? 11 : -8),
-                           left: ((scopes.digit.index == 3) ? -224 : (scopes.digit.index == 2) ? -194 : (scopes.digit.index == 1) ? -164 : -134) + ((scopes.led.index == 5) ? 13 : (scopes.led.index == 4) ? 11 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : -1),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 14 : 3,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 14 : 3,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg}};
-                  },
-                  renderEach(){
-                     var enable = ('/top|sseg_pipe_macro$digit'.asBinaryStr().split("").reverse().join(""));
-                     this.getInitObject("sseg").bringToFront()
-                     var fp_valid = '/top|sseg_pipe_macro$dp'.asBool() == 0
-                     if(scopes.led.index == 7)
-                     {
-                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
-                     }
-                     else {
-                        var hamm = ((('/top|sseg_pipe_macro$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
-                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
-                     }
-                  }
-         '],['
-         m4_ifelse_block(M4_BOARD, 3,['
-         /digit[3:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 79,
-                           left: (scopes.digit.index == 3) ? -157 : (scopes.digit.index == 2) ? -127 : (scopes.digit.index == 1) ? -97 : -67 ,
-                           radius: 2,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: 56 + ((scopes.led.index == 5) ? 1 : (scopes.led.index == 4) ? 13 : (scopes.led.index == 3) ? 23 : (scopes.led.index == 2) ? 13 : (scopes.led.index == 1) ? 1 : (scopes.led.index == 0) ? 11 : 0),
-                           left: ((scopes.digit.index == 3) ? -169 : (scopes.digit.index == 2) ? -139 : (scopes.digit.index == 1) ? -109 : -79) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -2 : (scopes.led.index == 2) ? -6 : (scopes.led.index == 1) ? -4 : 0),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 11 : 3,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg }};
-                  },
-                  renderEach() {
-                     var enable = ('/top|sseg_pipe_macro$digit'.asBinaryStr().split("").reverse().join(""));
-                     this.getInitObject("sseg").bringToFront()
-                     var fp_valid = '/top|sseg_pipe_macro$dp'.asBool() == 0
-                     if(scopes.led.index == 7)
-                     {
-                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
-                     }
-                     else {
-                        var hamm = ((('/top|sseg_pipe_macro$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
-                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
-                     }
-                  }
-         '],['
-         m4_ifelse_block(M4_BOARD, 4,['
-         \viz_alpha
-            initEach() {
-               let sseg_img_url = "https://user-images.githubusercontent.com/64545984/130668238-5f3cb129-7c02-4a62-96ee-d4e1cc7f6ee0.png"
-               let sseg_img = new fabric.Image.fromURL(
-                     sseg_img_url,
-                     function (img) {
-                        global.canvas.add(img)
-                        global.canvas.sendToBack(img);
-                     },
-                     {originX: "center",
-                      originY: "center",
-                      left: 177,
-                      top: 10,
-                      scaleX: 0.3,
-                      scaleY: 0.3,
-                     }
-                  )
-                let sseg_img2 = new fabric.Image.fromURL(
-                     sseg_img_url,
-                     function (img) {
-                        global.canvas.add(img)
-                        global.canvas.sendToBack(img);
-                     },
-                     {originX: "center",
-                      originY: "center",
-                      left: 177,
-                      top: -145,
-                      scaleX: 0.3,
-                      scaleY: 0.3,
-                     }
-                  )
-                let seg = new fabric.Rect({
-                  top: -60,
-                  left: 130,
-                  width: 176, 
-                  height: 140, 
-                  fill: "black",
-                  opacity: 1
+
+// Instantiates a board.
+// params:
+//   /_board: The scope in which this is instantiated.
+//   /_fpga: A scope for the FPGA.
+//   #_board: The board number (also M4_BOARD)
+//   _sig_prefix: "*" to use global SV signals; "$" to use /_board-local pipesignals.
+//                 See "lab" macro for definion of standard I/O signals.
+//   _where: The 'where' properties for the board VIZ.
+\TLV board(/_board, /_fpga, #_board, _sig_prefix, _where)
+   m4+board_defs(#_board)
+   m4+thanks(M4_BOARD_THANKS_ARGS)
+   
+   // Board VIZ.
+   
+   // Board Image.
+   \viz_js
+      box: {strokeWidth: 0},
+      init() {
+         ret = {}
+         ret.img = this.newImageFromURL(
+               "M4_BOARD_IMAGE_URL",
+               {  left: 0,
+                  top: 0,
+                  fill: "#30483c",
+                  strokeWidth: 1,
+                  width: (function () {return {M4_BOARD_IMAGE_SIZE}})().width,
+                  height: (function () {return {M4_BOARD_IMAGE_SIZE}})().height,
+               },
+               {  angle: 0,
+                  strokeWidth: 0
+               }
+            )
+         return ret;
+      },
+      where: {_where},
+   
+   // LEDs.
+   m4_ifelse(M4_BOARD_LED_CNT, 0, , ['m4+fpga_leds(/_board, #_board, _sig_prefix)'])
+   
+   // 7-Segment
+   m4_ifelse(M4_BOARD_SSEG_CNT, 0, , ['m4+fpga_sseg(/_board, #_board, _sig_prefix)'])
+
+
+// VIZ providing a "Thanks to our sponsors" message.
+\TLV thanks(_where, _who)
+   /thanks
+      \viz_js
+         box: {width: 300, height: 180, strokeWidth: 0, stroke: "#e0e0e0"},
+         init() {
+            return {
+               thanks: new fabric.Text("Thanks to _who['']our sponsors: ", {
+                  left: 10,
+                  top: 10,
+                  fontSize: 20
+               }),
+               osfpgaImg: this.newImageFromURL("https://user-images.githubusercontent.com/64545984/131954393-6e21a24e-ee4e-44dc-b30f-2347c2229812.jpg", {
+                  left: 80,
+                  top: 50,
+                  width: 100,
+                  hieght: 30,
+               }),
+               gsocImg: this.newImageFromURL("https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg", {
+                  left: 190,
+                  top: 40,
+                  width: 80,
+                  height: 80,
                })
-               let seg1 = new fabric.Rect({
-                  top: -215,
-                  left: 130,
-                  width: 176, 
-                  height: 140, 
-                  fill: "black",
-                  opacity: 1
-               })
-             return {objects :{seg, seg1}};
-             }
-         /digit[3:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: (scopes.digit.index == 2) || (scopes.digit.index == 3) ? -110 : 42,
-                           left: (scopes.digit.index == 0 | scopes.digit.index == 2) ? 270 : 195 ,
-                           radius: 4,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: (((scopes.digit.index == 2) || (scopes.digit.index == 3)) ? -160 : -10) + ((scopes.led.index == 5) ? -28 : (scopes.led.index == 4) ? 16 : (scopes.led.index == 3) ? 54 : (scopes.led.index == 2) ? 16 : (scopes.led.index == 1) ? -28 : (scopes.led.index == 0) ? 10 : -30),
-                           left: ((scopes.digit.index == 0) || (scopes.digit.index == 2) ? 240 : 165) + ((scopes.led.index == 5) ? 26 : (scopes.led.index == 4) ? 19 : (scopes.led.index == 3) ? -12 : (scopes.led.index == 2) ? -20 : (scopes.led.index == 1) ? -13 : (scopes.led.index == 6) ? 1 : -5),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 30 : 6,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 40 : 6,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg}};
-                  },
-                  renderEach() {
-                     var enable = ('/top|sseg_pipe_macro$digit'.asBinaryStr().split("").reverse().join(""));
-                     var dp = ('/top|sseg_pipe_macro$dp'.asBinaryStr());
-                     this.getInitObject("sseg").bringToFront()
-                     var fp_valid = dp == 0
-                     if(scopes.led.index == 7)
-                     {
-                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
-                     }
-                     else {
-                        var hamm = ((('/top|sseg_pipe_macro$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
-                        this.getInitObject("sseg").set(hamm && (enable[scopes.digit.index] == 0) ? {fill: "red"} : {fill: "grey"});
-                     }
-                  }
-         '],['
-         m4_ifelse_block(M4_BOARD, 5,['
-         /digit[7:0]
-            /led[7:0]
-               \viz_alpha
-                  initEach() {
-                     let sseg = (scopes.led.index == 7) ? new fabric.Circle({
-                           top: 119,
-                           //left: (scopes.digit.index == 3) ? -122 : (scopes.digit.index == 0) ? -212 : (scopes.digit.index == 1) ? -182 : -152 ,
-                           left : ((scopes.digit.index == 7) ? -104 : (scopes.digit.index == 6) ? -79 : (scopes.digit.index == 5) ? -54 : (scopes.digit.index == 4) ? -29 : (scopes.digit.index == 3) ? 6 : (scopes.digit.index == 2) ? 31 : (scopes.digit.index == 1) ? 56 : 81),
-                           radius: 2,
-                           opacity: 1,
-                           fill: "grey"
-                        }) 
-                        :
-                        new fabric.Rect({
-                           top: 76 + ((scopes.led.index == 5) ? 19 : (scopes.led.index == 4) ? 32 : (scopes.led.index == 3) ? 43 : (scopes.led.index == 2) ? 32 : (scopes.led.index == 1) ? 19 : (scopes.led.index == 0) ? 30 : 18),
-                           left: ((scopes.digit.index == 7) ? -114 : (scopes.digit.index == 6) ? -89 : (scopes.digit.index == 5) ? -64 : (scopes.digit.index == 4) ? -39 : (scopes.digit.index == 3) ? -4 : (scopes.digit.index == 2) ? 21 : (scopes.digit.index == 1) ? 46 : 71) + ((scopes.led.index == 5) ? 10 : (scopes.led.index == 4) ? 8 : (scopes.led.index == 3) ? -4 : (scopes.led.index == 2) ? -8 : (scopes.led.index == 1) ? -6 : (scopes.led.index == 0) ? -2 : -1),
-                           width: ((this.getIndex() == 6) || (this.getIndex() == 3) || (this.getIndex() == 0)) ? 12 : 3,
-                           height: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? 11 : 3,
-                           fill: "grey",
-                           skewX: ((this.getIndex() == 5) || (this.getIndex() == 4) || (this.getIndex() == 2) || (this.getIndex() == 1)) ? -9 : 0,
-                           opacity: 1
-                        })
-                     return{objects : {sseg}};
-                  },
-                  renderEach() {
-                     var enable = ('/top|sseg_pipe_macro$digit'.asBinaryStr().split("").reverse().join(""));
-                     this.getInitObject("sseg").bringToFront()
-                     var fp_valid = '/top|sseg_pipe_macro$dp'.asBool() == 0
-                     if(scopes.led.index == 7)
-                     {
-                        this.getInitObject("sseg").set(enable[scopes.digit.index] == 0 && fp_valid ? {fill: "red"} : {fill: "grey"})
-                     }
-                     else {
-                        var hamm = ((('/top|sseg_pipe_macro$sseg'.asInt(-1) >> scopes.led.index) & 1) == 0);
-                        this.getInitObject("sseg").set(hamm && enable[scopes.digit.index] == 0 ? {fill: "red"} : {fill: "grey"});
-                     }
-                  }
-         '])
-         '])
-         '])
-         '])
-         '])
-         '])
-\TLV fpga_switch($_sw)
+            }
+         },
+         where: {_where}
+
+// Defines constants to characterize the selected #_board.
+\TLV board_defs(#_board)
+   m4_nothing(
+      m4_def(BOARD, ['#_board'])
+      m4_def(BOARD_IMAGE_URL,  m4_echo(['M4_BOARD_']M4_BOARD['_IMAGE_URL']),
+             BOARD_IMAGE_SIZE, m4_echo(['M4_BOARD_']M4_BOARD['_IMAGE_SIZE']),
+             BOARD_FPGA_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_FPGA_WHERE']),
+             BOARD_LED_CNT,    m4_echo(['M4_BOARD_']M4_BOARD['_LED_CNT']),
+             BOARD_LED_WHERE,  m4_echo(['M4_BOARD_']M4_BOARD['_LED_WHERE']),
+             BOARD_SSEG_CNT,   m4_echo(['M4_BOARD_']M4_BOARD['_SSEG_CNT']),
+             BOARD_SSEG_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_SSEG_WHERE']),
+             BOARD_THANKS_ARGS,m4_echo(['M4_BOARD_']M4_BOARD['_THANKS_ARGS']))
+   )
+   
+   
+\TLV fpga_leds(/_board, #_board, _sig_prefix)
+   /led[m4_eval(M4_BOARD_LED_CNT - 1):0]
+      $viz_lit = ['_sig_prefix']led[v_led];
+      \viz_js
+         box: {width: 12, height: 16, fill: M4_RED_LED_COLOR,
+               rx: 4, ry: 5,
+               strokeWidth: 0},
+         layout: {left: -32},
+         renderFill() {
+            return '$viz_lit'.asBool(false) ? M4_RED_LED_COLOR : "transparent"
+         },
+         where: {M4_BOARD_LED_WHERE}
+
+\TLV fpga_sseg(/_board, #_board, _sig_prefix)
+   /digit[m4_eval(M4_BOARD_SSEG_CNT - 1):0]
+      \viz_js
+         all: {
+            box: {
+               fill: "#2a2a2a",
+               strokeWidth: 0,
+            }
+         },
+         box: {
+            width: 35,
+            height: m4_ifelse(#_board, 3, 47, #_board, 5, 47, 60),
+            strokeWidth: 0,
+         },
+         layout: {left: -35},
+         where: {M4_BOARD_SSEG_WHERE}
+      /led[7:0]
+         $viz_lit = (! ['_sig_prefix']sseg_digit_n[digit]) && ! ((v_led == 7) ? ['_sig_prefix']sseg_decimal_point_n : ['_sig_prefix']sseg_segment_n[v_led % 7]);
+         \viz_js
+            box: {left: 0, top: 0, strokeWidth: 0},
+            init() {
+               let led = this.getIndex()
+               let digit = this.getIndex("digit")
+               let squash = m4_ifelse(#_board, 3, 2.5, #_board, 5, 2.5, 0)
+               let sseg = (this.getIndex() == 7) ? new fabric.Circle({
+                     left: 26,
+                     top: m4_ifelse(#_board, 3, 37, #_board, 5, 37, 48),
+                     radius: 2.5,
+                     opacity: 1,
+                     fill: M4_OFF_SEGMENT_COLOR
+                  })
+                  :
+                  new fabric.Rect({
+                     top: 15 + ((led == 1 || led == 5) ? -4 - squash : (led == 2 || led == 4) ? 16 - 3*squash : (led == 3) ? 31 - 4*squash : (led == 6) ? 11 - 2*squash : -9),
+                     left: 10 + ((led == 6) ? -1 : (led == 5) ? 13 : (led == 4) ? 11 : (led == 3) ? -3 : (led == 2) ? -8 : (led == 1) ? -6 : 1),
+                     width: ((led == 6) || (led == 3) || (led == 0)) ? 13 : 4,
+                     height: ((led == 5) || (led == 4) || (led == 2) || (led == 1)) ? 14 : 4,
+                     fill: M4_OFF_SEGMENT_COLOR,
+                     skewX: ((led == 5) || (led == 4) || (led == 2) || (led == 1)) ? -7 : 0,
+                     opacity: 1
+                  })
+               return{sseg};
+            },
+            render() {
+               debugger
+               let digit = this.getIndex("digit")
+               let segment = this.getIndex()
+               let digit_selected = (((this.sigVal("sseg_digit_n").asInt() >> digit) & 1) == 0)
+               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? M4_RED_SEGMENT_COLOR : M4_OFF_SEGMENT_COLOR})
+            },
+            layout: {left: 0, top: 0}
+
+\TLV fpga_switch(/_board, $_sw)
    |fpga_switch_macro
       @0
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -624,7 +364,7 @@
                   return{objects : {sw_1, sw_2, sw/*, done_led*/}}; 
                },
                renderEach(){
-                  var mod = ((('/top|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                   this.getInitObject("sw").set(mod ? {top: 270} : {top: 285});
                }
          '],['
@@ -676,7 +416,7 @@
                   return{objects : {sw_1, sw_2, sw/*, done_led*/}}; 
                },
                renderEach(){
-                  var mod = ((('/top|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                   this.getInitObject("sw").set(mod ? {top: 182} : {top: 197});
                }
          '],['
@@ -728,7 +468,7 @@
                   return{objects : {sw_1, sw_2, sw/*, done_led*/}}; 
                },
                renderEach(){
-                  var mod = ((('/top|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                   this.getInitObject("sw").set(mod ? {top: 125} : {top: 140});
                }
          '],['
@@ -782,7 +522,7 @@
                   return{objects : {sw_1, sw_2, sw/*, done_led*/}}; 
                },
                renderEach(){
-                  var mod = ((('/top|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_switch_macro$sw'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                   this.getInitObject("sw").set(mod ? {top: 155} : {top: 170});
                }
          '])
@@ -791,7 +531,7 @@
          '])
          '])
          '])
-\TLV fpga_push($_pb)
+\TLV fpga_push(/_board, $_pb)
    |fpga_push_macro
       @0
          m4_ifelse_block(M4_MAKERCHIP, 1, ['
@@ -807,14 +547,14 @@
                            left: scopes.pb.index == 2 ? 211 : scopes.pb.index == 3 ? 307 : 259,
                            radius: 10,
                            opacity: 1,
-                           fill: "red"
+                           fill: M4_RED_LED_COLOR
                         }) 
                   return {objects:{push}}
                },
                renderEach(){
-                  var mod = ((('/top|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
                   if(mod){
-                     this.getInitObjects().push.set({fill: "red"})
+                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
                   }else{
                      this.getInitObjects().push.set({fill: "black"})
                   }
@@ -831,14 +571,14 @@
                            left: scopes.pb.index == 2 ? 113 : scopes.pb.index == 3 ? 203 : 155,
                            radius: 10,
                            opacity: 1,
-                           fill: "red"
+                           fill: M4_RED_LED_COLOR
                         }) 
                   return {objects:{push}}
                },
                renderEach(){
-                  var mod = ((('/top|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
                   if(mod){
-                     this.getInitObjects().push.set({fill: "red"})
+                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
                   }else{
                      this.getInitObjects().push.set({fill: "black"})
                   }
@@ -855,14 +595,14 @@
                            left: scopes.pb.index == 2 ? 65 : scopes.pb.index == 3 ? 130 : 98,
                            radius: 7,
                            opacity: 1,
-                           fill: "red"
+                           fill: M4_RED_LED_COLOR
                         }) 
                   return {objects:{push}}
                },
                renderEach(){
-                  var mod = ((('/top|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
                   if(mod){
-                     this.getInitObjects().push.set({fill: "red"})
+                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
                   }else{
                      this.getInitObjects().push.set({fill: "black"})
                   }
@@ -879,14 +619,14 @@
                            left: scopes.pb.index == 2 ? -175 : scopes.pb.index == 1 ? -128 : -80,
                            radius: 10,
                            opacity: 1,
-                           fill: "red"
+                           fill: M4_RED_LED_COLOR
                         }) 
                   return {objects:{push}}
                },
                renderEach(){
-                  var mod = ((('/top|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
                   if(mod){
-                     this.getInitObjects().push.set({fill: "red"})
+                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
                   }else{
                      this.getInitObjects().push.set({fill: "black"})
                   }
@@ -903,14 +643,14 @@
                            left: scopes.pb.index == 2 ? 89 : scopes.pb.index == 3 ? 150 : 120,
                            radius: 5,
                            opacity: 1,
-                           fill: "red"
+                           fill: M4_RED_LED_COLOR
                         }) 
                   return {objects:{push}}
                },
                renderEach(){
-                  var mod = ((('/top|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
+                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
                   if(mod){
-                     this.getInitObjects().push.set({fill: "red"})
+                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
                   }else{
                      this.getInitObjects().push.set({fill: "black"})
                   }
@@ -921,7 +661,7 @@
          '])
          '])
          '])
-\TLV led_rgb(|_pipe, @_stage, $_dutyr, $_dutyg, $_dutyb)
+\TLV fpga_led_rgb(/_board, |_pipe, @_stage, $_dutyr, $_dutyg, $_dutyb)
    |_pipe
       @_stage
          /led[4:0]
@@ -938,18 +678,18 @@
                   return{objects : {led}}; 
                }, 
                renderEach() {
-                     let r = '/top|_pipe$_dutyr'.asInt()
-                     let g = '/top|_pipe$_dutyg'.asInt()
-                     let b = '/top|_pipe$_dutyb'.asInt()
+                     let r = '/_board|_pipe$_dutyr'.asInt()
+                     let g = '/_board|_pipe$_dutyg'.asInt()
+                     let b = '/_board|_pipe$_dutyb'.asInt()
                      let value = "rgb(" + r + "," + g + "," + b + ")"
                      this.getInitObjects().led.set({fill: value})
                      //this.getInitObjects().g.set({opacity: g})
                      //this.getInitObjects().b.set({opacity: b})
-                     //var mod = ((('/top|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
+                     //var mod = ((('/_board|_pipe$leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
                      //this.getInitObject("led").set(mod ? {opacity: 1} : {opacity: 0});
                   } 
   
-\TLV fpga_lcd($_out, $_lcd_enable, $_lcd_reset)
+\TLV fpga_lcd(/_board, $_out, $_lcd_enable, $_lcd_reset)
    //for viz part
    |fpga_lcd_macro
       @0
@@ -1053,12 +793,12 @@
                 return {objects :{logic_block, lcd, line1, line2, info}};
                 },
              renderEach(){
-                 let str1 = '/top|fpga_lcd_macro$str1'.asString().split("").reverse().join("")
-                 let str2 = '/top|fpga_lcd_macro$str2'.asString().split("").reverse().join("")
-                 let lcd_rst = '/top|fpga_lcd_macro$lcd_reset'.asBool()
+                 let str1 = '/_board|fpga_lcd_macro$str1'.asString().split("").reverse().join("")
+                 let str2 = '/_board|fpga_lcd_macro$str2'.asString().split("").reverse().join("")
+                 let lcd_rst = '/_board|fpga_lcd_macro$lcd_reset'.asBool()
                  this.getInitObjects().line1.setText(str1)
                  this.getInitObjects().line2.setText(str2)
-                 let value_bin = '/top|fpga_lcd_macro$out'.asBinaryStr();
+                 let value_bin = '/_board|fpga_lcd_macro$out'.asBinaryStr();
                  if(!lcd_rst){
                  if (value_bin == "00111000"){
                     //8'h38
@@ -1122,7 +862,7 @@
          ['
          ']
          )
-\TLV fpga_vga($_vga_hsync, $_vga_vsync, $_vga_r, $_vga_g, $_vga_b, $_sx, $_sy)
+\TLV fpga_vga(/_board, $_vga_hsync, $_vga_vsync, $_vga_r, $_vga_g, $_vga_b, $_sx, $_sy)
    |vga_pipe_macro
       @0
          m4_ifelse_block(M4_MAKERCHIP, 1,['
@@ -1198,14 +938,14 @@
                return {objects: {frame, hsync, vsync, row_pointer, column_pointer}}
             },
             renderEach(){
-               let hori_cnt_now = '/top|vga_pipe_macro$hori_counter'.asInt() - 1
-               let vert_cnt_now = '/top|vga_pipe_macro$vert_counter'.asInt()
-               let vga_hsync = '/top|vga_pipe_macro$vga_hsync'.asInt()
-               let vga_vsync = '/top|vga_pipe_macro$vga_vsync'.asInt()
-               let width = '/top|vga_pipe_macro$width'.asInt()
-               let height = '/top|vga_pipe_macro$height'.asInt()
-               let cycle = '/top|vga_pipe_macro$hori_counter'.getCycle()
-               let count = '/top|vga_pipe_macro$tot_cyc'.asInt()
+               let hori_cnt_now = '/_board|vga_pipe_macro$hori_counter'.asInt() - 1
+               let vert_cnt_now = '/_board|vga_pipe_macro$vert_counter'.asInt()
+               let vga_hsync = '/_board|vga_pipe_macro$vga_hsync'.asInt()
+               let vga_vsync = '/_board|vga_pipe_macro$vga_vsync'.asInt()
+               let width = '/_board|vga_pipe_macro$width'.asInt()
+               let height = '/_board|vga_pipe_macro$height'.asInt()
+               let cycle = '/_board|vga_pipe_macro$hori_counter'.getCycle()
+               let count = '/_board|vga_pipe_macro$tot_cyc'.asInt()
                let frame = parseInt(cycle / count)
                console.log("hori", hori_cnt_now)
                let sq_width = Math.sqrt(40000 / (M4_MAX_H * M4_MAX_V))
@@ -1233,25 +973,25 @@
                    })
                    i = k * width + j
                    if(frame){
-                     let red = '/top|vga_pipe_macro$vga_r'.goTo(((frame-1) * count)+i).asBinaryStr()
+                     let red = '/_board|vga_pipe_macro$vga_r'.goTo(((frame-1) * count)+i).asBinaryStr()
                      red = red.concat(red)
                      red = parseInt(red, 2);
-                     let green = '/top|vga_pipe_macro$vga_g'.goTo(((frame-1) * count)+i).asBinaryStr()
+                     let green = '/_board|vga_pipe_macro$vga_g'.goTo(((frame-1) * count)+i).asBinaryStr()
                      green = green.concat(green)
                      green = parseInt(green, 2);
-                     let blue = '/top|vga_pipe_macro$vga_b'.goTo(((frame-1) * count)+i).asBinaryStr()
+                     let blue = '/_board|vga_pipe_macro$vga_b'.goTo(((frame-1) * count)+i).asBinaryStr()
                      blue = blue.concat(blue)
                      blue = parseInt(blue, 2);
                      let color = "rgb(" + red + "," + green + "," + blue + ")"
                      grid.set({fill:color, stroke:color, strokeWidth:1})
                    }
-                     let red = '/top|vga_pipe_macro$vga_r'.goTo(((frame) * count) + i).asBinaryStr()
+                     let red = '/_board|vga_pipe_macro$vga_r'.goTo(((frame) * count) + i).asBinaryStr()
                      red = red.concat(red)
                      red = parseInt(red, 2);
-                     let green = '/top|vga_pipe_macro$vga_g'.goTo(((frame) * count) + i).asBinaryStr()
+                     let green = '/_board|vga_pipe_macro$vga_g'.goTo(((frame) * count) + i).asBinaryStr()
                      green = green.concat(green)
                      green = parseInt(green, 2);
-                     let blue = '/top|vga_pipe_macro$vga_b'.goTo(((frame) * count) + i).asBinaryStr()
+                     let blue = '/_board|vga_pipe_macro$vga_b'.goTo(((frame) * count) + i).asBinaryStr()
                      blue = blue.concat(blue)
                      blue = parseInt(blue, 2);
                      color = "rgb(" + red + "," + green + "," + blue + ")"
@@ -1268,3 +1008,145 @@
             }
          ']
          )
+
+
+// ===================================================
+// FOR TESTING
+
+
+\TLV fpga_viz(/_board, /_fpga, #_board)
+   m4+board(/_board, /_fpga, #_board)
+   
+   
+   // ^----------- move out ------------^
+   
+
+\TLV simple_main()
+   \SV_plus
+    
+      logic[15:0] led_n;
+      assign led = ~led_n;
+    
+      always_ff @(posedge clk) begin
+         // LEDs
+         led_n <= reset ? 0 : led_n + 1;
+    
+         // 7-segment display (if present)
+         sseg_digit_n = ~(4'b1 << (led[2] ? led[1:0] : 3 - led[1:0]));
+         sseg_segment_n = ~(7'b1 << (led[2] ? 3 : 0));
+         sseg_decimal_point_n = 1'b1;
+      end
+   
+   *passed = *cyc_cnt > 30;
+   
+\TLV riscv_main()
+   \SV_plus
+    
+    
+    always_ff @(posedge clk) begin
+    
+       // LEDs
+       led <= $cpu_out; //reset ? 0 : led + 1;
+    
+       // 7-segment display (if present)
+       sseg_digit_n = ~ (4'b1 << *cyc_cnt[1:0]);
+       sseg_segment_n = 7'b1111111;
+       sseg_decimal_point_n = 1'b0;
+    
+    end
+    
+    
+   
+   /fpga
+      m4_def(NUM_CORES, 1)
+      m4+cpu(/fpga)
+   /* verilator lint_off WIDTH */
+   |led_pipe
+      @0
+         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 50000000)) 
+         $reset = *reset;
+         ?$refresh
+            $Leds[15:0] <= $reset ? 1 : $Leds + 1;
+         //*led = $Leds;
+
+
+   *passed = *cyc_cnt > 60;
+   $cpu_out[31:0] = /fpga|fetch/instr/regs[3]>>4$value;
+
+
+\SV
+   //m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])                   
+
+   // v----------- move out ------------v
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/9a8c337a678779a34bca774b84ad4a0d3c8517a6/warp-v.tlv'])
+   //m4_include_lib(['https://raw.githubusercontent.com/stevehoover/tlv_lib/db48b4c22c4846c900b3fa307e87d9744424d916/fundamentals_lib.tlv'])
+
+   m4_lab()
+\TLV
+   /board
+      
+      // FPGA logic.
+      m4_def(design, riscv_main)  // riscv_main or simple_main.
+      m4+m4_design()
+      
+      
+      // Board selection:
+      // 0 - 1st CLaaS on AWS F1
+      // 1 - Zedboard
+      // 2 - Artix-7
+      // 3 - Basys3
+      // 4 - Icebreaker
+      // 5 - Nexys
+      m4+board(/board, /fpga, 3, ['*'])
+      // TODO: RGB LEDs and external 7-Segment remain to be cleaned up.
+      //m4+ifelse(m4_fpga_io_rgb_leds_defined, 1,
+      //   \TLV
+      //      // FIX
+      //      m4+led_rgb(/_board, *led)
+      //   )
+      //m4+ifelse(m4_fpga_io_sseg_defined, 1,
+      //   \TLV
+      //      // FIX
+      //      m4+fpga_sseg(/_board, *digit_n, *segment_n, *decimal_point_n)
+      //   )
+      /fpga
+         \viz_js
+            where: {M4_BOARD_FPGA_WHERE},
+            box: {strokeWidth: 0}
+         // Currently, due to VIZ ordining limitations, VIZ must come last.
+         m4+ifelse(m4_design, riscv_main,
+            \TLV
+               m4+cpu_viz(|fetch, @M4_MEM_WR_STAGE, "transparent"/*"#404040c0"*/)
+            )
+   // Instantiate each board with simple TLV outputs.
+   m4+forloop(board, 0, 6,
+      \TLV
+         /board['']m4_board
+            /default_inputs
+               $dummy = 1'b0;
+               /led
+                  $dummy = 1'b0;
+                  $led[15:0] = *cyc_cnt[15:0];
+                  `BOGUS_USE($led)
+               /digit
+                  /led
+                     $dummy = 1'b0;
+                     $sseg_digit_n[7:0] = 8'b1 << *cyc_cnt[2:0];
+                     $sseg_segment_n[6:0] = 7'b1 << *cyc_cnt[2:0];
+                     $sseg_decimal_point_n = *cyc_cnt[2:0] == 3'b111;
+                     `BOGUS_USE($sseg_digit_n $sseg_segment_n $sseg_decimal_point_n)
+            $ANY = /default_inputs$ANY;
+            /led
+               $ANY = /board['']m4_board/default_inputs/led$ANY;
+               `BOGUS_USE($dummy)
+            /digit
+               /led
+                  $ANY = /board['']m4_board/default_inputs/digit/led$ANY;
+                  `BOGUS_USE($dummy)
+            `BOGUS_USE($dummy)
+            // Use ['$'] to visualize the associated TLV logic,
+            //  or ['*'] to connect with the global SV outputs (from the main board).
+            m4+board(/board['']m4_board, /fpga, m4_board, ['$'], ['left: -1100, top: m4_board['']000, height: 1000, width: 1000'])
+      )
+\SV
+   endmodule

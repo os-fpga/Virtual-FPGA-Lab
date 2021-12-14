@@ -1,87 +1,85 @@
-<h1 align="left"> Virtual FPGA Lab
-</h1>
+# Virtual FPGA Lab
+
+  - **Develop FPGA logic in your browser!**
+  - **Run on your own FPGA!**
+  - **Share with others!**
+
+<img src="https://user-images.githubusercontent.com/64545984/130665759-9894f0de-c058-4075-a990-2dee094123b4.gif" alt="lcd" width="800">
 
 
 ## References
 
-This document introduces the Virtual FPGA Lab platform. You can also:
+This document introduces the Virtual FPGA Lab. Separate documents will help you with:
 
-  - [Take this tutorial from the Open Source FPGA Foundation using this platform](https://github.com/stevehoover/GettingStartedWithFPGAs).
-  - [learn how to contribute to the platform, such as adding support for other FPGA boards](AddingBoards.md)
+  - [FPGA training using this platform](https://github.com/stevehoover/GettingStartedWithFPGAs)
+  - [Exporting to your FPGA board (if supported)](fpga/readme.md)
+  - [Contributing to the platform, such as adding support for other FPGA boards](AddingBoards.md)
 
 
 ## Contents
 
-[1. Abstract](#1-abstract)
+[Overview](#overview)
 
-[2. About Makerchip](#2-about-makerchip)
+[About Makerchip](about-makerchip)
 
-[3. What makes the project __Virtual FPGA Lab__ special?](#3-what-makes-the-project-virtual-fpga-lab-special)
+[What makes the project __Virtual FPGA Lab__ special?](what-makes-the-project-virtual-fpga-lab-special)
 
-[4. FPGA Boards demonstrated](#4-fpga-boards-demonstrated)
+[FPGA Boards demonstrated](fpga-boards-demonstrated)
 
-[5. FPGA peripheral macro instantiations](#5-fpga-peripheral-macro-instantiations)
-- [5.1 Board Select](#51-board-select)
-- [5.2 LED Module](#52-led-module)
-- [5.3 Seven segment displays](#53-seven-segment-displays)
-- [5.4 LCD Module](#54-lcd-module)
-- [5.5 VGA display](#55-vga-display)
-- [5.6 Push buttons](#56-push-buttons)
-- [5.7 Slideswitches](#57-slideswitches)
+[FPGA peripheral macro instantiations](fpga-peripheral-macro-instantiations)
+- [Board Select](board-select)
+- [LED Module](led-module)
+- [Seven segment displays](seven-segment-displays)
+- [LCD Module](lcd-module)
+- [VGA display](vga-display)
+- [Push buttons](push-buttons)
+- [Slideswitches](slideswitches)
 
-[6. Examples](#6-examples)
+[Examples](examples)
 
-[7. Visual Debug](#7-visual-debug)
-- [7.1 How Visual Debug is built?](#71-how-visual-debug-is-built)
-- [7.2 Examples](#72-examples)
-    - [7.2.1 Visualizing logic gates](#721-visualizing-logic-gates)
-    - [7.2.2 Visualizing LCD 16x2 display](#722-visualizing-lcd-16x2-display)
+[Visual Debug](visual-debug)
+- [How Visual Debug is built?](how-visual-debug-is-built)
+- [Examples](examples)
+    - [Visualizing logic gates](visualizing-logic-gates)
+    - [Visualizing LCD 16x2 display](visualizing-lcd-16x2-display)
 
-[8. How to add own FPGA boards and peripherals](#8-how-to-add-own-fpga-boards-and-peripherals)
-- [8.1 Adding custom FPGA board](#81-adding-custom-fpga-board)
-- [8.1 Interfacing LEDs](#82-interfacing-leds)
+[How to add own FPGA boards and peripherals](how-to-add-own-fpga-boards-and-peripherals)
+- [Adding custom FPGA board](adding-custom-fpga-board)
+- [Interfacing LEDs](interfacing-leds)
 
-[9. Steps to run in an actual FPGA](#9-steps-to-run-in-an-actual-fpga)
+[Steps to run in an actual FPGA](steps-to-run-in-an-actual-fpga)
 
-[10. Future Scope](#10-future-scope)
+[Future Scope](future-scope)
 
-[11. Contributors](#11-contributors)
+[Contributors](contributors)
 
-[12. Contributing](#12-contributing)
+[Contributing](contributing)
 
-[13. License](#13-license)
-
-[14. Disclaimer](#14-disclaimer)
+[License](license)
 
 
 
+## What are FPGAs?
 
-## 1. Abstract
+New to FPGAs? Field-programmable gate arrays (FPGAs) are a hardware circuits that can be programmed to carry out logical operations. They provide a sweet spot between implementing algorithms in software and fabricating application-specific integrated circuits (ASICs). They generally provide far better performance and power-efficiency than software implementations, and they require far less time and expense to implement than ASICs. They can be reprogrammed as needed to upgrade functionality or fix bugs, even after deployment to customers (in the "field"). FPGAs are also beneficial for prototyping application-specific integrated circuits (ASICs) or processors.
 
-<p align="left">
+## Virtual Lab Overview
 
-<img src="https://user-images.githubusercontent.com/64545984/130665673-63e52c11-f5e4-4290-8d05-a5a0741fbbbd.png" alt="artix preview" width="600" >
-</p>
-Field-Programmable Gate Array(FPGA) is a hardware circuit that a user can program to carry out logical operations. FPGAs are beneficial for prototyping application-specific integrated circuits (ASICs) or processors. The advantage of FPGA being energy-efficient, flexible to reprogram, support parallelism, decreased latency made them widely used in many applications. But the flexibility of FPGAs comes at the price of the difficulty of reprogramming the circuit. FPGA’s are a bit costly and difficult to learn for beginners. Also, students don’t have access to physical FPGA Lab classes in their curriculum amidst this pandemic situation. So there is a massive demand in having an alternative option of having an online simulator for FPGA curriculum development. 
+Though far more accessible than ASICs, FPGAs can still be a bit costly and difficult to learn for beginners and students. That's where this project comes in... and it's not just for beginners.
 
-This project __Virtual FPGA Lab__ aims to solve the problem by taking advantage of the __VIZ Visualization__ feature in the Makerchip platform and provide visualizations of basic peripherals of an FPGA, thereby mimicking the physical lab experience.
+This project builds on all the power and ease-of-use of [Makerchip IDE](http://makerchip.com/) and adds convenience for FPGA development. In particular, we take advantage of Makerchip's [__Visual Debug__ feature](https://redwoodeda.com/viz) to provide visualizations of FPGAs and their peripherals, thereby mimicking the physical lab experience. But better than the physical experience, you also have the benefits of simulation-based development: fast compilation (no synthesis, place-and-route, and bitstreams), full visibility of all signal values, and full control of time.
 
-Here is the link to the blog post: [Link](https://medium.com/@m.baladhinesh/fpgas-in-your-browser-bb92be1c1fa3)
+Makerchip further simplifies the experience with support for [TL-Verilog](http://tl-x.org/) in addition to Verilog/SystemVerilog. TL-Verilog features are more approachable to newcomers (not to mention the myriad benefits for experts).
 
-## 2. About Makerchip
+In summary:
 
-[Makerchip](http://makerchip.com/) is a free web-based IDE as well as available as [makerchip-app](https://pypi.org/project/makerchip-app/), a virtual desktop application for developing high-quality integrated circuits. You can __code__, __compile__, __simulate__, and __debug__ Verilog designs, all from your browser. Your code, block diagrams, and waveforms are tightly integrated. Makerchip supports the emerging [Transaction-Level Verilog](http://tl-x.org/) standard. Transaction-Level Verilog, or TL-Verilog, represents a huge step forward, by eliminating the need for the legacy language features of Verilog and by introducing simpler syntax. At the same time, TL-Verilog adds powerful constructs for pipelines and transactions. __More details about TL-Verilog:__ https://www.redwoodeda.com/tl-verilog
+  - __Easy learning:__ Online; no board/peripherals required (but supported); simplified by TL-Verilog and Makerchip.
+  - __Powerful for experts:__ (for open-source development) The virtual lab augments vendor tools with the benefits of Makerchip development and virtual FPGA board/peripheral integration.
+  - __Vendor-agnostic:__ You're designs work on any FPGA boards with compatible peripherals. (Though currently-supported boards are all Xilinx-based.)
+  - __Exportable:__ Code in Virtual Lab works on real FPGAs!!!
+  - __Open Source:__ MIT-licensed.
 
-## 3. What makes the project __Virtual FPGA Lab__ special?
-
-- __Easy Learning📖:__ Understanding the basics of FPGA programming without having an actual board 
-- __Time travel😜:__  Move back and forth between cycles so that we can visualize what's happening in each cycle.
-- __Faster🚀:__ No need to wait for Synthesis, Implementation and Bitstream Generation for simple designs.
-- __Abstraction💪:__ TL-V requires lesser code than standard HDL languages, making faster development, fewer bugs, easier maintenance, and better quality silicon. It supports System Verilog as well.
-- __Synthesizable😊:__ Code in Virtual Lab works on real FPGAs!!!. We will cover this in the last section.
-- __Open Source🥰:__ Licensed under MIT.
-
-## 4. FPGA Boards demonstrated
+## Supported FPGA Boards
 
 1. Zedboard Zynq-7000 ARM/FPGA SoC Development Board ([Product Link](https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/))
 2. EDGE Artix 7 FPGA Development Board ([Product Link](https://allaboutfpga.com/product/edge-artix-7-fpga-development-board/))
@@ -89,24 +87,82 @@ Here is the link to the blog post: [Link](https://medium.com/@m.baladhinesh/fpga
 4. Icebreaker FPGA ([Product Link](https://1bitsquared.com/products/icebreaker))
 5. Nexys A7 ([Product Link](https://store.digilentinc.com/nexys-a7-fpga-trainer-board-recommended-for-ece-curriculum/))
 
-Currently we demonstrate using only these boards and we plan to add more boards in the future. You can very easily to add your own FPGA boards. Contributions are welcome.
+Currently we demonstrate using only these boards and we plan to add more boards in the future. You can very easily [add your own FPGA boards](fpga/readme.md). Contributions are welcome.
 
-## 5. FPGA peripheral macro instantiations
+## Development Flow
 
-#### 5.1 Board select
+Click [here](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ffpga_lab.tlv), and go. It's literally that simple! _(Right-click to open in a new tab.)_
+
+You can start from any [example project](#examples) here.
+
+Alternately, especially for local FPGA use, you can use [Makerchip-app](https://pypi.org/project/makerchip-app/) to edit files on your local machine (where you can maintain your git repository and run FPGA flows).
+
+To use a physical FPGA, see these [instructions](fpga/readme.md).
+
+Here's a starting template:
 
 ```
-m4_define(M4_BOARD, 1)      // This should always be declared for below macros to work
+\m4_TLV_version 1d: tl-x.org
+\SV
+   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
+   m4_lab()
+   
+   // ...FPGA SystemVerilog logic goes here.
+   
+\TLV
+   /board
+      /fpga
+         // ...FPGA TL-Verilog logic goes here.
+   
+      // Board selection:
+      // 0 - 1st CLaaS on AWS F1
+      // 1 - Zedboard
+      // 2 - Artix-7
+      // 3 - Basys3
+      // 4 - Icebreaker
+      // 5 - Nexys
+      m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
+\SV
 
-// M4_BOARD numbering
+   endmodule
+
+```
+
+The `m4+board(...)` macro and peripheral macros, such as `m4+led(...)` define the hardware.
+
+`m4_lab()` provides a superset of signals for I/Os. Those that have corresponding components on the board or peripherals should be driven/used. These include:
+
+```
+logic [15:0] led;             // corresponding LEDs are lit when asserted
+logic [6:0] sseg_segment_n;   // corresponding segments are lit for selected digit(s) when deasserted 
+
+logic sseg_decimal_point_n;   // decimal point is lit for selected digit(s) when deasserted
+logic [7:0] sseg_digit_n;     // corresponding digits are enabled when deasserted
+
+```
+
+## Configuring and Driving the FPGA Board and Peripherals
+
+#### Board
+
+In the starting template, the 3rd argument below can be used to select the board:
+
+```
+// Board selection:
+// 0 - 1st CLaaS on AWS F1
 // 1 - Zedboard
 // 2 - Artix-7
 // 3 - Basys3
 // 4 - Icebreaker
 // 5 - Nexys
+m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 ```
 
-#### 5.2 LED Module
+Boards contain a subset of the following components, 
+
+Other `m4+` macros can be instantiated to add peripherals.
+
+#### LED Module
 
 ```
 m4+fpga_led(*led)
@@ -115,7 +171,7 @@ m4+fpga_led(*led)
 // *led - led signal
 ```
 
-#### 5.3 Seven segment displays
+#### Seven segment displays
 
 ```
 m4+fpga_sseg(*digit, *sseg, *dp)
@@ -126,7 +182,7 @@ m4+fpga_sseg(*digit, *sseg, *dp)
 // *dp - decimal point
 ```
 
-#### 5.4 LCD Module
+#### LCD Module
 
 ```
 m4+fpga_lcd(*data, *lcd_e, *lcd_rs) 
@@ -137,7 +193,7 @@ m4+fpga_lcd(*data, *lcd_e, *lcd_rs)
 // *lcd_rs - lcd reset signal, 0 for command and 1 for data
 ```
 
-#### 5.5 VGA display
+#### VGA display
 
 ```
 m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /top|vga_pipe$sy)
@@ -152,7 +208,7 @@ m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /t
 // $sy - vertical count
 ```
 
-#### 5.6 Push buttons
+#### Push buttons
 
 ```
 m4+fpga_push(*pb) 
@@ -161,7 +217,7 @@ m4+fpga_push(*pb)
 // *pb - push button signal
 ```
 
-#### 5.7 Slideswitches
+#### Slideswitches
 
 ```
 m4+fpga_led(*sw)
@@ -170,36 +226,29 @@ m4+fpga_led(*sw)
 // *sw - switch signal
 ```
 
-## 6. Examples
+## Examples
 
-[6.1 LED Module](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z)
+Here are some example you can load in Makerchip. You'll find the source code in this repository under [examples](examples). (Right-click links to open in a new tab.)
 
+[LED Module](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fled_counter.tlv)
 
-[6.2 Seven segment displays](https://makerchip.com/sandbox/0mZf5hLPG/0zmh8rV) 
+[Seven segment displays](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fseven_segment_counter.tlv)
 
+[LCD Module](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Flcd_module.tlv)
 
-[6.3 LCD Module](https://makerchip.com/sandbox/0mZf5hLPG/0k5hYwz) 
+[VGA display](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fvga_display.tlv)
 
+[Temperature sensor](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ftemperature_sensor.tlv)
 
-[6.4 VGA display](https://makerchip.com/sandbox/0mZf5hLPG/0nZhlW1)
+[Light sensor](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Flight_sensor.tlv)
 
+[Push buttons](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fpushbutton.tlv)
 
-[6.5 Temperature sensor](https://makerchip.com/sandbox/031fmhpnZ/0JZhpWr) 
+[Slideswitches](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fslideswitch.tlv)
 
+[RGB LED](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fice_rgb.tlv)
 
-[6.6 Light sensor](https://makerchip.com/sandbox/031fmhpnZ/0KOh8yJ)
-
-
-[6.7 Push buttons](https://makerchip.com/sandbox/0mZf5hLPG/0pghQw2) 
-
-
-[6.8 Slideswitches](https://makerchip.com/sandbox/05yf0h91P/066hVzy) 
-
-
-[6.9 RGB LED](https://makerchip.com/sandbox/0mZf5hLPG/0vghOl6) 
-
-
-[6.10 RISC-V MYTH Core](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/riscv_myth_core.tlv) 
+[RISC-V MYTH Core](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Friscv_myth_core.tlv)
 
 
 
@@ -219,7 +268,8 @@ Let us first visualize the output of simple digital **logic gates**. From the GI
 
 <img src="https://user-images.githubusercontent.com/64545984/130665737-2b249ce2-3aa7-4b3e-8b44-ca9e9e9ffa7f.gif" alt="logic gates" width="800">
 
-[Code and explanation](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/logic_gates.tlv)
+[Code and explanation](https://raw.githubusercontent.com/stevehoover/makerchip_examples/master/logic_gates.tlv)
+
 #### 7.2.2 Visualizing LCD 16x2 display:
 
 <img src="https://user-images.githubusercontent.com/64545984/130665759-9894f0de-c058-4075-a990-2dee094123b4.gif" alt="lcd" width="800">
@@ -251,71 +301,9 @@ __NOTE: This visualization supports only 8 bit data/command mode__
 [Code and Explanation](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/lcd_module/lcd_lib.tlv)
 
 
-## 8. How to add own FPGA boards and peripherals
-
-#### 8.1 Adding custom FPGA board
-
-```
-// Macro definition for adding fpga board
-\TLV fpga_init()
-   |fpga_init_macro
-      @0
-        \viz_alpha
-            initEach() {                    // initialize this function on start
-                let fpga_img_url = "<PASTE YOUR FPGA BOARD IMAGE URL>"
-                let fpga_img = new fabric.Image.fromURL(
-                    fpga_img_url,
-                    function (img) {
-                        global.canvas.add(img)          // add image to canvas
-                        global.canvas.sendToBack(img);  // z-indexing always on bottom
-                    },
-                    {
-                        // tweak the values here according to your board
-                        originX: "center",
-                        originY: "center",
-                        left: 0,
-                        top: 0,
-                        scaleX: 0.3,
-                        scaleY: 0.3,
-                    }
-                    )
-            }
-```
-
-#### 8.2 Interfacing LEDs
-
-```
-\TLV fpga_led($_leds)
-   |led_pipe_macro
-      @0
-        $led[\$size($_leds)-1:0] = $_leds;      // copying SystemVerilog/TL-Verilog to TL-Verilog signal
-        /led[7:0]                               // Hierarchy. The width is the number of LEDs in the board
-            \viz_alpha
-                initEach() {                     // initialize this function on start
-                    // Fabric js object
-                    let led = new fabric.Rect({
-                        // modify these values according to your board
-                        top: 233,
-                        left: 151 - 32 * (this.getIndex() + 1),
-                        width: 6, 
-                        height: 11, 
-                        fill: "red",
-                        opacity: 0
-                        })
-                    // The objects that we return can be used in renderEach function
-                    return{objects : {led}}; 
-                }, 
-                renderEach() {                  // initialize this function on every cycle count
-                    // LED ON/OFF logic
-                    var mod = ((('/top|_pipe$_leds'.asInt(-1) >> this.getScope("led").index) & 1) == 1);
-                    // The object "led" that was returned in initEach is used below using this.getInitObjects() method
-                    this.getInitObject().led.set(mod ? {opacity: 1} : {opacity: 0});
-                }
-```
-
 ## 9. Steps to run in an actual FPGA
 
-Detailed step-by-step instructions are provided in this [link](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/tree/main/fpga). Credit goes to [Mayank Kabra](https://www.linkedin.com/in/mayank-kabra-6993701ab/) for helping me build this part.
+Detailed step-by-step instructions are provided in this [link](fpga/readme.md). Credit goes to [Mayank Kabra](https://www.linkedin.com/in/mayank-kabra-6993701ab/) for helping me build this part.
 
 LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
 
@@ -331,6 +319,21 @@ LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
 
 - To support more FPGA boards and peripherals.
 - The automated shell script that converts TL-V code to run in an actual FPGA currently supports only Xilinx boards with Vivado software. So to provide scripts that target other vendors as well using open source tools. It would probably be wise to use EDAlize.
+
+## Links
+
+### A Blog Post on this Virtual FPGA Lab
+
+[Blog post](https://medium.com/@m.baladhinesh/fpgas-in-your-browser-bb92be1c1fa3)
+
+### Similar Environments
+
+In our efforts, we've come across the following related projects. (Appearance on this list is not an endorsement, just a recognition that we are not alone.) Give us a pull request with any others.
+
+  - [FPGA View](https://www.linkedin.com/posts/martin-fink-23561890_fpgas-engineeringtech-activity-6849438567710691328-JPx_) A tracefile-driven virtual FPGA lab with touch UI for iPad initially, by [Martin Fink](https://www.linkedin.com/in/martin-fink-23561890/)
+  - A [remote virtual FPGA lab environment](https://www.linkedin.com/posts/alexmagyari_fpga-remote-laboratory-using-iot-approaches-activity-6842591085324316672-RB9x/) providing multi-user access to each FPGA, by [Alexander Magyari](https://www.linkedin.com/in/alexmagyari/).
+  - [Web FPGA](https://beta.webfpga.io/dashboard) A crowd-funded project to provide browser access to a local FPGA via WebUSB. Very cool, though it seems browsers have been removing support for WebUSB for security reasons.
+  - [Labs Land](https://labsland.com/en/labs/fpga-llstd1) A commercial option for virtualized labs.
 
 ## 12. Sponsors
 
@@ -359,6 +362,6 @@ Contributions are what make the open source community such an amazing vehicle to
 
 ## 13. License
 
-Distributed under the MIT License. See [LICENSE.md](LICENSE.md) for more information.
+Distributed under the MIT License. See [LICENSE.md](LICENSE.md).
 
 

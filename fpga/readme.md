@@ -1,11 +1,13 @@
 # FPGA flow 
 
 ## Installtion and Overview of Sandpiper
-* [SandPiper](https://www.redwoodeda.com/products) is a code generator that generates readable, well-structured, Verilog or SystemVerilog\  code from the given TL-Verilog code.
+
+* [SandPiper](https://www.redwoodeda.com/products) is a code generator that generates readable, well-structured, Verilog or SystemVerilog\ code from the given TL-Verilog code.
 * [SandPiper SaaS Edition](https://pypi.org/project/sandpiper-saas/) runs as a microservice in the cloud to support easy open-source development. Install Sanpiper SaaS Edition for this project. 
 * To run locally, SandPiper Education Edition can be requested from [RedwoodEDA](https://www.redwoodeda.com/products)
 
 ## Steps to run FPGA setup
+
 1. `git clone https://github.com/BalaDhinesh/Virtual-FPGA-Lab.git`
 2.  From your working directory run the shell script `/<complete_path>/run.sh`.
       ![image](https://user-images.githubusercontent.com/64545984/130664456-5d59afb5-aeb0-47bd-bdd7-83820f687a47.png)
