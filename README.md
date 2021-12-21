@@ -13,7 +13,6 @@ This document introduces the Virtual FPGA Lab. Separate documents will help you 
 
   - [FPGA training using this platform](https://github.com/stevehoover/GettingStartedWithFPGAs)
   - [Exporting to your FPGA board (if supported)](fpga/readme.md)
-  - [Contributing to the platform, such as adding support for other FPGA boards](AddingBoards.md)
 
 
 ## Contents
@@ -251,16 +250,21 @@ Here are some example you can load in Makerchip. You'll find the source code in 
 [RISC-V MYTH Core](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Friscv_myth_core.tlv)
 
 
+## How to Add FPGA Boards and Peripherals
 
-## 7. Visual Debug:
+Board definitions appear at the top of the `fpga_includes.tlv` file. It should be easy
+enough to interpret these parameters and add new boards by example. We welcome your contributions.
 
-### 7.1 How Visual Debug is built?
+
+## Visual Debug:
+
+### How Visual Debug is built?
 
 Visual Debug is a __JavaScript__ canvas where we used [fabric.js](http://fabricjs.com/), which is a powerful and simple Javascript HTML5 canvas library framework. It provides us to use interactive object models on top of canvas element.
 
-### 7.2 Examples
+### Examples
 
-#### 7.2.1 Visualizing logic gates
+#### Visualizing logic gates
 
 [Makerchip Sandbox](http://makerchip.com/sandbox/0mZf5hLDQ/0X6hB6q)
 
@@ -270,7 +274,7 @@ Let us first visualize the output of simple digital **logic gates**. From the GI
 
 [Code and explanation](https://raw.githubusercontent.com/stevehoover/makerchip_examples/master/logic_gates.tlv)
 
-#### 7.2.2 Visualizing LCD 16x2 display:
+#### Visualizing LCD 16x2 display:
 
 <img src="https://user-images.githubusercontent.com/64545984/130665759-9894f0de-c058-4075-a990-2dee094123b4.gif" alt="lcd" width="800">
 
@@ -301,7 +305,7 @@ __NOTE: This visualization supports only 8 bit data/command mode__
 [Code and Explanation](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/lcd_module/lcd_lib.tlv)
 
 
-## 9. Steps to run in an actual FPGA
+## Steps to run in an actual FPGA
 
 Detailed step-by-step instructions are provided in this [link](fpga/readme.md). Credit goes to [Mayank Kabra](https://www.linkedin.com/in/mayank-kabra-6993701ab/) for helping me build this part.
 
@@ -315,7 +319,7 @@ LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
   <img src="https://user-images.githubusercontent.com/64545984/130665845-18b89d49-a5dc-4308-bdf1-45119d93abef.gif" alt="led_artix" width="50%" /> 
 </p>
 
-## 10. Future Scope
+## Future Scope
 
 - To support more FPGA boards and peripherals.
 - The automated shell script that converts TL-V code to run in an actual FPGA currently supports only Xilinx boards with Vivado software. So to provide scripts that target other vendors as well using open source tools. It would probably be wise to use EDAlize.
@@ -335,7 +339,7 @@ In our efforts, we've come across the following related projects. (Appearance on
   - [Web FPGA](https://beta.webfpga.io/dashboard) A crowd-funded project to provide browser access to a local FPGA via WebUSB. Very cool, though it seems browsers have been removing support for WebUSB for security reasons.
   - [Labs Land](https://labsland.com/en/labs/fpga-llstd1) A commercial option for virtualized labs.
 
-## 12. Sponsors
+## Sponsors
 
 This work has been sponsored through Google Summer of Code (GSoC) 2021, with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization, with mentorship from Redwood EDA, and with training support from VLSI System Design.
 
@@ -346,7 +350,7 @@ This work has been sponsored through Google Summer of Code (GSoC) 2021, with the
     <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">VLSI System Design
 </p>
 
-## 11. Contributors
+## Contributors
 
 - [Akos Hadnagy](https://github.com/ahadnagy), Primary Mentor
 - [Steve Hoover](https://github.com/stevehoover), Mentor; Founder, Redwood EDA
@@ -356,7 +360,7 @@ This work has been sponsored through Google Summer of Code (GSoC) 2021, with the
 - [Mayank Kabra](https://github.com/mayank-kabra2001), Student at the International Institute of Information Technology, Bangalore
 
 
-## 12. Contributing
+## Contributing
 
 Contributions are what make the open source community such an amazing vehicle to learn, inspire, and create. Any contributions you make are **greatly appreciated**. Kudos for filing bugs. Deepest thanks for fixing them and for contributing new features and support for new boards.
 
