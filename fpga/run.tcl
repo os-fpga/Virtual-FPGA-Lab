@@ -8,34 +8,37 @@ set fp [open "tmp.txt" r]
 set content [read $fp]
 close $fp
 set lines [split $content \n]
-set file_name [lindex $lines 0]
-set part_name [lindex $lines 1]
-set cons_name [lindex $lines 2]
+set file_name  [lindex $lines 0]
+set part_name  [lindex $lines 1]
+set cons_name  [lindex $lines 2]
 set shell_path [lindex $lines 3]
+set board	   [lindex $lines 4]
 
 #
-# STEP#1: define output directory area.
+# STEP#1: define output and input directory area.
 #
-set outputDir ./out_${file_name}_${part_name}/FPGA_${file_name}
+# set outputDir ./out_${file_name}_${part_name}/FPGA_${file_name}
+set outputDir ./../out/${board}/${file_name}/Output
+set inputDir ./../out/${board}/${file_name}/Dependencies
 file mkdir $outputDir
 
 #
 # STEP#2: setup design sources and constraints
 #
-read_verilog ./out_${file_name}_${part_name}/${file_name}.v
-read_verilog ./out_${file_name}_${part_name}/includes/proj_verilog/clk_gate.v
+read_verilog $inputDir/${file_name}.v
+read_verilog $inputDir/includes/proj_verilog/clk_gate.v
 #read_verilog ${shell_path}/../../includes/clock_divider.v
 #set_property -include_dirs {./out_${file_name}_${part_name}/includes/* ./out_${file_name}_${part_name}/includes/proj_verilog/* ./out_${file_name}_${part_name}/includes/proj_default/*} [current_fileset]
 read_xdc $cons_name
-read_xdc ./out_${file_name}_${part_name}/clock_constraints.xdc
+read_xdc $inputDir/clock_constraints.xdc
 
 #
 # STEP#3: run synthesis, report utilization and timing estimates, write checkpoint design
 #
 set multi_include_dirs " \
-./out_${file_name}_${part_name}/includes \
-./out_${file_name}_${part_name}/includes/proj_verilog \
-./out_${file_name}_${part_name}/includes/proj_default \
+$inputDir/includes \
+$inputDir/includes/proj_verilog \
+$inputDir/includes/proj_default \
 "
 synth_design -top top -part $part_name -retiming -include_dirs $multi_include_dirs
 file mkdir $outputDir/syn/reports
@@ -122,7 +125,7 @@ write_bitstream -force $outputDir/$file_name.bit
 #
 # STEP#7: connect to your board
 #
-open_hw
+open_hw_manager
 connect_hw_server
 open_hw_target
 #current_hw_device [lindex [get_hw_devices] 0]

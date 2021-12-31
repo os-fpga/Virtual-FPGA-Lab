@@ -1,0 +1,119 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
+| Date         : Sat Oct 30 02:46:24 2021
+| Host         : DESKTOP-D80LUPK running 64-bit Ubuntu 20.04.3 LTS
+| Command      : report_timing -sort_by group -max_paths 100 -path_type summary -file ./../out/basys3/led_counter/Output/route/reports/post_route_timing.rpt
+| Design       : top
+| Device       : 7a35t-cpg236
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Startpoint                     Endpoint                       Slack(ns)     
+----------------------------------------------------------------------------
+LED_PIPE_count1_a1_reg[2]/C    gen_clkF_LED_PIPE_refresh_a1/latched_clk_en_reg/D
+                                                              0.362         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[10]/R   4.461         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[11]/R   4.461         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[12]/R   4.461         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[9]/R    4.461         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[5]/R    4.751         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[6]/R    4.751         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[7]/R    4.751         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[8]/R    4.751         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[0]/R    4.907         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[1]/R    4.925         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[2]/R    4.925         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[3]/R    4.925         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[4]/R    4.925         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[25]/R   5.019         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[26]/R   5.019         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[27]/R   5.019         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[28]/R   5.019         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[29]/R   5.334         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[30]/R   5.334         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[31]/R   5.334         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[21]/R   5.402         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[22]/R   5.402         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[23]/R   5.402         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[24]/R   5.402         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[13]/R   5.529         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[14]/R   5.529         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[15]/R   5.529         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[16]/R   5.529         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[17]/R   5.565         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[18]/R   5.565         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[19]/R   5.565         
+LED_PIPE_count1_a1_reg[4]/C    LED_PIPE_count1_a1_reg[20]/R   5.565         
+reset                          LED_PIPE_Leds_a0_reg[5]/R      5.650         
+reset                          LED_PIPE_Leds_a0_reg[6]/R      5.650         
+reset                          LED_PIPE_Leds_a0_reg[7]/R      5.650         
+reset                          LED_PIPE_Leds_a0_reg[8]/R      5.650         
+reset                          LED_PIPE_Leds_a0_reg[0]/S      5.663         
+reset                          LED_PIPE_Leds_a0_reg[13]/R     5.679         
+reset                          LED_PIPE_Leds_a0_reg[14]/R     5.679         
+reset                          LED_PIPE_Leds_a0_reg[15]/R     5.679         
+reset                          LED_PIPE_Leds_a0_reg[1]/R      5.770         
+reset                          LED_PIPE_Leds_a0_reg[2]/R      5.770         
+reset                          LED_PIPE_Leds_a0_reg[3]/R      5.770         
+reset                          LED_PIPE_Leds_a0_reg[4]/R      5.770         
+reset                          LED_PIPE_Leds_a0_reg[10]/R     5.796         
+reset                          LED_PIPE_Leds_a0_reg[11]/R     5.796         
+reset                          LED_PIPE_Leds_a0_reg[12]/R     5.796         
+reset                          LED_PIPE_Leds_a0_reg[9]/R      5.796         
+LED_PIPE_Leds_a0_reg[3]/C      led_reg[3]/D                   6.665         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[30]/D   7.130         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[31]/D   7.222         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[29]/D   7.243         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[26]/D   7.244         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[28]/D   7.263         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[27]/D   7.336         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[25]/D   7.357         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[22]/D   7.463         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[24]/D   7.482         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[23]/D   7.555         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[21]/D   7.576         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[18]/D   7.577         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[20]/D   7.596         
+LED_PIPE_Leds_a0_reg[4]/C      led_reg[4]/D                   7.603         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[19]/D   7.669         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[17]/D   7.690         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[14]/D   7.691         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[16]/D   7.710         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[10]/D     7.756         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[14]/D     7.761         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[12]/D     7.777         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[15]/D   7.783         
+LED_PIPE_Leds_a0_reg[7]/C      led_reg[7]/D                   7.791         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[10]/D   7.804         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[13]/D   7.804         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[12]/D   7.823         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[11]/D     7.851         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[15]/D     7.856         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[9]/D      7.867         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[13]/D     7.872         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[6]/D      7.872         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[8]/D      7.893         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[11]/D   7.896         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[9]/D    7.917         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[6]/D    7.918         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[8]/D    7.937         
+reset                          LED_PIPE_rst1_a1_reg/D         7.942         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[7]/D      7.967         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[5]/D      7.983         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[7]/D    8.010         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[5]/D    8.031         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[4]/D      8.070         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[2]/D      8.114         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[3]/D      8.128         
+LED_PIPE_count1_a1_reg[0]/C    LED_PIPE_count1_a1_reg[0]/D    8.172         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[4]/D    8.201         
+LED_PIPE_Leds_a0_reg[14]/C     led_reg[14]/D                  8.229         
+LED_PIPE_Leds_a0_reg[0]/C      LED_PIPE_Leds_a0_reg[1]/D      8.230         
+LED_PIPE_count1_a1_reg[2]/C    LED_PIPE_count1_a1_reg[3]/D    8.261         
+LED_PIPE_Leds_a0_reg[9]/C      led_reg[9]/D                   8.273         
+
+
+
