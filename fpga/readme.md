@@ -1,6 +1,6 @@
 # FPGA flow 
 
-## Installtion and Overview of Sandpiper
+## Installation and Overview of SandPiper
 
 * [SandPiper](https://www.redwoodeda.com/products) is a code generator that generates readable, well-structured, Verilog or SystemVerilog\ code from the given TL-Verilog code.
 * [SandPiper SaaS Edition](https://pypi.org/project/sandpiper-saas/) runs as a microservice in the cloud to support easy open-source development. Install Sanpiper SaaS Edition for this project. 
@@ -19,7 +19,7 @@
  
        ![image](https://user-images.githubusercontent.com/64545984/130664463-61eba65b-8c0b-4857-a678-226c5dcb042e.png)
 
-    b. Board name (If board is not from given options then provide part number of board)
+    b. Board name (if board is not from given options then provide part number of board)
     
       If board is from given options:
     

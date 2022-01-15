@@ -318,7 +318,6 @@ m4+definitions(['
                return{sseg};
             },
             render() {
-               debugger
                let digit = this.getIndex("digit_viz")
                let segment = this.getIndex()
                let digit_selected = (((this.sigVal("sseg_digit_n").asInt() >> digit) & 1) == 0)

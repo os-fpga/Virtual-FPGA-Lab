@@ -12,7 +12,7 @@
 \TLV
    |led_pipe
       @0
-         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 50000000)) 
+         m4+fpga_heartbeat($refresh, 1, 50000000) 
          $reset = *reset;
          ?$refresh
             $Leds[15:0] <= $reset ? 1 : $Leds+1;

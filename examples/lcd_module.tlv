@@ -35,7 +35,7 @@
          
          // Assumed clock frequency is 50MHz, so code runs for every 100Hz
          // i.e (50MHz) / (100Hz) = 500000 cycles after refresh
-         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 500000))
+         m4+fpga_heartbeat($refresh, 1, 500000)
          $reset = *reset;
          ?$refresh          // clock gating
             $Ii[3:0] <= $reset ? 5'b11111 : ($Ii < 4) ? $Ii + 1 : 0;

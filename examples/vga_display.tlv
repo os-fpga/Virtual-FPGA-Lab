@@ -42,7 +42,7 @@
 \TLV init_cursor(|_pipe, @_stage, $_reset, $hsync, $vsync, M4_COUNTER, $sx , $sy)
    |_pipe
       @_stage
-         m4+fpga_refresh($sync, m4_ifelse(M4_MAKERCHIP, 1, 1, 4))
+         m4+fpga_heartbeat($sync, 1, 4)
          ?$sync
             $hsync = ~($Sx >= M4_HS_STA && $Sx < M4_HS_END);
             $vsync = ~($Sy >= M4_VS_STA && $Sy < M4_VS_END);
@@ -56,7 +56,7 @@
    m4+init_cursor(|vga_pipe, @0, $reset, $hsync, $vsync, M4_COUNTER, $sx, $sy) 
    |vga_pipe
       @0
-         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 4))
+         m4+fpga_heartbeat($refresh, 1, 4)
          $reset = *reset; 
          ?$refresh
             $de = ($sx < M4_HA_END && $sy < M4_VA_END);
