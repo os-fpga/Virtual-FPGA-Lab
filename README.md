@@ -62,6 +62,7 @@ This document introduces the Virtual FPGA Lab. Separate documents will help you 
 
 New to FPGAs? Field-programmable gate arrays (FPGAs) are a hardware circuits that can be programmed to carry out logical operations. They provide a sweet spot between implementing algorithms in software and fabricating application-specific integrated circuits (ASICs). They generally provide far better performance and power-efficiency than software implementations, and they require far less time and expense to implement than ASICs. They can be reprogrammed as needed to upgrade functionality or fix bugs, even after deployment to customers (in the "field"). FPGAs are also beneficial for prototyping application-specific integrated circuits (ASICs) or processors.
 
+
 ## Virtual Lab Overview
 
 Though far more accessible than ASICs, FPGAs can still be a bit costly and difficult to learn for beginners and students. That's where this project comes in... and it's not just for beginners.
@@ -78,6 +79,7 @@ In summary:
   - __Exportable:__ Code in Virtual Lab works on real FPGAs!!!
   - __Open Source:__ MIT-licensed.
 
+
 ## Supported FPGA Boards
 
 1. Zedboard Zynq-7000 ARM/FPGA SoC Development Board ([Product Link](https://www.avnet.com/wps/portal/us/products/avnet-boards/avnet-board-families/zedboard/))
@@ -88,38 +90,38 @@ In summary:
 
 Currently we demonstrate using only these boards and we plan to add more boards in the future. You can very easily [add your own FPGA boards](fpga/readme.md). Contributions are welcome.
 
+
 ## Development Flow
 
-Click [here](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ffpga_lab.tlv), and go. It's literally that simple! _(Right-click to open in a new tab.)_
+Just click [here](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ffpga_lab.tlv), and go! _(Right-click to open in a new tab.)_ Instructions below will guide you.
 
-You can start from any [example project](#examples) here.
+You can also start from any of the [example project](#examples) here.
 
 Alternately, especially for local FPGA use, you can use [Makerchip-app](https://pypi.org/project/makerchip-app/) to edit files on your local machine (where you can maintain your git repository and run FPGA flows).
 
-To use a physical FPGA, see these [instructions](fpga/readme.md).
+Once you have some logic running in simulation, you'll be able to export your design to any supported physical FPGA board using these [instructions](fpga/readme.md).
 
-Here's a starting template:
+
+## Starting Template
 
 ```
 \m4_TLV_version 1d: tl-x.org
 \SV
    m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
-   m4_lab()
    
-   // ...FPGA SystemVerilog logic goes here.
+   m4_lab()
+
+   // ... SystemVerilog or TL-Verilog FPGA logic goes here ...
    
 \TLV
    /board
-      /fpga
-         // ...FPGA TL-Verilog logic goes here.
-   
       // Board selection:
-      // 0 - 1st CLaaS on AWS F1
-      // 1 - Zedboard
-      // 2 - Artix-7
-      // 3 - Basys3
-      // 4 - Icebreaker
-      // 5 - Nexys
+      // 0: M4_FIRST_CLAAS_ID
+      // 1: M4_ZEDBOARD_ID
+      // 2: M4_ARTIX7_ID
+      // 3: BASYS3_ID
+      // 4: ICEBREAKER_ID
+      // 5: NEXYS_ID
       m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 \SV
 
@@ -127,7 +129,7 @@ Here's a starting template:
 
 ```
 
-The `m4+board(...)` macro and peripheral macros, such as `m4+led(...)` define the hardware.
+The `m4+board(...)` macro (and peripheral macros, such as `m4+led(...)`, define the hardware).
 
 `m4_lab()` provides a superset of signals for I/Os. Those that have corresponding components on the board or peripherals should be driven/used. These include:
 
@@ -139,6 +141,9 @@ logic sseg_decimal_point_n;   // decimal point is lit for selected digit(s) when
 logic [7:0] sseg_digit_n;     // corresponding digits are enabled when deasserted
 
 ```
+
+You can see these signal declarations in the one-line expansion of the `m4_lab()` macro instantiation in the NAV-TLV tab.
+
 
 ## Configuring and Driving the FPGA Board and Peripherals
 
@@ -225,6 +230,7 @@ m4+fpga_led(*sw)
 // *sw - switch signal
 ```
 
+
 ## Examples
 
 Here are some example you can load in Makerchip. You'll find the source code in this repository under [examples](examples). (Right-click links to open in a new tab.)
@@ -258,51 +264,33 @@ enough to interpret these parameters and add new boards by example. We welcome y
 
 ## Visual Debug:
 
-### How Visual Debug is built?
+Makerchip's Visual Debug feature is used to create the Virtual FPGA Lab.
 
-Visual Debug is a __JavaScript__ canvas where we used [fabric.js](http://fabricjs.com/), which is a powerful and simple Javascript HTML5 canvas library framework. It provides us to use interactive object models on top of canvas element.
+You can also use Visual Deubg to visualize the logic running inside the FPGA.
 
-### Examples
+<img src="https://user-images.githubusercontent.com/11302288/149048729-dd462221-6bd9-44b4-a2be-c61409234316.jpg">
 
-#### Visualizing logic gates
+### Visualizing your FPGA logic
 
-[Makerchip Sandbox](http://makerchip.com/sandbox/0mZf5hLDQ/0X6hB6q)
+By structuring your code to define your FPGA logic in TL-Verilog (which does not preclude using pure Verilog/SystemVerilog), you can add visualization to your logic.
 
-Let us first visualize the output of simple digital **logic gates**. From the GIF below, we can see that the left portion is the coding part where you can see the logic of the gates and right portion is the Visual Debug(VIZ) part where you can see the visualization of each logic gates. We can move back and forth between cycles and see in the top right which cycle currently is. Also, look at the waveform of the logic from the below image.
+Here's a sample code structure.
 
-<img src="https://user-images.githubusercontent.com/64545984/130665737-2b249ce2-3aa7-4b3e-8b44-ca9e9e9ffa7f.gif" alt="logic gates" width="800">
+```
+...
+\SV
+   m4_lab()
 
-[Code and explanation](https://raw.githubusercontent.com/stevehoover/makerchip_examples/master/logic_gates.tlv)
+\TLV my_fpga_logic(/_fpga)
+   // ... Your TL-Verilog FPGA logic along with it's visualization ...
 
-#### Visualizing LCD 16x2 display:
+\TLV
+   /board
+      m4+board(/board, /fpga, 3, *, , my_fpga_logic)
+...
+```
 
-<img src="https://user-images.githubusercontent.com/64545984/130665759-9894f0de-c058-4075-a990-2dee094123b4.gif" alt="lcd" width="800">
-
-This program prints the following in the LCD 16x2 display
-
-__Line 1:__ FPGAs are fun!!!
-
-__Line 2:__ --
-
-And then left shift line1 and line2 once completed
-
-__NOTE: This visualization supports only 8 bit data/command mode__
-#### LCD Commands supported:
-         - 8'h38 - Function Set: 8-bit, 2 Line, 5x7 Dots
-         - 8'h30 - Function Set: 8-bit, 1 Line, 5x7 Dots
-         - 8'h0C - Display on Cursor off
-         - 8'h06 - Entry Mode: Increment, entire shift off
-         - 8'h04 - Entry Mode: Decrement, entire shift off
-         - 8'h01 - Clear display
-         - 8'h02 - Return home
-         - 8'h80 - force cursor to begin at first line
-         - 8'hC0 - force cursor to begin at second line
-         - 8'h18 - Shift entire display to the left
-         - 8'h1C - Shift entire display to the right
-         - 8'h10 - Shift cursor left 
-         - 8'h14 - Shift cursor right
-         
-[Code and Explanation](https://github.com/BalaDhinesh/Virtual-FPGA-Lab/blob/main/examples/lcd_module/lcd_lib.tlv)
+Visual Debug documentation and examples can be found within the Makerchip IDE.
 
 
 ## Steps to run in an actual FPGA
@@ -319,10 +307,12 @@ LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
   <img src="https://user-images.githubusercontent.com/64545984/130665845-18b89d49-a5dc-4308-bdf1-45119d93abef.gif" alt="led_artix" width="50%" /> 
 </p>
 
+
 ## Future Scope
 
 - To support more FPGA boards and peripherals.
 - The automated shell script that converts TL-V code to run in an actual FPGA currently supports only Xilinx boards with Vivado software. So to provide scripts that target other vendors as well using open source tools. It would probably be wise to use EDAlize.
+
 
 ## Links
 
@@ -339,6 +329,7 @@ In our efforts, we've come across the following related projects. (Appearance on
   - [Web FPGA](https://beta.webfpga.io/dashboard) A crowd-funded project to provide browser access to a local FPGA via WebUSB. Very cool, though it seems browsers have been removing support for WebUSB for security reasons.
   - [Labs Land](https://labsland.com/en/labs/fpga-llstd1) A commercial option for virtualized labs.
 
+
 ## Sponsors
 
 This work has been sponsored through Google Summer of Code (GSoC) 2021, with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization, with mentorship from Redwood EDA, and with training support from VLSI System Design.
@@ -349,6 +340,7 @@ This work has been sponsored through Google Summer of Code (GSoC) 2021, with the
     <img src="https://user-images.githubusercontent.com/11302288/130831451-1c3b1541-06f2-4c0e-bbaf-8e0026db00c1.png" alt="redwoodeda-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">VLSI System Design
 </p>
+
 
 ## Contributors
 
@@ -364,7 +356,8 @@ This work has been sponsored through Google Summer of Code (GSoC) 2021, with the
 
 Contributions are what make the open source community such an amazing vehicle to learn, inspire, and create. Any contributions you make are **greatly appreciated**. Kudos for filing bugs. Deepest thanks for fixing them and for contributing new features and support for new boards.
 
-## 13. License
+
+## License
 
 Distributed under the MIT License. See [LICENSE.md](LICENSE.md).
 
