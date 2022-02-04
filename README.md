@@ -331,14 +331,13 @@ In our efforts, we've come across the following related projects. (Appearance on
 
 
 ## Sponsors
-
-This work has been sponsored through Google Summer of Code (GSoC) 2021, with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization, with mentorship from Redwood EDA, LLC, and with training support from VLSI System Design.
-
+This work has been sponsored through the OSFPGA Foundation and Google Summer of Code (GSoC) 2021(with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization), with mentorship from Redwood EDA, LLC, and with training support from VLSI System Design.
 <p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="130"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://www.fossi-foundation.org/assets/fossi_logo_large.png" alt="fossi-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://user-images.githubusercontent.com/64545984/152572571-1e10d2fa-acc6-4048-8d73-1be63267b778.png" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
     <img src="https://user-images.githubusercontent.com/11302288/130831451-1c3b1541-06f2-4c0e-bbaf-8e0026db00c1.png" alt="redwoodeda-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">VLSI System Design
+    <img src="https://www.fossi-foundation.org/assets/fossi_logo_large.png" alt="fossi-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">
 </p>
 
 
