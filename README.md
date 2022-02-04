@@ -1,14 +1,8 @@
-<h1 align="left"> Virtual FPGA Lab
-</h1>
 
-<p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://user-images.githubusercontent.com/11302288/130831451-1c3b1541-06f2-4c0e-bbaf-8e0026db00c1.png" alt="redwoodeda-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://www.fossi-foundation.org/assets/fossi_logo_large.png" alt="fossi-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">
-</p>
-
-
+# Virtual FPGA Lab
+- **Develop FPGA logic in your browser!**
+- **Run on your own FPGA!**
+- **Share with others!**
 
 
 ## Contents
@@ -46,13 +40,15 @@
 
 [10. Future Scope](#10-future-scope)
 
-[11. Contributors](#11-contributors)
+[11. Sponsors](#11-sponsors)
 
-[12. Contributing](#12-contributing)
+[12. Contributors](#12-contributors)
 
-[13. License](#13-license)
+[13. Contributing](#13-contributing)
 
-[14. Disclaimer](#14-disclaimer)
+[14. License](#14-license)
+
+[15. Disclaimer](#15-disclaimer)
 
 
 
@@ -307,7 +303,17 @@ LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
 - To support more FPGA boards and peripherals.
 - The automated shell script that converts TL-V code to run in an actual FPGA currently supports only Xilinx boards with Vivado software. So to provide scripts that target other vendors as well using open source tools.
 
-## 11. Contributors:
+## 11. Sponsors
+This work has been sponsored through the OSFPGA Foundation and Google Summer of Code (GSoC) 2021(with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization), with mentorship from Redwood EDA, LLC, and with training support from VLSI System Design.
+<p>
+    <img src="https://user-images.githubusercontent.com/64545984/152572571-1e10d2fa-acc6-4048-8d73-1be63267b778.png" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://user-images.githubusercontent.com/11302288/130831451-1c3b1541-06f2-4c0e-bbaf-8e0026db00c1.png" alt="redwoodeda-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://www.fossi-foundation.org/assets/fossi_logo_large.png" alt="fossi-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <img src="https://user-images.githubusercontent.com/11302288/133894333-14ff8014-4bbb-4573-90b9-bed24e509d6e.png" alt="vsd-logo" height="80">
+</p>
+
+## 12. Contributors:
 - [Steve Hoover](https://github.com/stevehoover), Founder, Redwood EDA
 - [Akos Hadnagy](https://github.com/ahadnagy), Advisor
 - [Dylan McNamee](https://github.com/dylanmc), Advisor
@@ -317,14 +323,14 @@ LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
 
 __Funding for this work is provided by the Open Source Silicon Foundation__
 
-## 12. Contributing
+## 13. Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## 13. License
+## 14. License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-## 14. Disclaimer
+## 15. Disclaimer
 Though the algorithms developed has been tested against a large number of custom inputs, there are situations where it can fail. If you come across any such problem, please feel free to raise an issue here and we will try to address the issue as soon as possible.
 
 
