@@ -332,7 +332,7 @@ In our efforts, we've come across the following related projects. (Appearance on
 
 ## Sponsors
 
-This work has been sponsored through Google Summer of Code (GSoC) 2021, with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization, with mentorship from Redwood EDA, and with training support from VLSI System Design.
+This work has been sponsored through Google Summer of Code (GSoC) 2021, with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization, with mentorship from Redwood EDA, LLC, and with training support from VLSI System Design.
 
 <p>
     <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg" alt="gsoc-logo" height="130"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -345,7 +345,7 @@ This work has been sponsored through Google Summer of Code (GSoC) 2021, with the
 ## Contributors
 
 - [Akos Hadnagy](https://github.com/ahadnagy), Primary Mentor
-- [Steve Hoover](https://github.com/stevehoover), Mentor; Founder, Redwood EDA
+- [Steve Hoover](https://github.com/stevehoover), Mentor; Founder & CEO, Redwood EDA, LLC
 - [Dylan McNamee](https://github.com/dylanmc), Advisor
 - [Bala Dhinesh](https://github.com/BalaDhinesh), Contributing as a participant in Google Summer of Code 2021.
 - [Shivani Shah](https://github.com/shivanishah269), Student at the International Institute of Information Technology, Bangalore
