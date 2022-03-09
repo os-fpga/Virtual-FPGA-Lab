@@ -13,6 +13,7 @@
    '],['
     m4_define(['M4_COUNTER'], 1)
    ']
+   )
     
 \TLV init_monitor()
    m4_define(M4_HA_END, 639)
