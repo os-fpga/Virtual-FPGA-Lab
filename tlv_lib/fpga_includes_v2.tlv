@@ -1,4 +1,60 @@
 \m4_TLV_version 1d: tl-x.org
+
+\TLV fpga_viz(/_board, /_fpga, #_board)
+   m4+board(/_board, /_fpga, #_board)   
+
+\TLV simple_main()
+   \SV_plus
+    
+      logic[15:0] led_n;
+      assign led = ~led_n;
+    
+      always_ff @(posedge clk) begin
+         // LEDs
+         led_n <= reset ? 0 : led_n + 1;
+    
+         // 7-segment display (if present)
+         sseg_digit_n = ~(4'b1 << (led[2] ? led[1:0] : 3 - led[1:0]));
+         sseg_segment_n = ~(7'b1 << (led[2] ? 3 : 0));
+         sseg_decimal_point_n = 1'b1;
+      end
+   
+   *passed = *cyc_cnt > 30;
+   
+\TLV riscv_main()
+   \SV_plus
+    
+    
+    always_ff @(posedge clk) begin
+    
+       // LEDs
+       led <= $cpu_out; //reset ? 0 : led + 1;
+    
+       // 7-segment display (if present)
+       sseg_digit_n = ~ (4'b1 << *cyc_cnt[1:0]);
+       sseg_segment_n = 7'b1111111;
+       sseg_decimal_point_n = 1'b0;
+    
+    end
+    
+    
+   
+   /fpga
+      m4_def(NUM_CORES, 1)
+      m4+cpu(/fpga)
+   /* verilator lint_off WIDTH */
+   |led_pipe
+      @0
+         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 50000000)) 
+         $reset = *reset;
+         ?$refresh
+            $Leds[15:0] <= $reset ? 1 : $Leds + 1;
+         //*led = $Leds;
+
+
+   *passed = *cyc_cnt > 60;
+   $cpu_out[31:0] = /fpga|fetch/instr/regs[3]>>4$value;
+
 \SV
 m4+definitions(['
    
