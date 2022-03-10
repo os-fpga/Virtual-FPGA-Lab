@@ -14,7 +14,7 @@ m4+definitions(['
       BOARD_0_THANKS_ARGS, ['['['left: 390, top: 250, width: 100'], ['']']'],
       
       ['# Zedboard'],
-      ZED_BOARD_ID, 1,
+      ZEDBOARD_ID, 1,
       BOARD_1_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666264-972dfe58-c2c8-4446-b0d3-eb9587fd3458.png']'],
       BOARD_1_IMAGE_SIZE, ['['width: 2692, height: 2256']'],
       BOARD_1_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1258, top: 1058, width: 260, height: 260']'],
@@ -65,6 +65,8 @@ m4+definitions(['
       BOARD_5_SSEG_WHERE, ['['left: 163, top: 306, scale: 0.778']'],
       BOARD_5_THANKS_ARGS, ['['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']']'],
 
+      ['# CLEAR'],
+      CLEAR_ID, 6,
       BOARD_6_IMAGE_URL,  ['['https://user-images.githubusercontent.com/11302288/157560177-9d0f9283-cb9c-4a14-b688-d44e9f1820a3.jpg']'],
       BOARD_6_IMAGE_SIZE, ['['width: 2094, height: 2030']'],
       BOARD_6_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 915, top: 1334, width: 289, height: 289']'],
@@ -1093,11 +1095,11 @@ m4+definitions(['
       // 0: M4_FIRST_CLAAS_ID
       // 1: M4_ZEDBOARD_ID
       // 2: M4_ARTIX7_ID
-      // 3: BASYS3_ID
-      // 4: ICEBREAKER_ID
-      // 5: NEXYS_ID
-      // 6: CLEAR
-      m4+board(/board, /fpga, 6, *,
+      // 3: M4_BASYS3_ID
+      // 4: M4_ICEBREAKER_ID
+      // 5: M4_NEXYS_ID
+      // 6: M4_CLEAR_ID
+      m4+board(/board, /fpga, 2, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
 

@@ -32,6 +32,7 @@
       // 3 - Basys3
       // 4 - Icebreaker
       // 5 - Nexys
+      // 6 - CLEAR
       m4+board(/board, /fpga, 3, *, , example_fpga_logic)   // 3rd arg selects the board.
 
 \SV

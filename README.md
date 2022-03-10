@@ -87,6 +87,7 @@ In summary:
 3. Basys 3 Artix-7 FPGA Trainer Board ([Product Link](https://store.digilentinc.com/basys-3-artix-7-fpga-beginner-board-recommended-for-introductory-users/)) 
 4. Icebreaker FPGA ([Product Link](https://1bitsquared.com/products/icebreaker))
 5. Nexys A7 ([Product Link](https://store.digilentinc.com/nexys-a7-fpga-trainer-board-recommended-for-ece-curriculum/))
+6. CLEAR ([Article](https://www.hackster.io/news/efabless-clear-is-a-fully-open-source-asic-with-embedded-fpga-and-risc-v-core-now-on-groupgets-8ed72c5cff6a)) (no physical FPGA flow)
 
 Currently we demonstrate using only these boards and we plan to add more boards in the future. You can very easily [add your own FPGA boards](fpga/readme.md). Contributions are welcome.
 
@@ -119,9 +120,10 @@ Once you have some logic running in simulation, you'll be able to export your de
       // 0: M4_FIRST_CLAAS_ID
       // 1: M4_ZEDBOARD_ID
       // 2: M4_ARTIX7_ID
-      // 3: BASYS3_ID
-      // 4: ICEBREAKER_ID
-      // 5: NEXYS_ID
+      // 3: M4_BASYS3_ID
+      // 4: M4_ICEBREAKER_ID
+      // 5: M4_NEXYS_ID
+      // 6: M4_CLEAR_ID
       m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 \SV
 
@@ -159,6 +161,7 @@ In the starting template, the 3rd argument below can be used to select the board
 // 3 - Basys3
 // 4 - Icebreaker
 // 5 - Nexys
+// 6 - CLEAR
 m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 ```
 
@@ -259,7 +262,11 @@ Here are some example you can load in Makerchip. You'll find the source code in 
 ## How to Add FPGA Boards and Peripherals
 
 Board definitions appear at the top of the `fpga_includes.tlv` file. It should be easy
-enough to interpret these parameters and add new boards by example. We welcome your contributions.
+enough to interpret these parameters and add new boards by example. Be sure also to update all listings of available boards (which you can find using `git grep -i zedboard`).
+
+The above steps update the virtual environment only. The physical FPGA build flow is a different matter and is platform-dependent, though open-source platform-agnostic build flows are available, and we'd love to use them.
+
+We welcome your contributions.
 
 
 ## Visual Debug:

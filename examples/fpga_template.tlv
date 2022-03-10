@@ -25,6 +25,7 @@
       // 3 - Basys3
       // 4 - Icebreaker
       // 5 - Nexys
+      // 6 - CLEAR
       m4+board(/board, /fpga, 3, ['*'])
       // This should be moved into board(). (A VIZ bug is interfering with this.)
       /fpga
