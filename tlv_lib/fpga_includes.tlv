@@ -63,7 +63,14 @@ m4+definitions(['
       BOARD_5_LED_WHERE,  ['['left: 135, top: 342, scale: 0.656']'],
       BOARD_5_SSEG_CNT,   8,
       BOARD_5_SSEG_WHERE, ['['left: 163, top: 306, scale: 0.778']'],
-      BOARD_5_THANKS_ARGS, ['['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']']'])
+      BOARD_5_THANKS_ARGS, ['['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']']'],
+
+      BOARD_6_IMAGE_URL,  ['['https://user-images.githubusercontent.com/11302288/157560177-9d0f9283-cb9c-4a14-b688-d44e9f1820a3.jpg']'],
+      BOARD_6_IMAGE_SIZE, ['['width: 2094, height: 2030']'],
+      BOARD_6_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 915, top: 1334, width: 289, height: 289']'],
+      BOARD_6_LED_CNT,    0,
+      BOARD_6_SSEG_CNT,   0,
+      BOARD_6_THANKS_ARGS, ['['['left: 1700, top: 2030, width: 350'], ['Efabless and ']']'])
 
 
 
@@ -1089,7 +1096,8 @@ m4+definitions(['
       // 3: BASYS3_ID
       // 4: ICEBREAKER_ID
       // 5: NEXYS_ID
-      m4+board(/board, /fpga, 2, *,
+      // 6: CLEAR
+      m4+board(/board, /fpga, 6, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
 
@@ -1107,7 +1115,7 @@ m4+definitions(['
       //   )
       
    // Instantiate each board with simple TLV outputs.
-   m4+forloop(board, 0, 6,
+   m4+forloop(board, 0, 7,
       \TLV
          /board['']m4_board
             /default_inputs
