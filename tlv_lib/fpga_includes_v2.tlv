@@ -224,7 +224,6 @@ m4+definitions(['
                {  left: 0,
                   top: 0,
                   fill: "#30483c",
-                  strokeWidth: 1,
                   width: (function () {return {M4_BOARD_IMAGE_SIZE}})().width,
                   height: (function () {return {M4_BOARD_IMAGE_SIZE}})().height,
                },
@@ -517,15 +516,21 @@ m4+definitions(['
       \viz_js
          init() {
               
-                // TODO: Add LCD image
-                let lcd_img =  this.newImageFromURL("https://user-images.githubusercontent.com/64545984/130668318-5d9c4c9a-d19e-4ddf-aa61-13e4e8624f9c.png", {
-                  left: 80,
-                  top: -100,
-                  width: 10000,
-                  hieght: 30,
-               })
+                let img = this.newImageFromURL(
+               "https://user-images.githubusercontent.com/64545984/160244122-e66b012b-b6de-4227-9c69-d8c7948b99b7.png",
+               {  left: -100,
+                  top: 400,
+                  fill: "#30483c",
+                  strokeWidth: 0
+               },
+               {  angle: 1,
+                  width: 1850,
+                  height: 2600,
+                  strokeWidth: 0
+               }
+            )
                  let lcd = new fabric.Rect({
-                     top: 100,
+                     top: 600,
                      left: -0,
                      width: 1600,
                      height: 500,
@@ -534,23 +539,23 @@ m4+definitions(['
                   })
                   let line1 = new fabric.Text("", {
                     left: 50,
-                    top: 100,
+                    top: 600,
                     fontSize: 160,
                     fontFamily: "Courier New",
                   })
                   let line2 = new fabric.Text("", {
                     left: 50,
-                    top: 330,
+                    top: 830,
                     fontSize: 160,
                     fontFamily: "Courier New",
                   })
                   let info = new fabric.Text("", {
-                    left: 10,
-                    top: 0,
+                    left: 0,
+                    top: 300,
                     fontSize: 100,
                     fontFamily: "Courier New",
                   })
-             return {lcd, line1, line2, info};
+             return {img, lcd, line1, line2, info};
              },
           render(){
               let str1 = '/lcd$str1'.asString().split("").reverse().join("")
@@ -645,23 +650,19 @@ m4+definitions(['
       *failed = !clk || 1'b0;
       \viz_js
          init(){
-         // https://www.google.com/search?q=monitor&tbm=isch&tbs=il:cl&client=ubuntu&hs=JlM&hl=en&sa=X&ved=0CAAQ1vwEahcKEwjgkNDes_DxAhUAAAAAHQAAAAAQAg&biw=1846&bih=978#imgrc=q9qZvDIpiEqJBM
-               let monitor_img_url = "https://user-images.githubusercontent.com/64545984/130668406-24040e0c-cdff-4672-8818-bbb84d8041a5.png"
-               let monitor_img = new fabric.Image.fromURL(
-                     monitor_img_url,
-                     function (img) {
-                        global.canvas.add(img)
-                        global.canvas.renderAll()
-                     },
-                     {originX: "center",
-                      originY: "center",
-                      left: 216,
-                      top: -150,
-                      scaleX: 0.606,
-                      scaleY: 0.72,
-                      angle: 0
-                     }
-                  )
+              let img = this.newImageFromURL(
+               "https://user-images.githubusercontent.com/64545984/130668406-24040e0c-cdff-4672-8818-bbb84d8041a5.png",
+               {  left: 4890,
+                  top: 410,
+                  fill: "#30483c",
+                  strokeWidth: 0
+               },
+               {  angle: 0,
+                  width: 2450,
+                  height: 2600,
+                  strokeWidth: 0
+               }
+            )
             let frame = new fabric.Text("", {
               left: 5300,
               top: 200,
@@ -681,21 +682,21 @@ m4+definitions(['
               fontFamily: "Courier New",
             })
             let row_pointer = new fabric.Text("->", {
-                  top: 500,
+                  top: 400,
                   left: 5180,
                   fill: "black",
                   fontSize: 100,
                   fontFamily: "monospace"
                })
             let column_pointer = new fabric.Text("->", {
-                  top: 380,
+                  top: 350,
                   left: 5400,
                   fill: "black",
                   angle: 90,
                   fontSize: 100,
                   fontFamily: "monospace"
                })
-            return {frame, hsync, vsync, row_pointer, column_pointer}
+            return {img, frame, hsync, vsync, row_pointer, column_pointer}
          },
          render(){
             let hori_cnt_now = '/vga$hori_counter'.asInt() - 1
@@ -744,7 +745,7 @@ m4+definitions(['
                   blue = blue.concat(blue)
                   blue = parseInt(blue, 2);
                   let color = "rgb(" + red + "," + green + "," + blue + ")"
-                  grid.set({fill:color, stroke:color, strokeWidth:1})
+                  grid.set({fill:color, stroke:color})
                 }
                   let red = '/vga$vga_r'.goTo(((frame) * count) + i).asBinaryStr()
                   red = red.concat(red)
@@ -757,10 +758,10 @@ m4+definitions(['
                   blue = parseInt(blue, 2);
                   color = "rgb(" + red + "," + green + "," + blue + ")"
                 if(k<vert_cnt_now){
-                  grid.set({fill:color, stroke:color, strokeWidth:1})
+                  grid.set({fill:color, stroke:color})
                 }else if(k==vert_cnt_now){
                    if(j<=hori_cnt_now){
-                      grid.set({fill:color, stroke:color, strokeWidth:1})
+                      grid.set({fill:color, stroke:color})
                    }
                 }
                 //global.canvas.add(grid)
