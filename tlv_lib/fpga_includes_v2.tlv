@@ -23,7 +23,7 @@ m4+definitions(['
       BOARD_1_SWITCH_CNT, 8,
       BOARD_1_SWITCH_WHERE, ['['top: 1930, left: 950, scale: 6']'],
       BOARD_1_PUSH_CNT, 5,
-      BOARD_1_PUSH_WHERE, ['['top: 360, left: 125, scale: 1.18']'],
+      BOARD_1_PUSH_WHERE, ['['top: 1630, left:1950, fill: "#183630", height:480, width: 470, visible: true']'],
       BOARD_1_THANKS_ARGS, ['['['left: 2200, top: 2265, width: 350'], ['AVNET, Xilinx, and ']']'],
       
       ['# Artix-7'],
@@ -37,7 +37,7 @@ m4+definitions(['
       BOARD_2_SWITCH_CNT, 16,
       BOARD_2_SWITCH_WHERE, ['['top: 2200, left: 250, scale: 8.5']'],
       BOARD_2_PUSH_CNT, 5,
-      BOARD_2_PUSH_WHERE, ['['top: 1650, left: 2200, scale: 8.5']'],
+      BOARD_2_PUSH_WHERE, ['['top: 1440, left:2100, fill: "#01387D", height:600, width: 650, visible: true']'],
       BOARD_2_LCD_WHERE, ['['top: 2450, left: 180, width: 300']'],
       BOARD_2_THANKS_ARGS, ['['['left: 2700, top: 2750, width: 400'], ['Xilinx and ']']'],
       
@@ -52,7 +52,7 @@ m4+definitions(['
       BOARD_3_SWITCH_CNT, 16,
       BOARD_3_SWITCH_WHERE, ['['top: 3300, left: 550, scale: 15.5']'],
       BOARD_3_PUSH_CNT, 5,
-      BOARD_3_PUSH_WHERE, ['['top: 2300, left: 125, scale: 20']'],
+      BOARD_3_PUSH_WHERE, ['['top: 2200, left:3450, fill: "#304B58", height:900, width: 1050, visible: true']'],
       BOARD_3_THANKS_ARGS, ['['['left: 5000, top: 4400, width: 700'], ['Digilent, Xilinx, and ']']'],
       
       ['# Icebreaker'],
@@ -61,6 +61,8 @@ m4+definitions(['
       BOARD_4_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 302.5, top: 562.5, angle: -45, width: 90, height: 90']'],
       BOARD_4_LED_CNT,    0,
       BOARD_4_SSEG_CNT,   0,
+      BOARD_4_SWITCH_CNT, 0,
+      BOARD_4_PUSH_CNT,   0,
       BOARD_4_THANKS_ARGS, ['['['left: 500, top: 1030, width: 130'], ['Lattice, 1BitSquared, and ']']'],
       
       ['# Nexys'],
@@ -74,7 +76,7 @@ m4+definitions(['
       BOARD_5_SWITCH_CNT, 16,
       BOARD_5_SWITCH_WHERE, ['['top: 360, left: 125, scale: 1.18']'],
       BOARD_5_PUSH_CNT, 5,
-      BOARD_5_PUSH_WHERE, ['['top: 360, left: 125, scale: 1.18']'],
+      BOARD_5_PUSH_WHERE, ['['top: 230, left:360, fill: "#143D33", height:75, width: 80, visible: true']'],
       BOARD_5_THANKS_ARGS, ['['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']']'])
 
 
@@ -232,17 +234,20 @@ m4+definitions(['
             )
          return ret;
       },
-      where: {_where},
+      where: {left: 0,
+                  top: 0, width: 5000, height:5000},
    
    // LEDs.
    m4_ifelse(M4_BOARD_LED_CNT, 0, , ['m4+fpga_leds(/_board, #_board, _sig_prefix)'])
    
    // 7-Segment
    m4_ifelse(M4_BOARD_SSEG_CNT, 0, , ['m4+fpga_sseg(/_board, #_board, _sig_prefix)'])
-   m4_ifelse(1, 0, , ['m4+fpga_lcd(/_board, #_board, _sig_prefix)'])
-   m4_ifelse(1, 0, , ['m4+fpga_vga(/_board, #_board, _sig_prefix)'])
-   m4_ifelse(1, 0, , ['m4+fpga_switch(/_board, #_board, _sig_prefix)'])
-   m4_ifelse(1, 0, , ['m4+fpga_push(/_board, #_board, _sig_prefix)'])
+   
+   // slideswitches
+   m4_ifelse(M4_BOARD_SWITCH_CNT, 0, , ['m4+fpga_switch(/_board, #_board, _sig_prefix)'])
+   
+   // pushbuttons
+   m4_ifelse(M4_BOARD_PUSH_CNT, 0, , ['m4+fpga_push(/_board, #_board, _sig_prefix)'])
 
 // VIZ providing a "Thanks to our sponsors" message.
 \TLV thanks(_where, _who)
@@ -390,141 +395,57 @@ m4+definitions(['
          }
          
 \TLV fpga_push(/_board, #_board, _sig_prefix)
-   |fpga_push_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         $pb[\$size(*push)-1:0] = *push;
-         m4_ifelse_block(M4_BOARD, 1,['
-         /pb[4:0]
-            \viz_alpha
-               initEach(){
-                  let push = new fabric.Circle({
-                           originX: "center",
-                           originY: "center",
-                           top: scopes.pb.index == 0 ? 218 : scopes.pb.index == 1 ? 292 : 254,
-                           left: scopes.pb.index == 2 ? 211 : scopes.pb.index == 3 ? 307 : 259,
-                           radius: 10,
-                           opacity: 1,
-                           fill: M4_RED_LED_COLOR
-                        }) 
-                  return {objects:{push}}
-               },
-               renderEach(){
-                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
-                  if(mod){
-                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
-                  }else{
-                     this.getInitObjects().push.set({fill: "black"})
-                  }
+   $pb[\$size(*push)-1:0] = *push;
+   /push
+      \viz_js
+         box: {},
+         where: {M4_BOARD_PUSH_WHERE}
+      /pb[4:0]
+         \viz_js
+            box: {},
+            init(){
+               let push = new fabric.Circle({
+                        top: 0 ,
+                        left: 0 ,
+                        radius: 50,
+                        opacity: 1,
+                        fill: M4_RED_LED_COLOR,
+                        strokeWidth: 0
+                     }) 
+               return {push}
+            },
+            render(){
+               var mod = (((this.sigVal("push").asInt(-1) >> this.getScope("pb").index) & 1) == 1);
+               if(mod){
+                  this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
+               }else{
+                  this.getInitObjects().push.set({fill: "black"})
                }
-         '],['
-         m4_ifelse_block(M4_BOARD, 2,['
-         /pb[4:0]
-            \viz_js
-               init(){
-                  let push = new fabric.Circle({
-                           originX: "center",
-                           originY: "center",
-                           top: scopes.pb.index == 0 ? 40 : scopes.pb.index == 1 ? 121 : 79,
-                           left: scopes.pb.index == 2 ? 113 : scopes.pb.index == 3 ? 203 : 155,
-                           radius: 10,
-                           opacity: 1,
-                           fill: M4_RED_LED_COLOR
-                        }) 
-                  return {objects:{push}}
-               },
-               render(){
-                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
-                  if(mod){
-                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
-                  }else{
-                     this.getInitObjects().push.set({fill: "black"})
-                  }
-               }
-         '],['
-         m4_ifelse_block(M4_BOARD, 3,['
-         /pb[4:0]
-            \viz_alpha
-               initEach(){
-                  let push = new fabric.Circle({
-                           originX: "center",
-                           originY: "center",
-                           top: scopes.pb.index == 0 ? 27 : scopes.pb.index == 1 ? 81 : 54,
-                           left: scopes.pb.index == 2 ? 65 : scopes.pb.index == 3 ? 130 : 98,
-                           radius: 7,
-                           opacity: 1,
-                           fill: M4_RED_LED_COLOR
-                        }) 
-                  return {objects:{push}}
-               },
-               renderEach(){
-                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
-                  if(mod){
-                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
-                  }else{
-                     this.getInitObjects().push.set({fill: "black"})
-                  }
-               }
-         '],['
-         m4_ifelse_block(M4_BOARD, 4,['
-         /pb[2:0]
-            \viz_alpha
-               initEach(){
-                  let push = new fabric.Circle({
-                           originX: "center",
-                           originY: "center",
-                           top: 240,
-                           left: scopes.pb.index == 2 ? -175 : scopes.pb.index == 1 ? -128 : -80,
-                           radius: 10,
-                           opacity: 1,
-                           fill: M4_RED_LED_COLOR
-                        }) 
-                  return {objects:{push}}
-               },
-               renderEach(){
-                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
-                  if(mod){
-                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
-                  }else{
-                     this.getInitObjects().push.set({fill: "black"})
-                  }
-               }
-         '],['
-         m4_ifelse_block(M4_BOARD, 5,['
-         /pb[4:0]
-            \viz_alpha
-               initEach(){
-                  let push = new fabric.Circle({
-                           originX: "center",
-                           originY: "center",
-                           top: scopes.pb.index == 0 ? 24 : scopes.pb.index == 1 ? 84 : 54,
-                           left: scopes.pb.index == 2 ? 89 : scopes.pb.index == 3 ? 150 : 120,
-                           radius: 5,
-                           opacity: 1,
-                           fill: M4_RED_LED_COLOR
-                        }) 
-                  return {objects:{push}}
-               },
-               renderEach(){
-                  var mod = ((('/_board|fpga_push_macro$pb'.asInt(-1) >> this.getScope("pb").index) & 1) == 1);
-                  if(mod){
-                     this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
-                  }else{
-                     this.getInitObjects().push.set({fill: "black"})
-                  }
-               }
-         '])
-         '])
-         '])
-         '])
-         '])
-         '])
+            },
+            where: {M4_BOARD_PUSH_WHERE},
+            layout:{top: function(i){
+            if(i==0){
+            return 0
+            }else if(i==1){
+            return 445}
+            else {
+            return 220}
+            }, left: function(i){
+            if(i==2){
+            return 0
+            }else if(i==3){
+            return 500}
+            else {
+            return 250}
+            }
+            }
+   
 \TLV fpga_led_rgb(/_board, |_pipe, @_stage, $_dutyr, $_dutyg, $_dutyb)
    |_pipe
       @_stage
          /led[4:0]
-            \viz_alpha
-               initEach() {
+            \viz_js
+               init() {
                   let led = new fabric.Rect({
                         top: (this.getIndex() == 1) ? 166 : (this.getIndex() == 2) ? 208 : 188,
                         left: (this.getIndex() == 3) ? -112 : (this.getIndex() == 4) ?  -153 : -132,
@@ -533,9 +454,9 @@ m4+definitions(['
                         fill: "transparent",
                         opacity: 1
                      })
-                  return{objects : {led}}; 
+                  return {led}; 
                }, 
-               renderEach() {
+               render() {
                      let r = '/_board|_pipe$_dutyr'.asInt()
                      let g = '/_board|_pipe$_dutyg'.asInt()
                      let b = '/_board|_pipe$_dutyb'.asInt()
@@ -549,324 +470,306 @@ m4+definitions(['
   
 \TLV fpga_lcd(/_board, #_board, _sig_prefix)
    //for viz part
-   |fpga_lcd_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1, ['
-         $reset = *reset;
-         $out[\$size(*out)-1:0] = *out;
-         $lcd_enable = *lcd_enable;
-         $lcd_reset = *lcd_reset;
-         // This code supports only 8 bit mode (4 bit mode not supported)
-         $one_or_two[1:0] = $reset ? 0 : $out == 8'h38 ? 2 : $out == 8'h30 ? 1 : >>1$one_or_two;    // 1-line mode or 2-line mode
-         $line[1:0] = $reset ? 0 : $lcd_reset == 0 ? ($out == 8'h80 | $out == 8'h01 |$out == 8'h02) & !$one_or_two == 0 ? 1 : 
-                      $out == 8'hC0 & $one_or_two == 2 ? 2 :
-                      $RETAIN: 
-                      $RETAIN;    // assign line number
-         $inc_or_dec[1:0] = $reset ? 0 : $out == 8'h06 ? 1 : 
-                            $out == 8'h04 ? 2 : 
-                            >>1$inc_or_dec;    // increment or decrement cursor command
-         $read_enable = $lcd_enable == 1 && >>1$lcd_enable == 0;
-         $shift_left[5:0] = $reset | >>1$shift_left == 40 ? 0 : 
-                            ($out == 8'h18 & !$lcd_reset & $read_enable ? >>1$shift_left + 1 : 
-                            $RETAIN);          // no of shift lefts
-         $shift_right[5:0] = $reset | >>1$shift_right == 40 ? 0 : 
-                             ($out == 8'h1C & $lcd_reset == 0 & $read_enable ? >>1$shift_right + 1 : 
-                             $RETAIN);         // no of shift rights
-         $wr_index1[6:0] = (($reset | $out == 8'h01 | $out == 8'h80) & $lcd_reset == 0) ? 0 : 
-                             $read_enable && $line == 1 && $lcd_reset == 0 ? ($out == 8'h14 ? >>1$wr_index1 + 1 : 
-                            ($out == 8'h10 ? >>1$wr_index1 - 1 : $RETAIN)) : 
-                             $read_enable && $line == 1 && $lcd_reset == 1 ? ($inc_or_dec == 1 ? >>1$wr_index1 + 1 : 
-                             $inc_or_dec == 2 ? >>1$wr_index1 - 1 : >>1$wr_index1) : 
-                             >>1$wr_index1;    // cursor index if line 1
-         $wr_index2[5:0] = (($reset | $out == 8'h01 | $out == 8'hC0) & $lcd_reset == 0) ? 0 : 
-                             $read_enable && $line == 2 && $lcd_reset == 0 ? ($out == 8'h14 ? >>1$wr_index2 + 1 : 
-                            ($out == 8'h10 ? >>1$wr_index2 - 1 : $RETAIN)) : 
-                             $read_enable && $line == 2 && $lcd_reset == 1 ? ($inc_or_dec == 1 ? >>1$wr_index2 + 1 : 
-                             $inc_or_dec == 2 ? >>1$wr_index2 - 1 : >>1$wr_index2) : 
-                             >>1$wr_index2;    // cursor index if line 2
-         /chars1[40-1:0]
-            $char1[7:0] = |fpga_lcd_macro$out == 8'h01 & |fpga_lcd_macro$lcd_reset == 0 ? 8'h20 : 
-                          |fpga_lcd_macro>>1$wr_index1 == #chars1 && |fpga_lcd_macro$line == 1 && |fpga_lcd_macro$read_enable && |fpga_lcd_macro$lcd_reset == 1 ? |fpga_lcd_macro$out : 
-                          $RETAIN;
-         /chars2[40-1:0]
-            $char2[7:0] = |fpga_lcd_macro$out == 8'h01 & |fpga_lcd_macro$lcd_reset == 0 ? 8'h20 : 
-                          ((|fpga_lcd_macro>>1$wr_index2 == #chars2 && |fpga_lcd_macro$line == 2) | (|fpga_lcd_macro>>1$wr_index1 - 40 == #chars2 && |fpga_lcd_macro$line == 1)) && |fpga_lcd_macro$read_enable && |fpga_lcd_macro$lcd_reset == 1 ? |fpga_lcd_macro$out : 
-                          $RETAIN;
-         $str1[8*16-1:0] = (/chars1[*]$char1 >> 8*$shift_left) << 8*$shift_right;
-         $str2[8*16-1:0] = (/chars2[*]$char2 >> 8*$shift_left) << 8*$shift_right;
-         \viz_alpha
-            initEach() {
-                  let block_square = new fabric.Rect(
+   /lcd
+      m4_ifelse_block(M4_MAKERCHIP, 1, ['
+      $reset = *reset;
+      $out[\$size(*out)-1:0] = *out;
+      $lcd_enable = *lcd_enable;
+      $lcd_reset = *lcd_reset;
+      // This code supports only 8 bit mode (4 bit mode not supported)
+      $one_or_two[1:0] = $reset ? 0 : $out == 8'h38 ? 2 : $out == 8'h30 ? 1 : >>1$one_or_two;    // 1-line mode or 2-line mode
+      $line[1:0] = $reset ? 0 : $lcd_reset == 0 ? ($out == 8'h80 | $out == 8'h01 |$out == 8'h02) & !$one_or_two == 0 ? 1 : 
+                   $out == 8'hC0 & $one_or_two == 2 ? 2 :
+                   $RETAIN: 
+                   $RETAIN;    // assign line number
+      $inc_or_dec[1:0] = $reset ? 0 : $out == 8'h06 ? 1 : 
+                         $out == 8'h04 ? 2 : 
+                         >>1$inc_or_dec;    // increment or decrement cursor command
+      $read_enable = $lcd_enable == 1 && >>1$lcd_enable == 0;
+      $shift_left[5:0] = $reset | >>1$shift_left == 40 ? 0 : 
+                         ($out == 8'h18 & !$lcd_reset & $read_enable ? >>1$shift_left + 1 : 
+                         $RETAIN);          // no of shift lefts
+      $shift_right[5:0] = $reset | >>1$shift_right == 40 ? 0 : 
+                          ($out == 8'h1C & $lcd_reset == 0 & $read_enable ? >>1$shift_right + 1 : 
+                          $RETAIN);         // no of shift rights
+      $wr_index1[6:0] = (($reset | $out == 8'h01 | $out == 8'h80) & $lcd_reset == 0) ? 0 : 
+                          $read_enable && $line == 1 && $lcd_reset == 0 ? ($out == 8'h14 ? >>1$wr_index1 + 1 : 
+                         ($out == 8'h10 ? >>1$wr_index1 - 1 : $RETAIN)) : 
+                          $read_enable && $line == 1 && $lcd_reset == 1 ? ($inc_or_dec == 1 ? >>1$wr_index1 + 1 : 
+                          $inc_or_dec == 2 ? >>1$wr_index1 - 1 : >>1$wr_index1) : 
+                          >>1$wr_index1;    // cursor index if line 1
+      $wr_index2[5:0] = (($reset | $out == 8'h01 | $out == 8'hC0) & $lcd_reset == 0) ? 0 : 
+                          $read_enable && $line == 2 && $lcd_reset == 0 ? ($out == 8'h14 ? >>1$wr_index2 + 1 : 
+                         ($out == 8'h10 ? >>1$wr_index2 - 1 : $RETAIN)) : 
+                          $read_enable && $line == 2 && $lcd_reset == 1 ? ($inc_or_dec == 1 ? >>1$wr_index2 + 1 : 
+                          $inc_or_dec == 2 ? >>1$wr_index2 - 1 : >>1$wr_index2) : 
+                          >>1$wr_index2;    // cursor index if line 2
+      /chars1[40-1:0]
+         $char1[7:0] = /lcd$out == 8'h01 & /lcd$lcd_reset == 0 ? 8'h20 : 
+                       /lcd>>1$wr_index1 == #chars1 && /lcd$line == 1 && /lcd$read_enable && /lcd$lcd_reset == 1 ? /lcd$out : 
+                       $RETAIN;
+      /chars2[40-1:0]
+         $char2[7:0] = /lcd$out == 8'h01 & /lcd$lcd_reset == 0 ? 8'h20 : 
+                       ((/lcd>>1$wr_index2 == #chars2 && /lcd$line == 2) | (/lcd>>1$wr_index1 - 40 == #chars2 && /lcd$line == 1)) && /lcd$read_enable && /lcd$lcd_reset == 1 ? /lcd$out : 
+                       $RETAIN;
+      $str1[8*16-1:0] = (/lcd/chars1[*]$char1 >> 8*$shift_left) << 8*$shift_right;
+      $str2[8*16-1:0] = (/lcd/chars2[*]$char2 >> 8*$shift_left) << 8*$shift_right;
+      \viz_js
+         init() {
+              
+                // TODO: Add LCD image
+                let lcd_img =  this.newImageFromURL("https://user-images.githubusercontent.com/64545984/130668318-5d9c4c9a-d19e-4ddf-aa61-13e4e8624f9c.png", {
+                  left: 80,
+                  top: -100,
+                  width: 10000,
+                  hieght: 30,
+               })
+                 let lcd = new fabric.Rect({
+                     top: 100,
+                     left: -0,
+                     width: 1600,
+                     height: 500,
+                     fill: "#FDFF32",
+                     opacity: 1
+                  })
+                  let line1 = new fabric.Text("", {
+                    left: 50,
+                    top: 100,
+                    fontSize: 160,
+                    fontFamily: "Courier New",
+                  })
+                  let line2 = new fabric.Text("", {
+                    left: 50,
+                    top: 330,
+                    fontSize: 160,
+                    fontFamily: "Courier New",
+                  })
+                  let info = new fabric.Text("", {
+                    left: 10,
+                    top: 0,
+                    fontSize: 100,
+                    fontFamily: "Courier New",
+                  })
+             return {lcd, line1, line2, info};
+             },
+          render(){
+              let str1 = '/lcd$str1'.asString().split("").reverse().join("")
+              let str2 = '/lcd$str2'.asString().split("").reverse().join("")
+              let lcd_rst = '/lcd$lcd_reset'.asBool()
+              this.getInitObjects().line1.set({text: str1})
+              this.getInitObjects().line2.set({text: str2})
+              let value_bin = '/lcd$out'.asBinaryStr();
+              if(!lcd_rst){
+              if (value_bin == "00111000"){
+                 //8'h38
+                 //Function Set: 8-bit, 2 Line, 5x7 Dots
+                 this.getInitObjects().info.set({text: "Function Set: 8-bit, 2 Line, 5x7 Dots"})
+              }else if (value_bin == "00110000"){
+                 //Function Set: 8-bit,  Line, 5x7 Dots
+                 //8'h30
+                 this.getInitObjects().info.set({text: "Function Set: 8-bit, 1 Line, 5x7 Dots"})
+              }else if (value_bin == "00001100"){
+                 //Display on Cursor off
+                 //8'h0C
+                 this.getInitObjects().info.set({text: "Display on Cursor off"})
+              }else if (value_bin == "00000110"){
+                 //Entry Mode
+                 //8'h06
+                 this.getInitObjects().info.set({text: "Entry Mode: Increment, entire shift off"})
+              }else if (value_bin == "00000100"){
+                 //Entry Mode
+                 //8'h04
+                 this.getInitObjects().info.set({text: "Entry Mode: Decrement, entire shift off"})
+              }else if (value_bin == "00000001"){
+                 //Clear Display
+                 //8'h01
+                 this.getInitObjects().info.set({text: "Clear Display"})
+              }else if (value_bin == "00000010"){
+                 //Return home
+                 //8'h02
+                 this.getInitObjects().info.set({text: "Return home"})
+              }else if (value_bin == "10000000"){
+                 //force cursor to begin at first line
+                 //8'h80
+                 this.getInitObjects().info.set({text: "force cursor to begin at first line"})
+              }else if (value_bin == "11000000"){
+                 //force cursor to begin at second line
+                 //8'hC0
+                 this.getInitObjects().info.set({text: "force cursor to begin at second line"})
+              }else if (value_bin == "00011000"){
+                 //Shift display left
+                 //8'h18
+                 this.getInitObjects().info.set({text: "Shift entire display to the left"})
+              }else if (value_bin == "00011100"){
+                 //Shift display right
+                 //8'h1C
+                 this.getInitObjects().info.set({text: "Shift entire display to the right"})
+              }else if (value_bin == "00010000"){
+                 //Shift cursor left 
+                 //8'h10
+                 this.getInitObjects().info.set({text: "Shift cursor to the left"})
+              }else if (value_bin == "00010100"){
+                 //Shift cursor right
+                 //8'h14
+                 this.getInitObjects().info.set({text: "Shift cursor to the right"})
+              }
+           }else {
+              this.getInitObjects().info.set({text: "data instruction"})
+           }
+          },
+          where: { top:2000, left: 5300
+          }
+      '],
+      ['
+      ']
+      )
+\TLV fpga_vga(/_board, #_board, _sig_prefix)
+   /vga
+      m4_ifelse_block(M4_MAKERCHIP, 1,['
+      $reset = *reset;
+      $vga_hsync = *vga_hsync;
+      $vga_vsync = *vga_vsync;
+      $vga_r[\$size(*vga_r)-1:0] = *vga_r;
+      $vga_g[\$size(*vga_g)-1:0] = *vga_g;
+      $vga_b[\$size(*vga_b)-1:0] = *vga_b;
+      $sx[\$size(*sx)-1:0] = *sx;
+      $sy[\$size(*sy)-1:0] = *sy;
+      m4_define(M4_MAX_H, 640 / M4_COUNTER)
+      m4_define(M4_MAX_V, 480 / M4_COUNTER)
+      $hori_counter[9:0] = $reset ? 10'b0 : >>1$sx >= M4_LINE ? 0 : >>1$hori_counter + 1;
+      $vert_counter[9:0] = $reset ? 10'b0 : $sy == 0 ? 0 : >>1$sx >=  M4_LINE ? >>1$vert_counter + 1 : $RETAIN;
+      $width[9:0] = (800 % M4_COUNTER) > 0 ? 800 / M4_COUNTER + 2 : 800 / M4_COUNTER + 1;
+      $height[9:0] = (525 % M4_COUNTER) > 0 ? 525 / M4_COUNTER + 2 : 525 / M4_COUNTER + 1;
+      $tot_cyc[19:0] = $width * $height;
+      *passed = !clk || *cyc_cnt > ($tot_cyc * M4_FRAMES) - 1;
+      *failed = !clk || 1'b0;
+      \viz_js
+         init(){
+         // https://www.google.com/search?q=monitor&tbm=isch&tbs=il:cl&client=ubuntu&hs=JlM&hl=en&sa=X&ved=0CAAQ1vwEahcKEwjgkNDes_DxAhUAAAAAHQAAAAAQAg&biw=1846&bih=978#imgrc=q9qZvDIpiEqJBM
+               let monitor_img_url = "https://user-images.githubusercontent.com/64545984/130668406-24040e0c-cdff-4672-8818-bbb84d8041a5.png"
+               let monitor_img = new fabric.Image.fromURL(
+                     monitor_img_url,
+                     function (img) {
+                        global.canvas.add(img)
+                        global.canvas.renderAll()
+                     },
                      {originX: "center",
                       originY: "center",
-                      fill : "transparent"
+                      left: 216,
+                      top: -150,
+                      scaleX: 0.606,
+                      scaleY: 0.72,
+                      angle: 0
                      }
                   )
-                  let logic_block = new fabric.Group([block_square],
-                  {originX: "center",
-                   originY: "center",
-                  })
-                  let lcd_img_url = "https://user-images.githubusercontent.com/64545984/130668318-5d9c4c9a-d19e-4ddf-aa61-13e4e8624f9c.png"
-                  let lcd_img = new fabric.Image.fromURL(
-                        lcd_img_url,
-                        function (img) {
-                           logic_block.add(img)
-                           global.canvas.renderAll()
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         left: -35,
-                         top: 320,
-                         scaleX: 0.2,
-                         scaleY: 0.2,
-                         angle: 0.4
-                        }
-                     )
-                    let lcd = new fabric.Rect({
-                        top: 280,
-                        left: -165,
-                        width: 295,
-                        height: 80,
-                        fill: "#FDFF32",
-                        opacity: 1
-                     })
-                     let line1 = new fabric.Text("", {
-                       left: -160,
-                       top: 290,
-                       fontSize: 30,
-                       fontFamily: "Courier New",
-                     })
-                     let line2 = new fabric.Text("", {
-                       left: -160,
-                       top: 320,
-                       fontSize: 30,
-                       fontFamily: "Courier New",
-                     })
-                     let info = new fabric.Text("", {
-                       left: -300,
-                       top: -250,
-                       fontSize: 15,
-                       fontFamily: "Courier New",
-                     })
-                return {objects :{logic_block, lcd, line1, line2, info}};
-                },
-             renderEach(){
-                 let str1 = '/_board|fpga_lcd_macro$str1'.asString().split("").reverse().join("")
-                 let str2 = '/_board|fpga_lcd_macro$str2'.asString().split("").reverse().join("")
-                 let lcd_rst = '/_board|fpga_lcd_macro$lcd_reset'.asBool()
-                 this.getInitObjects().line1.set({text: str1})
-                 this.getInitObjects().line2.set({text: str2})
-                 let value_bin = '/_board|fpga_lcd_macro$out'.asBinaryStr();
-                 if(!lcd_rst){
-                 if (value_bin == "00111000"){
-                    //8'h38
-                    //Function Set: 8-bit, 2 Line, 5x7 Dots
-                    this.getInitObjects().info.set({text: "Function Set: 8-bit, 2 Line, 5x7 Dots"})
-                 }else if (value_bin == "00110000"){
-                    //Function Set: 8-bit,  Line, 5x7 Dots
-                    //8'h30
-                    this.getInitObjects().info.set({text: "Function Set: 8-bit, 1 Line, 5x7 Dots"})
-                 }else if (value_bin == "00001100"){
-                    //Display on Cursor off
-                    //8'h0C
-                    this.getInitObjects().info.set({text: "Display on Cursor off"})
-                 }else if (value_bin == "00000110"){
-                    //Entry Mode
-                    //8'h06
-                    this.getInitObjects().info.set({text: "Entry Mode: Increment, entire shift off"})
-                 }else if (value_bin == "00000100"){
-                    //Entry Mode
-                    //8'h04
-                    this.getInitObjects().info.set({text: "Entry Mode: Decrement, entire shift off"})
-                 }else if (value_bin == "00000001"){
-                    //Clear Display
-                    //8'h01
-                    this.getInitObjects().info.set({text: "Clear Display"})
-                 }else if (value_bin == "00000010"){
-                    //Return home
-                    //8'h02
-                    this.getInitObjects().info.set({text: "Return home"})
-                 }else if (value_bin == "10000000"){
-                    //force cursor to begin at first line
-                    //8'h80
-                    this.getInitObjects().info.set({text: "force cursor to begin at first line"})
-                 }else if (value_bin == "11000000"){
-                    //force cursor to begin at second line
-                    //8'hC0
-                    this.getInitObjects().info.set({text: "force cursor to begin at second line"})
-                 }else if (value_bin == "00011000"){
-                    //Shift display left
-                    //8'h18
-                    this.getInitObjects().info.set({text: "Shift entire display to the left"})
-                 }else if (value_bin == "00011100"){
-                    //Shift display right
-                    //8'h1C
-                    this.getInitObjects().info.set({text: "Shift entire display to the right"})
-                 }else if (value_bin == "00010000"){
-                    //Shift cursor left 
-                    //8'h10
-                    this.getInitObjects().info.set({text: "Shift cursor to the left"})
-                 }else if (value_bin == "00010100"){
-                    //Shift cursor right
-                    //8'h14
-                    this.getInitObjects().info.set({text: "Shift cursor to the right"})
-                 }
-              }else {
-                 this.getInitObjects().info.set({text: "data instruction"})
-              }
-             }
-          
-         '],
-         ['
-         ']
-         )
-\TLV fpga_vga(/_board, #_board, _sig_prefix)
-   |vga_pipe_macro
-      @0
-         m4_ifelse_block(M4_MAKERCHIP, 1,['
-         $reset = *reset;
-         $vga_hsync = *vga_hsync;
-         $vga_vsync = *vga_vsync;
-         $vga_r[\$size(*vga_r)-1:0] = *vga_r;
-         $vga_g[\$size(*vga_g)-1:0] = *vga_g;
-         $vga_b[\$size(*vga_b)-1:0] = *vga_b;
-         $sx[\$size(*sx)-1:0] = *sx;
-         $sy[\$size(*sy)-1:0] = *sy;
-         m4_define(M4_MAX_H, 640 / M4_COUNTER)
-         m4_define(M4_MAX_V, 480 / M4_COUNTER)
-         $hori_counter[9:0] = $reset ? 10'b0 : >>1$sx >= M4_LINE ? 0 : >>1$hori_counter + 1;
-         $vert_counter[9:0] = $reset ? 10'b0 : $sy == 0 ? 0 : >>1$sx >=  M4_LINE ? >>1$vert_counter + 1 : $RETAIN;
-         $width[9:0] = (800 % M4_COUNTER) > 0 ? 800 / M4_COUNTER + 2 : 800 / M4_COUNTER + 1;
-         $height[9:0] = (525 % M4_COUNTER) > 0 ? 525 / M4_COUNTER + 2 : 525 / M4_COUNTER + 1;
-         $tot_cyc[19:0] = $width * $height;
-         *passed = !clk || *cyc_cnt > ($tot_cyc * M4_FRAMES) - 1;
-         *failed = !clk || 1'b0;
-         \viz_alpha
-            initEach(){
-            // https://www.google.com/search?q=monitor&tbm=isch&tbs=il:cl&client=ubuntu&hs=JlM&hl=en&sa=X&ved=0CAAQ1vwEahcKEwjgkNDes_DxAhUAAAAAHQAAAAAQAg&biw=1846&bih=978#imgrc=q9qZvDIpiEqJBM
-                  let monitor_img_url = "https://user-images.githubusercontent.com/64545984/130668406-24040e0c-cdff-4672-8818-bbb84d8041a5.png"
-                  let monitor_img = new fabric.Image.fromURL(
-                        monitor_img_url,
-                        function (img) {
-                           global.canvas.add(img)
-                           global.canvas.renderAll()
-                        },
-                        {originX: "center",
-                         originY: "center",
-                         left: 216,
-                         top: -150,
-                         scaleX: 0.606,
-                         scaleY: 0.72,
-                         angle: 0
-                        }
-                     )
-               let frame = new fabric.Text("", {
-                 left: -330,
-                 top: -300,
-                 fontSize: 20,
-                 fontFamily: "Courier New",
+            let frame = new fabric.Text("", {
+              left: 5300,
+              top: 200,
+              fontSize: 100,
+              fontFamily: "Courier New",
+            })
+            let hsync = new fabric.Text("hsync:", {
+              left: 5900,
+              top: 200,
+              fontSize: 100,
+              fontFamily: "Courier New",
+            })
+            let vsync = new fabric.Text("vsync:", {
+              left: 6500,
+              top: 200,
+              fontSize: 100,
+              fontFamily: "Courier New",
+            })
+            let row_pointer = new fabric.Text("->", {
+                  top: 500,
+                  left: 5180,
+                  fill: "black",
+                  fontSize: 100,
+                  fontFamily: "monospace"
                })
-               let hsync = new fabric.Text("hsync:", {
-                 left: -200,
-                 top: -300,
-                 fontSize: 20,
-                 fontFamily: "Courier New",
+            let column_pointer = new fabric.Text("->", {
+                  top: 380,
+                  left: 5400,
+                  fill: "black",
+                  angle: 90,
+                  fontSize: 100,
+                  fontFamily: "monospace"
                })
-               let vsync = new fabric.Text("vsync:", {
-                 left: -80,
-                 top: -300,
-                 fontSize: 20,
-                 fontFamily: "Courier New",
-               })
-               let row_pointer = new fabric.Text("->", {
-                     top: -270,
-                     left: 75,
-                     fill: "black",
-                     fontSize: 14,
-                     fontFamily: "monospace"
-                  })
-               let column_pointer = new fabric.Text("->", {
-                     top: - 300,
-                     left: 110,
-                     fill: "black",
-                     angle: 90,
-                     fontSize: 14,
-                     fontFamily: "monospace"
-                  })
-               return {objects: {frame, hsync, vsync, row_pointer, column_pointer}}
-            },
-            renderEach(){
-               let hori_cnt_now = '/_board|vga_pipe_macro$hori_counter'.asInt() - 1
-               let vert_cnt_now = '/_board|vga_pipe_macro$vert_counter'.asInt()
-               let vga_hsync = '/_board|vga_pipe_macro$vga_hsync'.asInt()
-               let vga_vsync = '/_board|vga_pipe_macro$vga_vsync'.asInt()
-               let width = '/_board|vga_pipe_macro$width'.asInt()
-               let height = '/_board|vga_pipe_macro$height'.asInt()
-               let cycle = '/_board|vga_pipe_macro$hori_counter'.getCycle()
-               let count = '/_board|vga_pipe_macro$tot_cyc'.asInt()
-               let frame = parseInt(cycle / count)
-               console.log("hori", hori_cnt_now)
-               let sq_width = Math.sqrt(40000 / (M4_MAX_H * M4_MAX_V))
-               this.getInitObjects().frame.set({text: "Frame: " + (frame + 1)})
-               this.getInitObjects().hsync.set({text: "hsync: " + vga_hsync})
-               this.getInitObjects().vsync.set({text: "vsync: " + vga_vsync})
-               if (vert_cnt_now < M4_MAX_V){
-               this.getInitObjects().row_pointer.set({top:-270 + (sq_width * vert_cnt_now), opacity : 1})
-               }else{
-               this.getInitObjects().column_pointer.set({opacity : 0})
-               }
-               if (hori_cnt_now < M4_MAX_H){
-               this.getInitObjects().column_pointer.set({left:110 + (sq_width * hori_cnt_now), opacity: 1})
-               }else{
-               this.getInitObjects().column_pointer.set({opacity : 0})
-               }
-               for(j=0; j<M4_MAX_H; j++){
-                   for(k=0; k<M4_MAX_V; k++){
-                      let grid = new fabric.Rect({
-                      top: (sq_width * k) - 269,
-                      left: (sq_width * j) + 100,
-                      width: sq_width,
-                      height: sq_width,
-                      fill:"black"
-                   })
-                   i = k * width + j
-                   if(frame)
-                     {
-                     let red = '/_board|vga_pipe_macro$vga_r'.goTo(((frame-1) * count)+i).asBinaryStr()
-                     red = red.concat(red)
-                     red = parseInt(red, 2);
-                     let green = '/_board|vga_pipe_macro$vga_g'.goTo(((frame-1) * count)+i).asBinaryStr()
-                     green = green.concat(green)
-                     green = parseInt(green, 2);
-                     let blue = '/_board|vga_pipe_macro$vga_b'.goTo(((frame-1) * count)+i).asBinaryStr()
-                     blue = blue.concat(blue)
-                     blue = parseInt(blue, 2);
-                     let color = "rgb(" + red + "," + green + "," + blue + ")"
-                     grid.set({fill:color, stroke:color, strokeWidth:1})
-                   }
-                     let red = '/_board|vga_pipe_macro$vga_r'.goTo(((frame) * count) + i).asBinaryStr()
-                     red = red.concat(red)
-                     red = parseInt(red, 2);
-                     let green = '/_board|vga_pipe_macro$vga_g'.goTo(((frame) * count) + i).asBinaryStr()
-                     green = green.concat(green)
-                     green = parseInt(green, 2);
-                     let blue = '/_board|vga_pipe_macro$vga_b'.goTo(((frame) * count) + i).asBinaryStr()
-                     blue = blue.concat(blue)
-                     blue = parseInt(blue, 2);
-                     color = "rgb(" + red + "," + green + "," + blue + ")"
-                   if(k<vert_cnt_now){
-                     grid.set({fill:color, stroke:color, strokeWidth:1})
-                   }else if(k==vert_cnt_now){
-                      if(j<=hori_cnt_now){
-                         grid.set({fill:color, stroke:color, strokeWidth:1})
-                      }
-                   }
-                   global.canvas.add(grid)
+            return {frame, hsync, vsync, row_pointer, column_pointer}
+         },
+         render(){
+            let hori_cnt_now = '/vga$hori_counter'.asInt() - 1
+            let vert_cnt_now = '/vga$vert_counter'.asInt()
+            let vga_hsync = '/vga$vga_hsync'.asInt()
+            let vga_vsync = '/vga$vga_vsync'.asInt()
+            let width = '/vga$width'.asInt()
+            let height = '/vga$height'.asInt()
+            let cycle = '/vga$hori_counter'.getCycle()
+            let count = '/vga$tot_cyc'.asInt()
+            let frame = parseInt(cycle / count)
+            let sq_width = 7 * Math.sqrt(40000 / (M4_MAX_H * M4_MAX_V))
+            this.getInitObjects().frame.set({text: "Frame: " + (frame + 1)})
+            this.getInitObjects().hsync.set({text: "hsync: " + vga_hsync})
+            this.getInitObjects().vsync.set({text: "vsync: " + vga_vsync})
+            if (vert_cnt_now < M4_MAX_V){
+            this.getInitObjects().row_pointer.set({top:500 + (sq_width * vert_cnt_now), opacity : 1})
+            }else{
+            this.getInitObjects().column_pointer.set({opacity : 0})
+            }
+            if (hori_cnt_now < M4_MAX_H){
+            this.getInitObjects().column_pointer.set({left:5400 + (sq_width * hori_cnt_now), opacity: 1})
+            }else{
+            this.getInitObjects().column_pointer.set({opacity : 0})
+            }
+            let ret = []
+            for(j=0; j<M4_MAX_H; j++){
+                for(k=0; k<M4_MAX_V; k++){
+                   let grid = new fabric.Rect({
+                       top: (sq_width * k) + 500,
+                       left: (sq_width * j) + 5300,
+                       width: sq_width,
+                       height: sq_width,
+                       fill:"black"})
+                   ret.push(grid)
+                i = k * width + j
+                if(frame)
+                  {
+                  let red = '/vga$vga_r'.goTo(((frame-1) * count)+i).asBinaryStr()
+                  red = red.concat(red)
+                  red = parseInt(red, 2);
+                  let green = '/vga$vga_g'.goTo(((frame-1) * count)+i).asBinaryStr()
+                  green = green.concat(green)
+                  green = parseInt(green, 2);
+                  let blue = '/vga$vga_b'.goTo(((frame-1) * count)+i).asBinaryStr()
+                  blue = blue.concat(blue)
+                  blue = parseInt(blue, 2);
+                  let color = "rgb(" + red + "," + green + "," + blue + ")"
+                  grid.set({fill:color, stroke:color, strokeWidth:1})
+                }
+                  let red = '/vga$vga_r'.goTo(((frame) * count) + i).asBinaryStr()
+                  red = red.concat(red)
+                  red = parseInt(red, 2);
+                  let green = '/vga$vga_g'.goTo(((frame) * count) + i).asBinaryStr()
+                  green = green.concat(green)
+                  green = parseInt(green, 2);
+                  let blue = '/vga$vga_b'.goTo(((frame) * count) + i).asBinaryStr()
+                  blue = blue.concat(blue)
+                  blue = parseInt(blue, 2);
+                  color = "rgb(" + red + "," + green + "," + blue + ")"
+                if(k<vert_cnt_now){
+                  grid.set({fill:color, stroke:color, strokeWidth:1})
+                }else if(k==vert_cnt_now){
+                   if(j<=hori_cnt_now){
+                      grid.set({fill:color, stroke:color, strokeWidth:1})
                    }
                 }
-            }
-         ']
-         )
+                //global.canvas.add(grid)
+                }
+             }
+            return ret
+         }
+      ']
+      )
 \TLV fpga_viz(/_board, /_fpga, #_board)
    m4+board(/_board, /_fpga, #_board)   
 
@@ -921,3 +824,7 @@ m4+definitions(['
 
    *passed = *cyc_cnt > 60;
    $cpu_out[31:0] = /fpga|fetch/instr/regs[3]>>4$value;
+   
+\TLV
+   \viz_js
+      box: {width:7000, height: 4500, strokeWidth:0}
