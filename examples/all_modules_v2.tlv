@@ -99,7 +99,7 @@
                *vga_g = $vga_g;
                *vga_b = $vga_b;
          
-      m4+board(/board, /fpga, 4, *)   // 3rd arg selects the board.
+      m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
    m4+fpga_lcd()
    m4+fpga_vga()
 \SV
