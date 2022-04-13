@@ -796,4 +796,6 @@ m4+definitions(['
    *passed = *cyc_cnt > 60;
    $cpu_out[31:0] = /fpga|fetch/instr/regs[3]>>4$value;
    
-   
+\TLV
+   \viz_js
+      box: {width:7000, height: 4500, strokeWidth:0}

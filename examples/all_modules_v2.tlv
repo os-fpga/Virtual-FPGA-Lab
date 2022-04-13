@@ -53,8 +53,7 @@
                
          |switch
             @0
-               *switch = 16'h00FF;
-               
+               *slideswitch = 16'hFFFF;
          |push
             @0
                *push = 5'hF;
@@ -87,18 +86,20 @@
                $reset = *reset; 
                ?$refresh
                   $de = (*sx < M4_HA_END && *sy < M4_VA_END);
-                  $q_draw = (*sx < 64 && *sy < 64);
+                  $qq_draw = (*sx < 64 && *sy < 64);
                   $vga_hsync = $reset ? 0 : >>1$hsync;
                   $vga_vsync = $reset ? 0 : >>1$vsync;
-                  $vga_r[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'hF : 4'h0);
-                  $vga_g[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h8 : 4'h8);
-                  $vga_b[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h0 : 4'hF);
+                  $vga_r[3:0] = $reset ? 0 : !$de ? 4'h0 : ($qq_draw ? 4'hF : 4'h0);
+                  $vga_g[3:0] = $reset ? 0 : !$de ? 4'h0 : ($qq_draw ? 4'h8 : 4'h8);
+                  $vga_b[3:0] = $reset ? 0 : !$de ? 4'h0 : ($qq_draw ? 4'h0 : 4'hF);
                *vga_hsync = $vga_hsync;
                *vga_vsync = $vga_vsync;
                *vga_r = $vga_r;
                *vga_g = $vga_g;
                *vga_b = $vga_b;
          
-      m4+board(/board, /fpga, 2, *)   // 3rd arg selects the board.
+      m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
+   m4+fpga_lcd()
+
 \SV
    endmodule
