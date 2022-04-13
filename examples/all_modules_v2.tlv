@@ -1,7 +1,7 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes_v2.tlv'])    
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/bala_cleanup/tlv_lib/fpga_includes.tlv'])    
    
 \SV
    m4_lab()
@@ -53,8 +53,7 @@
                
          |switch
             @0
-               *switch = 16'h00FF;
-               
+               *slideswitch = 16'hFFFF;
          |push
             @0
                *push = 5'hF;
@@ -87,12 +86,12 @@
                $reset = *reset; 
                ?$refresh
                   $de = (*sx < M4_HA_END && *sy < M4_VA_END);
-                  $q_draw = (*sx < 64 && *sy < 64);
+                  $qq_draw = (*sx < 64 && *sy < 64);
                   $vga_hsync = $reset ? 0 : >>1$hsync;
                   $vga_vsync = $reset ? 0 : >>1$vsync;
-                  $vga_r[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'hF : 4'h0);
-                  $vga_g[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h8 : 4'h8);
-                  $vga_b[3:0] = $reset ? 0 : !$de ? 4'h0 : ($q_draw ? 4'h0 : 4'hF);
+                  $vga_r[3:0] = $reset ? 0 : !$de ? 4'h0 : ($qq_draw ? 4'hF : 4'h0);
+                  $vga_g[3:0] = $reset ? 0 : !$de ? 4'h0 : ($qq_draw ? 4'h8 : 4'h8);
+                  $vga_b[3:0] = $reset ? 0 : !$de ? 4'h0 : ($qq_draw ? 4'h0 : 4'hF);
                *vga_hsync = $vga_hsync;
                *vga_vsync = $vga_vsync;
                *vga_r = $vga_r;

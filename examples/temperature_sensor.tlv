@@ -1,3 +1,4 @@
+// TODO: Still in old version. Needs to be updated
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
    m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])                   
@@ -123,7 +124,7 @@
    |sseg_pipe
       @0   
          $data_adc[15:0] = /top|temp_pipe$data_adc;         
-         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 500000))  
+         m4+fpga_heartbeat($refresh, 1, 500000)
          $reset = *reset;
          ?$refresh
             //All 4 digits can be enabled by sending logic ‘0’.
