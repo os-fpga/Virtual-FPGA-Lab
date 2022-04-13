@@ -209,7 +209,15 @@ m4+definitions(['
    $_var = ($count['']m4_plus_inst_id == #_delay - 1) ? 1'b1 : 1'b0 ;
    /* verilator lint_restore */
    
-
+\TLV fpga_heartbeat($_var, #_sim_delay, #_fpga_delay)
+   /* verilator lint_save */
+   /* verilator lint_off UNSIGNED */
+   m4_push(delay, m4_ifelse(M4_MAKERCHIP, 1, #_sim_delay, #_fpga_delay))
+   $rst['']m4_plus_inst_id = *reset;
+   $count['']m4_plus_inst_id[31:0] = ($RETAIN >= m4_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ;
+   $_var = ($count['']m4_plus_inst_id == m4_delay - 1) ? 1'b1 : 1'b0 ;
+   /* verilator lint_restore */
+   m4_pop(delay)
 
 // Instantiates a board.
 // params:
@@ -746,6 +754,11 @@ m4+definitions(['
 \TLV fpga_viz(/_board, /_fpga, #_board)
    m4+board(/_board, /_fpga, #_board)   
 
+// ===================================================
+// FOR TESTING
+   
+   
+
 \TLV simple_main()
    \SV_plus
     
@@ -764,7 +777,8 @@ m4+definitions(['
    
    *passed = *cyc_cnt > 30;
    
-\TLV riscv_main()
+\TLV riscv_main(/_fpga)
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/9a8c337a678779a34bca774b84ad4a0d3c8517a6/warp-v.tlv'])
    \SV_plus
     
     
@@ -782,19 +796,15 @@ m4+definitions(['
     
     
    
-   /fpga
-      m4_def(NUM_CORES, 1)
-      m4+cpu(/fpga)
-   /* verilator lint_off WIDTH */
-   |led_pipe
-      @0
-         m4+fpga_refresh($refresh, m4_ifelse(M4_MAKERCHIP, 1, 1, 50000000)) 
-         $reset = *reset;
-         ?$refresh
-            $Leds[15:0] <= $reset ? 1 : $Leds + 1;
-         //*led = $Leds;
+   m4_def(NUM_CORES, 1)
+   m4+cpu(/fpga)
+   m4+cpu_viz(|fetch, @M4_MEM_WR_STAGE, "transparent"/*"#404040c0"*/)
+   
+   
    *passed = *cyc_cnt > 60;
-   $cpu_out[31:0] = /fpga|fetch/instr/regs[3]>>4$value;
+   $cpu_out[31:0] = |fetch/instr/regs[3]>>4$value;
+
+
    
 \TLV
    \viz_js
