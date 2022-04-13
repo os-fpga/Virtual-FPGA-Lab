@@ -131,7 +131,7 @@ Once you have some logic running in simulation, you'll be able to export your de
 
 ```
 
-The `m4+board(...)` macro (and peripheral macros, such as `m4+led(...)`, define the hardware).
+The `m4+board(...)` macro (and peripheral macros, such as `m4+lcd(...)`, define the hardware).
 
 `m4_lab()` provides a superset of signals for I/Os. Those that have corresponding components on the board or peripherals should be driven/used. These include:
 
@@ -167,71 +167,71 @@ m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 
 Boards contain a subset of the following components, 
 
-Other `m4+` macros can be instantiated to add peripherals.
+### Virtual FPGA Lab builtin peripheral modules
 
 #### LED Module
 
 ```
-m4+fpga_led(*led)
-
-// Arguments:
+// Internal to FPGA - no need to instantiate
+// Signals:
 // *led - led signal
 ```
 
 #### Seven segment displays
 
 ```
-m4+fpga_sseg(*digit, *sseg, *dp)
-
-// Arguments:
-// *digit - common anode signal
-// *sseg - seven segments
-// *dp - decimal point
+// Internal to FPGA - no need to instantiate
+// Signals:
+// *sseg_digit_n - common anode signal
+// *sseg_segment_n - seven segments
+// *sseg_decimal_point_n - decimal point
 ```
-
-#### LCD Module
-
-```
-m4+fpga_lcd(*data, *lcd_e, *lcd_rs) 
-
-// Arguments:
-// *data - 8-bit data/command line
-// *lcd_e - lcd enable signal
-// *lcd_rs - lcd reset signal, 0 for command and 1 for data
-```
-
-#### VGA display
-
-```
-m4+fpga_vga(*vga_hsync, *vga_vsync, *vga_r, *vga_g, *vga_b, /top|vga_pipe$sx, /top|vga_pipe$sy)
-
-// Arguments:
-// *vga_hsync - horizontal sync
-// *vga_vsync - vertical sync
-// *vga_r - red signal
-// *vga_g - green signal
-// *vga_b - blue signal
-// $sx - horizontal count
-// $sy - vertical count
-```
-
 #### Push buttons
 
 ```
-m4+fpga_push(*pb) 
-
-// Arguments:
-// *pb - push button signal
+// Internal to FPGA - no need to instantiate
+// Signals:
+// *push - push button signal
 ```
 
 #### Slideswitches
 
 ```
-m4+fpga_led(*sw)
-
-// Arguments:
-// *sw - switch signal
+// Internal to FPGA - no need to instantiate
+// Signals:
+// *slideswitch - switch signal
 ```
+
+
+
+#### LCD Module
+
+```
+// External to FPGA - instantiated using
+m4+fpga_lcd() 
+
+// Signals:
+// *out - 8-bit data/command line
+// *lcd_enable - lcd enable signal
+// *lcd_reset - lcd reset signal, 0 for command and 1 for data
+```
+
+#### VGA display
+
+```
+// External to FPGA - instantiated using
+m4+fpga_vga()
+
+// Signals:
+// *vga_hsync - horizontal sync
+// *vga_vsync - vertical sync
+// *vga_r - red signal
+// *vga_g - green signal
+// *vga_b - blue signal
+```
+External and other peripherals can be instantiated uisng `m4+` macros.
+
+
 
 
 ## Examples
