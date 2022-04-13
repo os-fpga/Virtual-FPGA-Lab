@@ -1,7 +1,7 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes_v2.tlv'])    
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/bala_cleanup/tlv_lib/fpga_includes.tlv'])    
    
 \SV
    m4_lab()
@@ -100,6 +100,6 @@
          
       m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
    m4+fpga_lcd()
-
+   m4+fpga_vga()
 \SV
    endmodule
