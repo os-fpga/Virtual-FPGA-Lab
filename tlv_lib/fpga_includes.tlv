@@ -93,10 +93,9 @@ m4+definitions(['
       BOARD_6_SSEG_CNT,   0,
       BOARD_6_SWITCH_CNT, 0,
       BOARD_6_PUSH_CNT,   0,
-      BOARD_6_THANKS_ARGS, ['['['left: 1700, top: 2030, width: 350'], ['Efabless and ']']'],
-           
+      BOARD_6_THANKS_ARGS, ['['['left: 1700, top: 2030, width: 350'], ['Efabless and ']']'])
       // Add custom boards here
-      )
+
 
    // These macros parameterize the top-level FPGA module interface and signal declarations.
    // Currently, they could be used by m4_lab(), but we currently define a fixed module interface defining the superset
