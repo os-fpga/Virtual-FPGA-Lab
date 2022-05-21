@@ -1,12 +1,12 @@
 # Examples
 
 ## Makerchip Sandbox links:
-- [LEDs](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z)
-- [Seven-segment display](https://makerchip.com/sandbox/0mZf5hLPG/0zmh8rV)
-- [LCD 16x2 display](https://makerchip.com/sandbox/0mZf5hLPG/0k5hYwz)
-- [VGA display](https://makerchip.com/sandbox/0mZf5hLPG/0nZhlW1)
-- [Pushbuttons](https://makerchip.com/sandbox/0mZf5hLPG/0pghQw2)
-- [Slideswitches](https://makerchip.com/sandbox/05yf0h91P/066hVzy)
-- [Temperature sensor](https://makerchip.com/sandbox/031fmhpnZ/0JZhpWr)
-- [Light sensor](https://makerchip.com/sandbox/031fmhpnZ/0KOh8yJ)
-- [LED RGB](https://makerchip.com/sandbox/0mZf5hLPG/0vghOl6)
+- [LEDs](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fled_counter.tlv#)
+- [Seven-segment display](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fseven_segment_counter.tlv)
+- [LCD 16x2 display](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Flcd_module.tlv#)
+- [VGA display](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fvga_display.tlv#)
+- [Pushbuttons](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fpushbutton.tlv#)
+- [Slideswitches](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fslideswitch.tlv#)
+- [Temperature sensor](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ftemperature_sensor.tlv#)
+- [Light sensor](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Flight_sensor.tlv#)
+- [LED RGB](https://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2Fos-fpga%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Fice_rgb.tlv#)
