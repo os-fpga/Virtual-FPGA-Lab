@@ -1,6 +1,8 @@
 \m4_TLV_version 1d: tl-x.org
 \SV
 m4+definitions(['
+
+   m4_def(board_png, ['['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/8f89133defd725253e10a8cdc28b65f830a87f89/viz/$1']']'])
    
    // Board definitions:
    m4_def(
@@ -15,7 +17,7 @@ m4+definitions(['
       
       ['# Zedboard'],
       ZEDBOARD_ID, 1,
-      BOARD_1_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666264-972dfe58-c2c8-4446-b0d3-eb9587fd3458.png']'],
+      BOARD_1_IMAGE_URL,  m4_board_png(zedboard.png),
       BOARD_1_IMAGE_SIZE, ['['width: 2692, height: 2256']'],
       BOARD_1_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1258, top: 1058, width: 260, height: 260']'],
       BOARD_1_LED_CNT,    8,
@@ -29,7 +31,7 @@ m4+definitions(['
       
       ['# Artix-7'],
       ARTIX7_ID, 2,
-      BOARD_2_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130667389-08904919-5425-4ef3-aae4-c2dacf41f1c7.png']'],
+      BOARD_2_IMAGE_URL,  m4_board_png(artix7.png),
       BOARD_2_IMAGE_SIZE, ['['width: 3108, height: 2640']'],
       BOARD_2_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1459, top: 1490, width: 390, height: 390']'],
       BOARD_2_LED_CNT,    16,
@@ -45,7 +47,7 @@ m4+definitions(['
       
       ['# Basys3'],
       BASYS3_ID, 3,
-      BOARD_3_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130667995-6ea5cc8f-400c-470b-9585-5f8ba5bab0b9.png']'],
+      BOARD_3_IMAGE_URL,  m4_board_png(basys3.png),
       BOARD_3_IMAGE_SIZE, ['['width: 5773, height: 4330']'],
       BOARD_3_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 2540, top: 1965, width: 400, height: 400']'],
       BOARD_3_LED_CNT,    16,
@@ -60,7 +62,7 @@ m4+definitions(['
       
       ['# Icebreaker'],
       ICEBREAKER_ID, 4,
-      BOARD_4_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666826-b9e7bc53-104c-4b4b-8b2a-b8105edb00da.png']'],
+      BOARD_4_IMAGE_URL,  m4_board_png(icebreaker.png),
       BOARD_4_IMAGE_SIZE, ['['width: 621, height: 1021']'],
       BOARD_4_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 302.5, top: 562.5, angle: -45, width: 90, height: 90']'],
       BOARD_4_LED_CNT,    0,
@@ -71,7 +73,7 @@ m4+definitions(['
       
       ['# Nexys'],
       NEXYS_ID, 5,
-      BOARD_5_IMAGE_URL,  ['['https://user-images.githubusercontent.com/64545984/130666896-00e2225d-0d4c-47c5-9493-af6512a430e4.png']'],
+      BOARD_5_IMAGE_URL,  m4_board_png(nexys.png),
       BOARD_5_IMAGE_SIZE, ['['width: 577, height: 433']'],
       BOARD_5_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 272.5, top: 205.5, width: 45, height: 45']'],
       BOARD_5_LED_CNT,    16,
@@ -86,7 +88,7 @@ m4+definitions(['
 
 		['# CLEAR'],
       CLEAR_ID, 6,
-      BOARD_6_IMAGE_URL,  ['['https://user-images.githubusercontent.com/11302288/157560177-9d0f9283-cb9c-4a14-b688-d44e9f1820a3.jpg']'],
+      BOARD_6_IMAGE_URL,  m4_board_png(clear.png),
       BOARD_6_IMAGE_SIZE, ['['width: 2094, height: 2030']'],
       BOARD_6_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 915, top: 1334, width: 289, height: 289']'],
       BOARD_6_LED_CNT,    0,
