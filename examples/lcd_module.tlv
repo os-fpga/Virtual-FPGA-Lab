@@ -29,7 +29,7 @@
                *lcd_enable = $lcd_enable;
                *lcd_reset = $lcd_reset;
          
-      m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
+      m4+board(/board, /fpga, 3, *, ['top: 0, left: -1500, width: 7000, height: 7000'])   // 3rd arg selects the board.
    m4+fpga_lcd()
    
 \SV
