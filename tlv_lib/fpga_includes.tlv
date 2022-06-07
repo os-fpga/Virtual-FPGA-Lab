@@ -13,6 +13,8 @@ m4+definitions(['
       BOARD_0_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 440, top: 72, width: 90, height: 90']'],
       BOARD_0_LED_CNT,    0,
       BOARD_0_SSEG_CNT,   0,
+      BOARD_0_SWITCH_CNT, 0,
+      BOARD_0_PUSH_CNT, 0,
       BOARD_0_THANKS_ARGS, ['['['left: 390, top: 250, width: 100'], ['']']'],
       
       ['# Zedboard'],
@@ -220,17 +222,21 @@ m4+definitions(['
    /* verilator lint_restore */
    m4_pop(delay)
 
+
 // Instantiates a board.
 // params:
 //   /_board: The scope in which this is instantiated.
 //   /_fpga: A scope for the FPGA.
 //   #_board: The board number (also M4_BOARD)
-//   _sig_prefix: "*" to use global SV signals; "$" to use /_board-local pipesignals.
+//   _sig_prefix: "*" to use global SV signals; "$" to use pipesignals in /_board by the same names.
 //                 See "lab" macro for definion of standard I/O signals.
 //   _where: The 'where' properties for the board VIZ.
-\TLV board(/_board, /_fpga, #_board, _sig_prefix, _where)
+//   _fpga_macro: The name of a macro that instantiates the FPGA logic (within /_board/fpga_pins/_fpga),
+//                passed a single /_fpga argument.
+\TLV board(/_board, /_fpga, #_board, _sig_prefix, _where, _fpga_macro)
    m4+board_defs(#_board)
    m4+thanks(M4_BOARD_THANKS_ARGS)
+   m4_def(sig_prefix, m4_ifelse(_sig_prefix, *, *, /_board$))
    
    // Board VIZ.
    
@@ -244,6 +250,7 @@ m4+definitions(['
                {  left: 0,
                   top: 0,
                   fill: "#30483c",
+                  strokeWidth: 1,
                   width: (function () {return {M4_BOARD_IMAGE_SIZE}})().width,
                   height: (function () {return {M4_BOARD_IMAGE_SIZE}})().height,
                },
@@ -253,14 +260,19 @@ m4+definitions(['
             )
          return ret;
       },
-      where: {left: 0,
-                  top: 0, width: 5000, height:5000},
+      where: {_where},
+   /fpga_pins
+      \viz_js
+         where: {M4_BOARD_FPGA_WHERE},
+         box: {strokeWidth: 0}
+      /_fpga
+         m4_ifelse(/_fpga, , , ['m4+_fpga_macro(/_fpga)'])
    
    // LEDs.
-   m4_ifelse(M4_BOARD_LED_CNT, 0, , ['m4+fpga_leds(/_board, #_board, _sig_prefix)'])
+   m4_ifelse(M4_BOARD_LED_CNT, 0, , ['m4+fpga_leds(/_board, #_board, m4_sig_prefix)'])
    
    // 7-Segment
-   m4_ifelse(M4_BOARD_SSEG_CNT, 0, , ['m4+fpga_sseg(/_board, #_board, _sig_prefix)'])
+   m4_ifelse(M4_BOARD_SSEG_CNT, 0, , ['m4+fpga_sseg(/_board, #_board, m4_sig_prefix)'])
    
    // slideswitches
    m4_ifelse(M4_BOARD_SWITCH_CNT, 0, , ['m4+fpga_switch(/_board, #_board, _sig_prefix)'])
@@ -296,6 +308,7 @@ m4+definitions(['
          },
          where: {_where}
 
+// Defines constants to characterize the selected #_board.
 // Defines constants to characterize the selected #_board.
 \TLV board_defs(#_board)
    m4_nothing(
@@ -751,9 +764,7 @@ m4+definitions(['
          }
       ']
       )
-      
-\TLV fpga_viz(/_board, /_fpga, #_board)
-   m4+board(/_board, /_fpga, #_board)   
+
 
 // ===================================================
 // FOR TESTING
@@ -779,7 +790,7 @@ m4+definitions(['
    *passed = *cyc_cnt > 30;
    
 \TLV riscv_main(/_fpga)
-   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/9a8c337a678779a34bca774b84ad4a0d3c8517a6/warp-v.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/67b4e881462d8052bb37baf0a84401d418a88287/warp-v.tlv'])
    \SV_plus
     
     
@@ -799,14 +810,61 @@ m4+definitions(['
    
    m4_def(NUM_CORES, 1)
    m4+cpu(/fpga)
-   m4+cpu_viz(|fetch, @M4_MEM_WR_STAGE, "transparent"/*"#404040c0"*/)
+   m4+cpu_viz(|fetch, "transparent"/*"#404040c0"*/)
    
    
    *passed = *cyc_cnt > 60;
    $cpu_out[31:0] = |fetch/instr/regs[3]>>4$value;
 
 
-   
+// Standard FPGA Lab Template.
+\SV
+   m4_lab()
 \TLV
-   \viz_js
-      box: {width:7000, height: 4500, strokeWidth:0}
+   /board
+      
+      // Board selection:
+      // 0: M4_FIRST_CLAAS_ID
+      // 1: M4_ZEDBOARD_ID
+      // 2: M4_ARTIX7_ID
+      // 3: M4_BASYS3_ID
+      // 4: M4_ICEBREAKER_ID
+      // 5: M4_NEXYS_ID
+      // 6: M4_CLEAR_ID
+      m4+board(/board, /fpga, 2, *,
+               ['top: 0, left: 0, width: 7000, height: 7000'],
+               riscv_main)  // riscv_main or simple_main.
+
+\TLV
+      // TODO: RGB LEDs and external 7-Segment remain to be cleaned up.
+      //m4+ifelse(m4_fpga_io_rgb_leds_defined, 1,
+      //   \TLV
+      //      // FIX
+      //      m4+led_rgb(/_board, *led)
+      //   )
+      //m4+ifelse(m4_fpga_io_sseg_defined, 1,
+      //   \TLV
+      //      // FIX
+      //      m4+fpga_sseg(/_board, *digit_n, *segment_n, *decimal_point_n)
+      //   )
+      
+   // Instantiate each board with simple TLV outputs.
+   m4+forloop(board, 0, 7,
+      \TLV
+         /board['']m4_board
+            /default_inputs
+               $dummy = 1'b0;
+               $led[15:0] = *cyc_cnt[15:0];
+               `BOGUS_USE($led)
+               $sseg_digit_n[7:0] = 8'b1 << *cyc_cnt[2:0];
+               $sseg_segment_n[6:0] = 7'b1 << *cyc_cnt[2:0];
+               $sseg_decimal_point_n = *cyc_cnt[2:0] == 3'b111;
+               `BOGUS_USE($sseg_digit_n $sseg_segment_n $sseg_decimal_point_n)
+            $ANY = /default_inputs$ANY;
+            `BOGUS_USE($dummy)
+            // For 4th arg, use $ to visualize the associated TLV logic,
+            //               or * to connect with the global SV outputs (from the main board).
+            m4+board(/board['']m4_board, /fpga, m4_board, $, ['left: -1100, top: m4_board['']000, height: 1000, width: 1000'])
+      )
+\SV
+   endmodule
