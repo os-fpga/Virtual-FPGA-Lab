@@ -1,9 +1,8 @@
 \m4_TLV_version 1d: tl-x.org
 \SV
 m4+definitions(['
-
-   m4_def(board_png, ['['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/8f89133defd725253e10a8cdc28b65f830a87f89/viz/$1']']'])
-   
+   m4_def(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/2f0b26fee8d3b767d81d2b3875506e56e8077d37/viz/$1']'])
+   m4_def(board_img, m4_dquote(m4_dquote(m4_local_img($1))))
    // Board definitions:
    m4_def(
       ['# 1st CLaaS'],
@@ -19,7 +18,7 @@ m4+definitions(['
       
       ['# Zedboard'],
       ZEDBOARD_ID, 1,
-      BOARD_1_IMAGE_URL,  m4_board_png(zedboard.png),
+      BOARD_1_IMAGE_URL,  m4_board_img(zedboard.png),
       BOARD_1_IMAGE_SIZE, ['['width: 2692, height: 2256']'],
       BOARD_1_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1258, top: 1058, width: 260, height: 260']'],
       BOARD_1_LED_CNT,    8,
@@ -28,12 +27,12 @@ m4+definitions(['
       BOARD_1_SWITCH_CNT, 8,
       BOARD_1_SWITCH_WHERE, ['['top: 1930, left: 950, scale: 6']'],
       BOARD_1_PUSH_CNT, 5,
-      BOARD_1_PUSH_WHERE, ['['top: 1630, left:1950, fill: "#183630", height:480, width: 470, visible: true']'],
+      BOARD_1_PUSH_WHERE, ['['top: 1748, left: 1990, height: 400']'],
       BOARD_1_THANKS_ARGS, ['['['left: 2200, top: 2265, width: 350'], ['AVNET, Xilinx, and ']']'],
       
       ['# Artix-7'],
       ARTIX7_ID, 2,
-      BOARD_2_IMAGE_URL,  m4_board_png(artix7.png),
+      BOARD_2_IMAGE_URL,  m4_board_img(artix7.png),
       BOARD_2_IMAGE_SIZE, ['['width: 3108, height: 2640']'],
       BOARD_2_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 1459, top: 1490, width: 390, height: 390']'],
       BOARD_2_LED_CNT,    16,
@@ -43,13 +42,13 @@ m4+definitions(['
       BOARD_2_SWITCH_CNT, 16,
       BOARD_2_SWITCH_WHERE, ['['top: 2200, left: 250, scale: 8.5']'],
       BOARD_2_PUSH_CNT, 5,
-      BOARD_2_PUSH_WHERE, ['['top: 1440, left:2100, fill: "#01387D", height:600, width: 650, visible: true']'],
+      BOARD_2_PUSH_WHERE, ['['top: 1380, left: 2070, height: 670']'],
       BOARD_2_LCD_WHERE, ['['top: 2450, left: 180, width: 300']'],
       BOARD_2_THANKS_ARGS, ['['['left: 2700, top: 2750, width: 400'], ['Xilinx and ']']'],
       
       ['# Basys3'],
       BASYS3_ID, 3,
-      BOARD_3_IMAGE_URL,  m4_board_png(basys3.png),
+      BOARD_3_IMAGE_URL,  m4_board_img(basys3.png),
       BOARD_3_IMAGE_SIZE, ['['width: 5773, height: 4330']'],
       BOARD_3_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 2540, top: 1965, width: 400, height: 400']'],
       BOARD_3_LED_CNT,    16,
@@ -59,12 +58,12 @@ m4+definitions(['
       BOARD_3_SWITCH_CNT, 16,
       BOARD_3_SWITCH_WHERE, ['['top: 3300, left: 550, scale: 15.5']'],
       BOARD_3_PUSH_CNT, 5,
-      BOARD_3_PUSH_WHERE, ['['top: 2200, left:3450, fill: "#304B58", height:900, width: 1050, visible: true']'],
+      BOARD_3_PUSH_WHERE, ['['top: 2195, left: 3470, height: 910']'],
       BOARD_3_THANKS_ARGS, ['['['left: 5000, top: 4400, width: 700'], ['Digilent, Xilinx, and ']']'],
       
       ['# Icebreaker'],
       ICEBREAKER_ID, 4,
-      BOARD_4_IMAGE_URL,  m4_board_png(icebreaker.png),
+      BOARD_4_IMAGE_URL,  m4_board_img(icebreaker.png),
       BOARD_4_IMAGE_SIZE, ['['width: 621, height: 1021']'],
       BOARD_4_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 302.5, top: 562.5, angle: -45, width: 90, height: 90']'],
       BOARD_4_LED_CNT,    0,
@@ -75,7 +74,7 @@ m4+definitions(['
       
       ['# Nexys'],
       NEXYS_ID, 5,
-      BOARD_5_IMAGE_URL,  m4_board_png(nexys.png),
+      BOARD_5_IMAGE_URL,  m4_board_img(nexys.png),
       BOARD_5_IMAGE_SIZE, ['['width: 577, height: 433']'],
       BOARD_5_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 272.5, top: 205.5, width: 45, height: 45']'],
       BOARD_5_LED_CNT,    16,
@@ -85,12 +84,12 @@ m4+definitions(['
       BOARD_5_SWITCH_CNT, 16,
       BOARD_5_SWITCH_WHERE, ['['top: 360, left: 125, scale: 1.18']'],
       BOARD_5_PUSH_CNT, 5,
-      BOARD_5_PUSH_WHERE, ['['top: 230, left:360, fill: "#143D33", height:75, width: 80, visible: true']'],
+      BOARD_5_PUSH_WHERE, ['['top: 226, left: 362, height: 88']'],
       BOARD_5_THANKS_ARGS, ['['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']']'],
 
 		['# CLEAR'],
       CLEAR_ID, 6,
-      BOARD_6_IMAGE_URL,  m4_board_png(clear.png),
+      BOARD_6_IMAGE_URL,  m4_board_img(clear.png),
       BOARD_6_IMAGE_SIZE, ['['width: 2094, height: 2030']'],
       BOARD_6_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 915, top: 1334, width: 289, height: 289']'],
       BOARD_6_LED_CNT,    0,
@@ -246,18 +245,18 @@ m4+definitions(['
       init() {
          ret = {}
          ret.img = this.newImageFromURL(
-               "M4_BOARD_IMAGE_URL",
-               {  left: 0,
-                  top: 0,
-                  fill: "#30483c",
-                  strokeWidth: 1,
-                  width: (function () {return {M4_BOARD_IMAGE_SIZE}})().width,
-                  height: (function () {return {M4_BOARD_IMAGE_SIZE}})().height,
-               },
-               {  angle: 0,
-                  strokeWidth: 0
-               }
-            )
+            "M4_BOARD_IMAGE_URL", "",
+            {  left: 0,
+               top: 0,
+               fill: "#30483c",
+               strokeWidth: 1,
+               width: (function () {return {M4_BOARD_IMAGE_SIZE}})().width,
+               height: (function () {return {M4_BOARD_IMAGE_SIZE}})().height,
+            },
+            {  angle: 0,
+               strokeWidth: 0
+            }
+         )
          return ret;
       },
       where: {_where},
@@ -292,13 +291,13 @@ m4+definitions(['
                   top: 10,
                   fontSize: 20
                }),
-               osfpgaImg: this.newImageFromURL("https://user-images.githubusercontent.com/64545984/131954393-6e21a24e-ee4e-44dc-b30f-2347c2229812.jpg", {
+               osfpgaImg: this.newImageFromURL("m4_local_img(OSFPGA.jpg)", "", {
                   left: 80,
                   top: 50,
                   width: 100,
                   hieght: 30,
                }),
-               gsocImg: this.newImageFromURL("https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg", {
+               gsocImg: this.newImageFromURL("https://upload.wikimedia.org/wikipedia/commons/0/08/GSoC_logo.svg", "", {
                   left: 190,
                   top: 40,
                   width: 80,
@@ -385,7 +384,6 @@ m4+definitions(['
                return{sseg};
             },
             render() {
-               debugger
                let digit = this.getIndex("digit")
                let segment = this.getIndex()
                let digit_selected = (((this.sigVal("sseg_digit_n").asInt() >> digit) & 1) == 0)
@@ -420,44 +418,42 @@ m4+definitions(['
               return{box, state}
          },
          render(){
-            debugger
             var mod = (((this.sigVal("slideswitch").asInt() >> this.getScope("switch").index) & 1) == 1);
             this.getInitObject("state").set(mod ? {top: 3} : {top: 18});
          }
          
 \TLV fpga_push(/_board, #_board, _sig_prefix)
-   $pb[\$size(*push)-1:0] = *push;
    /push
       \viz_js
-         box: {},
+         box: {height: 30, width: 33, strokeWidth: 0},
          where: {M4_BOARD_PUSH_WHERE}
       /pb[4:0]
          \viz_js
-            box: {},
+            box: {height: 10, width: 11, strokeWidth: 0},
             init(){
-               let push = new fabric.Circle({
-                        top: 0 ,
-                        left: 0 ,
-                        radius: 50,
-                        opacity: 1,
-                        fill: M4_RED_LED_COLOR,
-                        strokeWidth: 0
-                     }) 
+               let push = new fabric.Text("👈", {
+                        top: 2,
+                        left: 4,
+                        fontSize: 6,
+                        visible: false,
+                     })
                return {push}
             },
             render(){
                var mod = (((this.sigVal("push").asInt(-1) >> this.getScope("pb").index) & 1) == 1);
-               if(mod){
-                  this.getInitObjects().push.set({fill: M4_RED_LED_COLOR})
-               }else{
-                  this.getInitObjects().push.set({fill: "black"})
-               }
+               this.getInitObjects().push.set({visible: mod})
             },
-            where: {M4_BOARD_PUSH_WHERE},
-            layout:{top: function(i)
-            {if(i==0){return 0}else if(i==1){return 445}else {return 220}}, 
-            left: function(i)
-            {if(i==2){return 0}else if(i==3){return 500}else {return 250}}
+            layout:{
+               top: function(i) {
+                  return i==0 ? 0 :
+                         i==1 ? 20 :
+                                10
+               },
+               left: function(i) {
+                  return i==2 ? 0 :
+                         i==3 ? 22 :
+                                11
+               }
             }
 
 \TLV fpga_lcd(/_board, #_board, _sig_prefix)
@@ -509,17 +505,17 @@ m4+definitions(['
       \viz_js
          init() {
             let img = this.newImageFromURL(
-            "https://user-images.githubusercontent.com/64545984/160244122-e66b012b-b6de-4227-9c69-d8c7948b99b7.png",
-            {  left: -100,
-               top: 400,
-               fill: "#30483c",
-               strokeWidth: 0
-            },
-            {  angle: 1,
-               width: 1850,
-               height: 2600,
-               strokeWidth: 0
-            }
+               "m4_local_img(JHD162A.png)", "",
+               {  left: -100,
+                  top: 400,
+                  fill: "#30483c",
+                  strokeWidth: 0
+               },
+               {  angle: 1,
+                  width: 1850,
+                  height: 2600,
+                  strokeWidth: 0
+               }
             )
             let lcd = new fabric.Rect({
                top: 600,
@@ -644,17 +640,17 @@ m4+definitions(['
       \viz_js
          init(){
             let img = this.newImageFromURL(
-            "https://user-images.githubusercontent.com/64545984/130668406-24040e0c-cdff-4672-8818-bbb84d8041a5.png",
-            {  left: 4890,
-               top: 410,
-               fill: "#30483c",
-               strokeWidth: 0
-            },
-            {  angle: 0,
-               width: 2450,
-               height: 2600,
-               strokeWidth: 0
-            }
+               "m4_local_img(VGA_monitor.png)", "",
+               {  left: 4890,
+                  top: 410,
+                  fill: "#30483c",
+                  strokeWidth: 0
+               },
+               {  angle: 0,
+                  width: 2450,
+                  height: 2600,
+                  strokeWidth: 0
+               }
             )
             let frame = new fabric.Text("", {
               left: 5300,
