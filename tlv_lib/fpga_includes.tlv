@@ -815,7 +815,7 @@ m4+definitions(['
 
 // Standard FPGA Lab Template.
 \SV
-   m4_lab()
+m4+lab()
 \TLV
    /board
       
