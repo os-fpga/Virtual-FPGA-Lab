@@ -1,6 +1,6 @@
 \m4_TLV_version 1d -p verilog --bestsv --noline: tl-x.org
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/1583d43298f0f35853d4b50b56b23d036d2a2fe2/tlv_lib/fpga_includes.tlv'])                   
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/3760a43f58573fbcf7b7893f13c8fa01da6260fc/tlv_lib/fpga_includes.tlv'])                   
 
    m4_lab()
 \TLV
@@ -27,10 +27,5 @@
       // 5 - Nexys
       // 6 - CLEAR
       m4+board(/board, /fpga, 3, ['*'])
-      // This should be moved into board(). (A VIZ bug is interfering with this.)
-      /fpga
-         \viz_js
-            where: {M4_BOARD_FPGA_WHERE},
-            box: {strokeWidth: 0}
 \SV
    endmodule
