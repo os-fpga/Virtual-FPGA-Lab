@@ -96,7 +96,21 @@ m4+definitions(['
       BOARD_6_SSEG_CNT,   0,
       BOARD_6_SWITCH_CNT, 0,
       BOARD_6_PUSH_CNT,   0,
-      BOARD_6_THANKS_ARGS, ['['['left: 1700, top: 2030, width: 350'], ['Efabless and ']']'])
+      BOARD_6_THANKS_ARGS, ['['['left: 1700, top: 2030, width: 350'], ['Efabless and ']']'],
+      
+      ['# Tiny Tapeout'],  /// Motherboard v2.1
+      /// TODO: This currently uses an external link for the image.
+      TINY_TAPEOUT_ID,    7,
+      BOARD_7_IMAGE_URL,  ['['https://tinytapeout.com/specs/pcb/images/tt02_board_top.jpeg']'],
+      BOARD_7_IMAGE_SIZE, ['['width: 1100, height: 734']'],
+      BOARD_7_FPGA_WHERE, ['M4_FPGA_WHERE_COMMON['left: 540, top: 291, width: 64, height: 64']'],
+      BOARD_7_LED_CNT,    0,
+      BOARD_7_SSEG_CNT,   1,
+      BOARD_7_SSEG_WHERE, ['['left: 760, top: 388, scale: 1.3']'],
+      BOARD_7_SWITCH_CNT, 8,
+      BOARD_7_SWITCH_WHERE, ['['left: 343, top: 146, scale: 1.05, angle: 90']'],
+      BOARD_7_PUSH_CNT,   0,
+      BOARD_7_THANKS_ARGS, ['['['left: 760, top: 725, width: 120'], ['Efabless, Matt Venn, and ']']'])
       // Add custom boards here
 
 
@@ -187,8 +201,8 @@ m4+definitions(['
          logic [3:0] vga_b;
          logic vga_hsync;
          logic vga_vsync;
-         '])
-         '])
+      '])
+   '])
    
    
    // Macro constants
@@ -312,19 +326,20 @@ m4+definitions(['
 \TLV board_defs(#_board)
    m4_nothing(
       m4_def(BOARD, ['#_board'])
-      m4_def(BOARD_IMAGE_URL,  m4_echo(['M4_BOARD_']M4_BOARD['_IMAGE_URL']),
-             BOARD_IMAGE_SIZE, m4_echo(['M4_BOARD_']M4_BOARD['_IMAGE_SIZE']),
-             BOARD_FPGA_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_FPGA_WHERE']),
-             BOARD_LED_CNT,    m4_echo(['M4_BOARD_']M4_BOARD['_LED_CNT']),
-             BOARD_LED_WHERE,  m4_echo(['M4_BOARD_']M4_BOARD['_LED_WHERE']),
-             BOARD_SSEG_CNT,   m4_echo(['M4_BOARD_']M4_BOARD['_SSEG_CNT']),
-             BOARD_SSEG_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_SSEG_WHERE']),
-             BOARD_SWITCH_CNT, m4_echo(['M4_BOARD_']M4_BOARD['_SWITCH_CNT']),
-             BOARD_SWITCH_WHERE,m4_echo(['M4_BOARD_']M4_BOARD['_SWITCH_WHERE']),
-             BOARD_PUSH_CNT,   m4_echo(['M4_BOARD_']M4_BOARD['_PUSH_CNT']),
-             BOARD_PUSH_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_PUSH_WHERE']),
-             BOARD_THANKS_ARGS,m4_echo(['M4_BOARD_']M4_BOARD['_THANKS_ARGS']),
-             BOARD_LCD_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_LCD_WHERE'])             )
+      m4_def(BOARD_IMAGE_URL,    m4_echo(['M4_BOARD_']M4_BOARD['_IMAGE_URL']),
+             BOARD_IMAGE_SIZE,   m4_echo(['M4_BOARD_']M4_BOARD['_IMAGE_SIZE']),
+             BOARD_FPGA_WHERE,   m4_echo(['M4_BOARD_']M4_BOARD['_FPGA_WHERE']),
+             BOARD_LED_CNT,      m4_echo(['M4_BOARD_']M4_BOARD['_LED_CNT']),
+             BOARD_LED_WHERE,    m4_echo(['M4_BOARD_']M4_BOARD['_LED_WHERE']),
+             BOARD_SSEG_CNT,     m4_echo(['M4_BOARD_']M4_BOARD['_SSEG_CNT']),
+             BOARD_SSEG_WHERE,   m4_echo(['M4_BOARD_']M4_BOARD['_SSEG_WHERE']),
+             BOARD_SWITCH_CNT,   m4_echo(['M4_BOARD_']M4_BOARD['_SWITCH_CNT']),
+             BOARD_SWITCH_WHERE, m4_echo(['M4_BOARD_']M4_BOARD['_SWITCH_WHERE']),
+             BOARD_SWITCH_LAYOUT,m4_ifdef(['M4_BOARD_']M4_BOARD['_SWITCH_LAYOUT'], ['m4_echo(['M4_BOARD_']M4_BOARD['_SWITCH_LAYOUT'])']),
+             BOARD_PUSH_CNT,     m4_echo(['M4_BOARD_']M4_BOARD['_PUSH_CNT']),
+             BOARD_PUSH_WHERE,   m4_echo(['M4_BOARD_']M4_BOARD['_PUSH_WHERE']),
+             BOARD_THANKS_ARGS,  m4_echo(['M4_BOARD_']M4_BOARD['_THANKS_ARGS']),
+             BOARD_LCD_WHERE,    m4_echo(['M4_BOARD_']M4_BOARD['_LCD_WHERE'])             )
   )
    
 \TLV fpga_leds(/_board, #_board, _sig_prefix)
@@ -396,6 +411,7 @@ m4+definitions(['
       \viz_js
          box: { width: 18, height: 35, strokeWidth: 0, fill: "#7f8b55"},
          where: {M4_BOARD_SWITCH_WHERE},
+         m4_ifelse(M4_BOARD_SWITCH_LAYOUT, [''], [''], ['layout: {M4_BOARD_SWITCH_LAYOUT},'])
          init() {
             let box = new fabric.Rect({
                         top: 5,
@@ -827,6 +843,7 @@ m4+lab()
       // 4: M4_ICEBREAKER_ID
       // 5: M4_NEXYS_ID
       // 6: M4_CLEAR_ID
+      // 7: M4_TINY_TAPEOUT_ID
       m4+board(/board, /fpga, 2, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
