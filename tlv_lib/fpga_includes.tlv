@@ -343,8 +343,8 @@ m4+definitions(['
   )
    
 \TLV fpga_leds(/_board, #_board, _sig_prefix)
-   /led[m4_eval(M4_BOARD_LED_CNT - 1):0]
-      $viz_lit = ['_sig_prefix']led[v_led];
+   /leds[m4_eval(M4_BOARD_LED_CNT - 1):0]
+      $viz_lit = ['_sig_prefix']led\[#leds\];
       \viz_js
          box: {width: 12, height: 16, fill: M4_RED_LED_COLOR,
                rx: 4, ry: 5,
@@ -371,8 +371,8 @@ m4+definitions(['
          },
          layout: {left: -35},
          where: {M4_BOARD_SSEG_WHERE}
-      /led[7:0]
-         $viz_lit = (! ['_sig_prefix']sseg_digit_n[digit]) && ! ((v_led == 7) ? ['_sig_prefix']sseg_decimal_point_n : ['_sig_prefix']sseg_segment_n[v_led % 7]);
+      /leds[7:0]
+         $viz_lit = (! ['_sig_prefix']sseg_digit_n[digit]) && ! ((#leds == 7) ? ['_sig_prefix']sseg_decimal_point_n : ['_sig_prefix']sseg_segment_n\[#leds % 7\]);
          \viz_js
             box: {left: 0, top: 0, strokeWidth: 0},
             init() {
