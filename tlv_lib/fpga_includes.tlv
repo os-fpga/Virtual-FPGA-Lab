@@ -863,8 +863,12 @@
 
 // Standard FPGA Lab Template.
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/bc141b721d1c863dc10305d6e3e4ba38a81dd2eb/warp-v.tlv'])
    m5_lab()
+\TLV
+   // Include WARP-V. Typically, this would be done from an \SV region, but we need to
+   // avoid the inclusion if this file is used as a library, so it is under \TLV. It expands
+   // to multiple comment lines, so we reset the line numbering with a \m5 region.
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/bc141b721d1c863dc10305d6e3e4ba38a81dd2eb/warp-v.tlv'])
 \m5
 \TLV
    /board
