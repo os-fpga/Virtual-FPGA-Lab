@@ -435,7 +435,6 @@
             render() {
                let digit = this.getIndex("digit")
                let segment = this.getIndex()
-               let digit_selected = (((this.sigVal("sseg_digit_n").asInt() >> digit) & 1) == 0)
                this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? m5_RED_SEGMENT_COLOR : m5_OFF_SEGMENT_COLOR})
             },
             layout: {left: 0, top: 0}
