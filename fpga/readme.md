@@ -8,7 +8,7 @@
 
 ## Steps to run FPGA setup
 
-1. `git clone https://github.com/BalaDhinesh/Virtual-FPGA-Lab.git`
+1. `git clone https://github.com/os-fpga/Virtual-FPGA-Lab.git`
 2.  From your working directory run the shell script `/<complete_path>/run.sh`.
       ![image](https://user-images.githubusercontent.com/64545984/130664456-5d59afb5-aeb0-47bd-bdd7-83820f687a47.png)
 

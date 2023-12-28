@@ -1,15 +1,21 @@
 \m5_TLV_version 1d -p verilog --noline: tl-x.org
 \m5
+   /**
+   This template enables Tiny Tapeout modules to run in the Virtual FPGA Lab.
+   It is specifically for Tiny Tapeout designs only.
+   A different template should be used to develop Virtual FPGA Lab modules that are
+   compatible with Tiny Tapeout (and all other boards supported by the Virtual FPGA Lab boards).
+   **/
    use(m5-1.0)
 \SV
    m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
    m4_include_lib(['https://raw.githubusercontent.com/stevehoover/RISC-V_MYTH_Workshop/master/tlv_lib/calculator_shell_lib.tlv'])
-\SV
-   m4_lab()
+
+   ///m4_lab()
 
 
 \TLV 7seg($val)
-   *sseg_segment_n =
+   *uo_out[6:0] =
         ($val == 0) ? 7'b1000000 : // '0'
         ($val == 1) ? 7'b1001111 : // '1'
         ($val == 2) ? 7'b0010010 : // '2'
@@ -27,16 +33,15 @@
         ($val == 14) ? 7'b0010000 : // 'e'
         ($val == 15) ? 7'b0111000 : // 'f'
         7'b1111111 ;                // 'nothing'
+   *uo_out[7] = 1'b1;  // No decimal point.
 
 // Example using LEDs to display a binary counter.
 \TLV fpga_calculator(/_fpga)
    |calc
       @0
          // Run artificially slow in the real FPGA. 
-         m5+fpga_heartbeat($refresh, 1, 50000000) 
+         m5+fpga_heartbeat($refresh, 1, 50000000)
          $reset = *reset;
-         *sseg_decimal_point_n = 1'b1;
-         *sseg_digit_n[7:0] = 8'b11111110;
       @1
          $val1[31:0] = >>2$out;
          $val2[31:0] = $rand2[3:0];
@@ -56,27 +61,72 @@
                          ($op == 3'b000) ? $sum  :
                          ($op == 3'b001) ? $diff :
                          ($op == 3'b010) ? $prod :
-                         ($op == 3'b011) ? $quot : 
+                         ($op == 3'b011) ? $quot :
                          ($op == 3'b100) ? >>2$mem : >>2$out;
       @2
          m5+7seg($out[3:0])
 
-         
+   \SV_plus
+      m5_if_var_def(MAKERCHIP, ['logic [256:0] RW_rand_vect = top.RW_rand_vect;'])
+      m5_if_var_def(MAKERCHIP, ['logic [31:0] cyc_cnt = top.cyc_cnt;'])
+      m5_if_var_def(MAKERCIHP, ['logic [6:0] sseg_digit_n = top.sseg_digit_n;'])
+      m5_if_var_def(MAKERCHIP, ['logic sseg_decimal_point_n = top.sseg_decimal_point_n;'])
+      m5_if_var_def(MAKERCHIP, ['logic [7:0] sseg_segment_n = top.sseg_segment_n;'])
+      m5_if_var_def(MAKERCHIP, ['logic [7:0] sseg_digit_n = top.sseg_digit_n;'])
+      m5_if_var_def(MAKERCHIP, [''])
    m4+cal_viz(@2, /_fpga)
 
+\SV_plus
+
+`default_nettype none
+
+// A simple Makerchip Verilog test bench driving random stimulus.
+m4_makerchip_module
+   logic [7:0] ui_in, uio_in, uo_out, uio_out, uio_oe;
+   assign m4_rand(ui_in, 7, 0)
+   assign m4_rand(uio_in, 7, 0)
+   logic ena = 1'b0;
+   logic rst_n = ! reset;
+                   
+   // Instantiate the Tiny Tapeout module.
+   tt_um_template tt(.*);
+   
+   logic [15:0] led; logic [6:0] sseg_segment_n; logic sseg_decimal_point_n; logic [7:0] sseg_digit_n;
+   logic [15:0] slideswitch;
+   //logic [4:0] push;
+   //logic [7:0] out;
+   //logic lcd_reset;
+   //logic lcd_enable;
+   
+   // Connect Tiny Tapeout I/Os to Virtual FPGA Lab.
+   /*
+   assign slideswitch[7:0] = ui_in;
+   assign sseg_segment_n[6:0] = uo_out[6:0];
+   assign sseg_decimal_point_n = uo_out[7];
+   assign sseg_digit_n[7:0] = 8'b11111110;
+   */
+endmodule
+
+module tt_um_template (
+    input  wire [7:0] ui_in,    // Dedicated inputs - connected to the input switches
+    output wire [7:0] uo_out,   // Dedicated outputs - connected to the 7 segment display
+    input  wire [7:0] uio_in,   // IOs: Bidirectional Input path
+    output wire [7:0] uio_out,  // IOs: Bidirectional Output path
+    output wire [7:0] uio_oe,   // IOs: Bidirectional Enable path (active high: 0=input, 1=output)
+    input  wire       ena,      // will go high when the design is enabled
+    input  wire       clk,      // clock
+    input  wire       rst_n     // reset_n - low to reset
+);
+
+   wire reset = ! rst_n;
 \TLV
    /board
-   
-      // Board selection:
-      // 0 - 1st CLaaS on AWS F1
-      // 1 - Zedboard
-      // 2 - Artix-7
-      // 3 - Basys3
-      // 4 - Icebreaker
-      // 5 - Nexys
-      // 6 - CLEAR
-      // 7 - Tiny Tapeout
-      m5+board(/board, /fpga, 7, *, , fpga_calculator)   // 3rd arg selects the board.
+      // Connect Tiny Tapeout I/Os to Virtual FPGA Lab.
+      $slideswitch[7:0] = *ui_in;
+      $sseg_segment_n[6:0] = *uo_out[6:0];
+      $sseg_decimal_point_n = *uo_out[7];
+      $sseg_digit_n[7:0] = 8'b11111110;
+      m5+board(/board, /fpga, 7, $, , fpga_calculator)   // 3rd arg selects the board.
 
 \SV
    endmodule

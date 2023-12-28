@@ -15,52 +15,9 @@ This document introduces the Virtual FPGA Lab. Separate documents will help you 
   - [Exporting to your FPGA board (if supported)](fpga/readme.md)
 
 
-## Contents
-
-[Overview](#overview)
-
-[About Makerchip](about-makerchip)
-
-[What makes the project __Virtual FPGA Lab__ special?](what-makes-the-project-virtual-fpga-lab-special)
-
-[FPGA Boards demonstrated](fpga-boards-demonstrated)
-
-[FPGA peripheral macro instantiations](fpga-peripheral-macro-instantiations)
-- [Board Select](board-select)
-- [LED Module](led-module)
-- [Seven segment displays](seven-segment-displays)
-- [LCD Module](lcd-module)
-- [VGA display](vga-display)
-- [Push buttons](push-buttons)
-- [Slideswitches](slideswitches)
-
-[Examples](examples)
-
-[Visual Debug](visual-debug)
-- [How Visual Debug is built?](how-visual-debug-is-built)
-- [Examples](examples)
-    - [Visualizing logic gates](visualizing-logic-gates)
-    - [Visualizing LCD 16x2 display](visualizing-lcd-16x2-display)
-
-[How to add own FPGA boards and peripherals](how-to-add-own-fpga-boards-and-peripherals)
-- [Adding custom FPGA board](adding-custom-fpga-board)
-- [Interfacing LEDs](interfacing-leds)
-
-[Steps to run in an actual FPGA](steps-to-run-in-an-actual-fpga)
-
-[Future Scope](future-scope)
-
-[Contributors](contributors)
-
-[Contributing](contributing)
-
-[License](license)
-
-
-
 ## What are FPGAs?
 
-New to FPGAs? Field-programmable gate arrays (FPGAs) are a hardware circuits that can be programmed to carry out logical operations. They provide a sweet spot between implementing algorithms in software and fabricating application-specific integrated circuits (ASICs). They generally provide far better performance and power-efficiency than software implementations, and they require far less time and expense to implement than ASICs. They can be reprogrammed as needed to upgrade functionality or fix bugs, even after deployment to customers (in the "field"). FPGAs are also beneficial for prototyping application-specific integrated circuits (ASICs) or processors.
+New to FPGAs? Field-programmable gate arrays (FPGAs) are hardware circuits that can be programmed to carry out logical operations. They provide a sweet spot between implementing algorithms in software and fabricating application-specific integrated circuits (ASICs). They generally provide far better performance and power-efficiency than software implementations, and they require far less time and expense to implement than ASICs. They can be reprogrammed as needed to upgrade functionality or fix bugs, even after deployment to customers (in the "field"). FPGAs are also beneficial for prototyping application-specific integrated circuits (ASICs) or processors.
 
 
 ## Virtual Lab Overview
@@ -88,16 +45,18 @@ In summary:
 4. Icebreaker FPGA ([Product Link](https://1bitsquared.com/products/icebreaker))
 5. Nexys A7 ([Product Link](https://store.digilentinc.com/nexys-a7-fpga-trainer-board-recommended-for-ece-curriculum/))
 6. CLEAR ([Article](https://www.hackster.io/news/efabless-clear-is-a-fully-open-source-asic-with-embedded-fpga-and-risc-v-core-now-on-groupgets-8ed72c5cff6a)) (no physical FPGA flow)
+7. Tiny Tapeout Evaluation Board (See [Tiny Tapeout](https://tinytapeout.com/))
 
 Currently we demonstrate using only these boards and we plan to add more boards in the future. You can very easily [add your own FPGA boards](fpga/readme.md). Contributions are welcome.
 
 
 ## Development Flow
 
-Just click [here](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ffpga_lab.tlv), and go! _(Right-click to open in a new tab.)_ Instructions below will guide you.
+For simulation-based development, just click [here](http://www.makerchip.com/sandbox?code_url=https:%2F%2Fraw.githubusercontent.com%2FBalaDhinesh%2FVirtual-FPGA-Lab%2Fmain%2Fexamples%2Ffpga_lab.tlv), and go! _(Right-click to open in a new tab.)_ Instructions below will guide you.
 
 You can also start from any of the [example project](#examples) here.
 
+For deployment to an FPGA, clone this repository or any other repository that uses this virtual lab, and open a starting-point (TL-)Verilog file in Makerchip. 
 Alternately, especially for local FPGA use, you can use [Makerchip-app](https://pypi.org/project/makerchip-app/) to edit files on your local machine (where you can maintain your git repository and run FPGA flows).
 
 Once you have some logic running in simulation, you'll be able to export your design to any supported physical FPGA board using these [instructions](fpga/readme.md).
@@ -219,8 +178,8 @@ m4+fpga_lcd()
 #### VGA display
 
 ```
-// External to FPGA - instantiated using
-m4+fpga_vga()
+// External to FPGA - instantiated using, e.g.
+m4+fpga_vga(/board, 32)
 
 // Signals:
 // *vga_hsync - horizontal sync
@@ -229,7 +188,7 @@ m4+fpga_vga()
 // *vga_g - green signal
 // *vga_b - blue signal
 ```
-External and other peripherals can be instantiated uisng `m4+` macros.
+External and other peripherals can be instantiated using `m4+` macros.
 
 
 
@@ -300,9 +259,9 @@ Here's a sample code structure.
 Visual Debug documentation and examples can be found within the Makerchip IDE.
 
 
-## Steps to run in an actual FPGA
+## Steps to run in a Xilinx FPGA
 
-Detailed step-by-step instructions are provided in this [link](fpga/readme.md). Credit goes to [Mayank Kabra](https://www.linkedin.com/in/mayank-kabra-6993701ab/) for helping me build this part.
+Detailed step-by-step instructions are provided in this [link](fpga/readme.md). (Credit to [Mayank Kabra](https://www.linkedin.com/in/mayank-kabra-6993701ab/).)
 
 LED Demo: [Link](https://makerchip.com/sandbox/0mZf5hLPG/0y8h64Z#)
 
