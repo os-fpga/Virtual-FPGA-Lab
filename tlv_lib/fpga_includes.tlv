@@ -811,6 +811,8 @@
 
       
 /// Convenience macros:
+
+/// Simple 7-segment decoder.
 \TLV sseg_decoder($_out, $_val)
    $_out[6:0] =
         ($_val == 0) ? 7'b1000000 : // '0'
@@ -830,6 +832,15 @@
         ($_val == 14) ? 7'b0010000 : // 'e'
         ($_val == 15) ? 7'b0111000 : // 'f'
         7'b1111111 ;                // 'nothing'
+
+/// For Tiny Tapeout
+
+// Map TT I/Os to Virtual Lab.
+\TLV tt_connections()
+   $slideswitch[7:0] = *ui_in;
+   $sseg_segment_n[6:0] = *uo_out[6:0];
+   $sseg_decimal_point_n = *uo_out[7];
+   $sseg_digit_n[7:0] = 8'b11111110;
 
 
 // ===================================================
