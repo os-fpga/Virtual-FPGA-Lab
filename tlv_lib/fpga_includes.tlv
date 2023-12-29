@@ -182,7 +182,7 @@
    // Definition of appropriate top-level module.
    TLV_fn(fpga_module, ..., {
       fpga_ios($@)
-      ~if_def(m5_MAKERCHIP, ['
+      ~if_defined_as(MAKERCHIP, 1, ['
          // Makerchip module.
          var(fpga_io_sig, [' logic ']m4_arg(2)[';'])
          m4_output(['m4_makerchip_module m4_echo(m4_fpga_ios_list)'])
@@ -283,7 +283,7 @@
 \TLV fpga_heartbeat($_var, #_sim_delay, #_fpga_delay)
    /* verilator lint_save */
    /* verilator lint_off UNSIGNED */
-   m4_push(delay, m5_if_eq(m5_MAKERCHIP, 1, #_sim_delay, #_fpga_delay))
+   m4_push(delay, m5_if_defined_as(MAKERCHIP, 1, #_sim_delay, #_fpga_delay))
    $rst['']m4_plus_inst_id = *reset;
    $count['']m4_plus_inst_id[31:0] = ($RETAIN >= m4_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ;
    $_var = ($count['']m4_plus_inst_id == m4_delay - 1) ? 1'b1 : 1'b0 ;
@@ -508,7 +508,7 @@
 \TLV fpga_lcd(/_board, #_board, _sig_prefix)
    //for viz part
    /lcd
-      m5_if_eq_block(m5_MAKERCHIP, 1, ['
+      m5_if_eq_block(m5_if_defined_as(MAKERCHIP, 1, 1, 0), 1, ['
       $reset = *reset;
       $out[\$size(*out)-1:0] = *out;
       $lcd_enable = *lcd_enable;
@@ -668,7 +668,7 @@
 
 \TLV fpga_vga(/_board, #_counter)
    /vga
-      m5_if_eq_block(m5_MAKERCHIP, 1,['
+      m5_if_eq_block(m5_if_defined_as(MAKERCHIP, 1, 1, 0), 1, ['
       $reset = *reset;
       $vga_hsync = *vga_hsync;
       $vga_vsync = *vga_vsync;

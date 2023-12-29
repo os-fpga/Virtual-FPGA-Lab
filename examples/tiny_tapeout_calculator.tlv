@@ -8,32 +8,8 @@
    **/
    use(m5-1.0)
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/tt/tlv_lib/fpga_includes.tlv'])
    m4_include_lib(['https://raw.githubusercontent.com/stevehoover/RISC-V_MYTH_Workshop/master/tlv_lib/calculator_shell_lib.tlv'])
-
-   ///m4_lab()
-
-
-\TLV 7seg($val)
-   *uo_out[6:0] =
-        ($val == 0) ? 7'b1000000 : // '0'
-        ($val == 1) ? 7'b1001111 : // '1'
-        ($val == 2) ? 7'b0010010 : // '2'
-        ($val == 3) ? 7'b0000110 : // '3'
-        ($val == 4) ? 7'b0001101 : // '4'
-        ($val == 5) ? 7'b0100100 : // '5'
-        ($val == 6) ? 7'b0100000 : // '6'
-        ($val == 7) ? 7'b1001110 : // '7'
-        ($val == 8) ? 7'b0000000 : // '8'
-        ($val == 9) ? 7'b0000100 : // '9'
-        ($val == 10) ? 7'b0000010 : // 'a'
-        ($val == 11) ? 7'b0100001 : // 'b'
-        ($val == 12) ? 7'b1110000 : // 'c'
-        ($val == 13) ? 7'b0000011 : // 'd'
-        ($val == 14) ? 7'b0010000 : // 'e'
-        ($val == 15) ? 7'b0111000 : // 'f'
-        7'b1111111 ;                // 'nothing'
-   *uo_out[7] = 1'b1;  // No decimal point.
 
 // Example using LEDs to display a binary counter.
 \TLV fpga_calculator(/_fpga)
@@ -64,16 +40,11 @@
                          ($op == 3'b011) ? $quot :
                          ($op == 3'b100) ? >>2$mem : >>2$out;
       @2
-         m5+7seg($out[3:0])
-
+         m5+sseg_decoder(*uo_out, $out[3:0])
+         *uo_out[7] = 1'b1;  // No decimal point.
    \SV_plus
       m5_if_var_def(MAKERCHIP, ['logic [256:0] RW_rand_vect = top.RW_rand_vect;'])
       m5_if_var_def(MAKERCHIP, ['logic [31:0] cyc_cnt = top.cyc_cnt;'])
-      m5_if_var_def(MAKERCIHP, ['logic [6:0] sseg_digit_n = top.sseg_digit_n;'])
-      m5_if_var_def(MAKERCHIP, ['logic sseg_decimal_point_n = top.sseg_decimal_point_n;'])
-      m5_if_var_def(MAKERCHIP, ['logic [7:0] sseg_segment_n = top.sseg_segment_n;'])
-      m5_if_var_def(MAKERCHIP, ['logic [7:0] sseg_digit_n = top.sseg_digit_n;'])
-      m5_if_var_def(MAKERCHIP, [''])
    m4+cal_viz(@2, /_fpga)
 
 \SV_plus
@@ -91,20 +62,6 @@ m4_makerchip_module
    // Instantiate the Tiny Tapeout module.
    tt_um_template tt(.*);
    
-   logic [15:0] led; logic [6:0] sseg_segment_n; logic sseg_decimal_point_n; logic [7:0] sseg_digit_n;
-   logic [15:0] slideswitch;
-   //logic [4:0] push;
-   //logic [7:0] out;
-   //logic lcd_reset;
-   //logic lcd_enable;
-   
-   // Connect Tiny Tapeout I/Os to Virtual FPGA Lab.
-   /*
-   assign slideswitch[7:0] = ui_in;
-   assign sseg_segment_n[6:0] = uo_out[6:0];
-   assign sseg_decimal_point_n = uo_out[7];
-   assign sseg_digit_n[7:0] = 8'b11111110;
-   */
 endmodule
 
 module tt_um_template (
@@ -120,13 +77,9 @@ module tt_um_template (
 
    wire reset = ! rst_n;
 \TLV
-   /board
-      // Connect Tiny Tapeout I/Os to Virtual FPGA Lab.
-      $slideswitch[7:0] = *ui_in;
-      $sseg_segment_n[6:0] = *uo_out[6:0];
-      $sseg_decimal_point_n = *uo_out[7];
-      $sseg_digit_n[7:0] = 8'b11111110;
-      m5+board(/board, /fpga, 7, $, , fpga_calculator)   // 3rd arg selects the board.
+   // Connect Tiny Tapeout I/Os to Virtual FPGA Lab.
+   m5+tt_connections()
+   m5+board(/top, /fpga, 7, $, , fpga_calculator)   // 3rd arg selects the board.
 
 \SV
    endmodule
