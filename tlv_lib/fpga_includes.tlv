@@ -117,7 +117,7 @@
       BOARD_7_SSEG_CNT,    1,
       BOARD_7_SSEG_WHERE,  ['left: 760, top: 388, scale: 1.3'],
       BOARD_7_SWITCH_CNT,  8,
-      BOARD_7_SWITCH_WHERE,['left: 343, top: 146, scale: 1.05, angle: 90'],
+      BOARD_7_SWITCH_WHERE,['left: 309, top: 297, scale: 1.05, angle: -90'],
       BOARD_7_PUSH_CNT,    0,
       BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Matt Venn, and ']'])
    // Add custom boards here
@@ -913,7 +913,7 @@
       // 5: NEXYS_ID
       // 6: CLEAR_ID
       // 7: TINY_TAPEOUT_ID
-      m4+board(/board, /fpga, 2, *,
+      m4+board(/board, /fpga, 3, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
 
@@ -930,7 +930,7 @@
       ///   )
       
    // Instantiate each board with simple TLV outputs.
-   m4+forloop(board, 0, 7,
+   m4+forloop(board, 0, 8,
       \TLV
          /board['']m4_board
             /default_inputs
