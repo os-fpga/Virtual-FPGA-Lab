@@ -119,7 +119,7 @@
       BOARD_7_SWITCH_CNT,  8,
       BOARD_7_SWITCH_WHERE,['left: 309, top: 297, scale: 1.05, angle: -90'],
       BOARD_7_PUSH_CNT,    0,
-      BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Matt Venn, and ']'])
+      BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Tiny Tapeout, and ']'])
    // Add custom boards here
 
 
@@ -832,15 +832,6 @@
         ($_val == 14) ? 7'b0010000 : // 'e'
         ($_val == 15) ? 7'b0111000 : // 'f'
         7'b1111111 ;                // 'nothing'
-
-/// For Tiny Tapeout
-
-// Map TT I/Os to Virtual Lab.
-\TLV tt_connections()
-   $slideswitch[7:0] = *ui_in;
-   $sseg_segment_n[6:0] = *uo_out[6:0];
-   $sseg_decimal_point_n = *uo_out[7];
-   $sseg_digit_n[7:0] = 8'b11111110;
 
 
 // ===================================================
