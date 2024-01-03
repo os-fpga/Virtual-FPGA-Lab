@@ -3,7 +3,7 @@
    / A library for Tiny-Tapeout-specific projects.
    /use(m5-1.0)
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/7335edd12fe1b39521e855e526cc337b853e035f/tlv_lib/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/cb3901d709f6668e97a499db33106f50c06843fd/tlv_lib/fpga_includes.tlv'])
 
 // Map TT I/Os to Virtual Lab.
 \TLV tt_connections()
