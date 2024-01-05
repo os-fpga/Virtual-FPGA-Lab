@@ -120,7 +120,7 @@
       BOARD_7_SWITCH_WHERE,['left: 305, top: 297, scale: 1.05, angle: -90'],
       BOARD_7_PUSH_CNT,    0,
       BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Tiny Tapeout, and ']'],
-      BOARD_7_ATTRIBUTES,  ['switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
+      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#ffff00"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
    // Add custom boards here
 
 
@@ -438,7 +438,10 @@
             render() {
                let digit = this.getIndex("digit")
                let segment = this.getIndex()
-               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? m5_RED_SEGMENT_COLOR : m5_OFF_SEGMENT_COLOR})
+               let attributes = {m5_BOARD_ATTRIBUTES}
+               attributes = attributes.seven_seg ? attributes.seven_seg : {}
+               let color = attributes.color ? attributes.color : m5_RED_SEGMENT_COLOR
+               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? color : m5_OFF_SEGMENT_COLOR})
             },
             layout: {left: 0, top: 0}
             
@@ -450,11 +453,11 @@
          where: {m5_BOARD_SWITCH_WHERE},
          m5_if_eq(m5_BOARD_SWITCH_LAYOUT, [''], [''], ['layout: {m5_BOARD_SWITCH_LAYOUT},'])
          init() {
-            attributes = {m5_BOARD_ATTRIBUTES}
+            let attributes = {m5_BOARD_ATTRIBUTES}
             attributes = attributes.switch ? attributes.switch : {}
-            background = attributes.background ? attributes.background : "#333"
-            slot_color = attributes.slot_color ? attributes.slot_color : "#222"
-            foreground = attributes.foreground ? attributes.foreground : "#524F4E"
+            let background = attributes.background ? attributes.background : "#333"
+            let slot_color = attributes.slot_color ? attributes.slot_color : "#222"
+            let foreground = attributes.foreground ? attributes.foreground : "#524F4E"
             foreground_width = attributes.foreground_width ? attributes.foreground_width : 1.25
             let background_rect = new fabric.Rect({
                top: 0, left: 0,
