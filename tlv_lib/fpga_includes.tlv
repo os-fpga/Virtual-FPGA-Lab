@@ -91,7 +91,7 @@
       BOARD_5_SSEG_CNT,    8,
       BOARD_5_SSEG_WHERE,  ['left: 163, top: 306, scale: 0.778'],
       BOARD_5_SWITCH_CNT,  16,
-      BOARD_5_SWITCH_WHERE,['top: 360, left: 125, scale: 1.18'],
+      BOARD_5_SWITCH_WHERE,['top: 360, left: 127, scale: 1.18'],
       BOARD_5_PUSH_CNT,    5,
       BOARD_5_PUSH_WHERE,  ['top: 226, left: 362, height: 88'],
       BOARD_5_THANKS_ARGS, ['['left: 450, top: 438, width: 80'], ['Digilent, Xilinx, and ']'])
@@ -117,9 +117,10 @@
       BOARD_7_SSEG_CNT,    1,
       BOARD_7_SSEG_WHERE,  ['left: 760, top: 388, scale: 1.3'],
       BOARD_7_SWITCH_CNT,  8,
-      BOARD_7_SWITCH_WHERE,['left: 309, top: 297, scale: 1.05, angle: -90'],
+      BOARD_7_SWITCH_WHERE,['left: 305, top: 297, scale: 1.05, angle: -90'],
       BOARD_7_PUSH_CNT,    0,
-      BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Tiny Tapeout, and ']'])
+      BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Tiny Tapeout, and ']'],
+      BOARD_7_ATTRIBUTES,  ['switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
    // Add custom boards here
 
 
@@ -211,7 +212,8 @@
       BOARD_PUSH_CNT, ,
       BOARD_PUSH_WHERE, ,
       BOARD_THANKS_ARGS, ,
-      BOARD_LCD_WHERE, )
+      BOARD_LCD_WHERE, ,
+      BOARD_ATTRIBUTES, )
 
    /// Defines constants to characterize the selected #_board.
    fn(set_board_param, Name, ?Def, {
@@ -239,6 +241,7 @@
       set_board_param(PUSH_WHERE)
       set_board_param(THANKS_ARGS)
       set_board_param(LCD_WHERE)
+      set_board_param(ATTRIBUTES)
    })
 
    fn(lab, {
@@ -443,32 +446,48 @@
    /switch[m4_eval(m5_BOARD_SWITCH_CNT - 1):0]
       $viz_switch = ['_sig_prefix']slideswitch\[#switch\];
       \viz_js
-         box: { width: 18, height: 35, strokeWidth: 0, fill: "#7f8b55"},
+         box: { width: 18, height: 35, strokeWidth: 0},
          where: {m5_BOARD_SWITCH_WHERE},
          m5_if_eq(m5_BOARD_SWITCH_LAYOUT, [''], [''], ['layout: {m5_BOARD_SWITCH_LAYOUT},'])
          init() {
-            let box = new fabric.Rect({
-                        top: 5,
-                        left: 3 ,
+            attributes = {m5_BOARD_ATTRIBUTES}
+            attributes = attributes.switch ? attributes.switch : {}
+            background = attributes.background ? attributes.background : "#333"
+            slot_color = attributes.slot_color ? attributes.slot_color : "#222"
+            foreground = attributes.foreground ? attributes.foreground : "#524F4E"
+            foreground_width = attributes.foreground_width ? attributes.foreground_width : 1.25
+            let background_rect = new fabric.Rect({
+               top: 0, left: 0,
+               width: 18, height: 35,
+               strokeWidth: 0,
+               fill: background
+            })
+            let slot = new fabric.Rect({
+                        top: 17.5,
+                        left: 9,
+                        originX: "center",
+                        originY: "center",
                         width: 12,
                         height: 26,
-                        fill: "#EEEEEE",
+                        fill: slot_color,
                         rx:2,
                         ry:2
                      })
              let state = new fabric.Rect({
-                        top: 18,
-                        left: 2 ,
-                        width: 15,
-                        height: 15,
-                        fill: "#423F3E",
+                        top: 17.5,
+                        left: 9,
+                        originX: "center",
+                        originY: "center",
+                        width: 12 * foreground_width,
+                        height: 12 * foreground_width,
+                        fill: foreground,
                         rx:2,
                         ry:2
                })
-              return{box, state}
+              return{background_rect, slot, state}
          },
          render(){
-            this.getInitObject("state").set('$viz_switch'.asBool() ? {top: 3} : {top: 18});
+            this.getInitObject("state").set('$viz_switch'.asBool() ? {top: 10.5} : {top: 24.5});
          }
          
 \TLV fpga_push(/_board, #_board, _sig_prefix)
