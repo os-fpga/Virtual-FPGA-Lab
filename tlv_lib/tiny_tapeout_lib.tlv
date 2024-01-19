@@ -88,4 +88,4 @@
                })
             }
          },
-         where: {left: 242, top: 148, scale: 1.05}
+         where: {left: 370, top: 432, scale: 2.9}

@@ -2,7 +2,7 @@
 \SV
 \m5
    use(m5-1.0)
-   macro(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/2f0b26fee8d3b767d81d2b3875506e56e8077d37/viz/$1']'])
+   macro(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/0dc0c04745e0eaebbe2ca41710e4ffd61d29691c/viz/$1']'])
 
    /// TODO: The new convension would have all these definition in lower case.
 
@@ -16,7 +16,7 @@
    universal_vars(
       /// 1st CLaaS
       FIRST_CLAAS_ID, 0,
-      BOARD_0_IMAGE_URL,  ['https://raw.githubusercontent.com/stevehoover/1st-CLaaS/1a0a1894f1fe2d831374968a69f3c2697f458145/doc/img/simple.png'],
+      BOARD_0_IMAGE_URL,  ['https://raw.githubusercontent.com/os-fpga/1st-CLaaS/dc75b1eff41da2dc501b1ee1c2856fc1e2c95aed/doc/img/simple.png'],
       BOARD_0_IMAGE_SIZE, ['width: 593, height: 238'],
       BOARD_0_FPGA_WHERE, m5_FPGA_WHERE_COMMON['left: 440, top: 72, width: 90, height: 90'],
       BOARD_0_LED_CNT,    0,
@@ -110,17 +110,17 @@
       /// Tiny Tapeout (Motherboard v2.1)
       /// TODO: This currently uses an external link for the image.
       TINY_TAPEOUT_ID,     7,
-      BOARD_7_IMAGE_URL,   ['https://tinytapeout.com/specs/pcb/images/tt02_board_top.jpeg'],
-      BOARD_7_IMAGE_SIZE,  ['width: 1100, height: 734'],
-      BOARD_7_FPGA_WHERE,  m5_FPGA_WHERE_COMMON['left: 540, top: 291, width: 64, height: 64'],
+      BOARD_7_IMAGE_URL,   m5_local_img(tt3demoboardwFPGAcarrier2.jpg),
+      BOARD_7_IMAGE_SIZE,  ['width: 2600, height: 2044'],
+      BOARD_7_FPGA_WHERE,  m5_FPGA_WHERE_COMMON['left: 1221, top: 898, width: 142, height: 142'],
       BOARD_7_LED_CNT,     0,
       BOARD_7_SSEG_CNT,    1,
-      BOARD_7_SSEG_WHERE,  ['left: 760, top: 388, scale: 1.3'],
+      BOARD_7_SSEG_WHERE,  ['left: 1846, top: 1088, scale: 3.36'],
       BOARD_7_SWITCH_CNT,  8,
-      BOARD_7_SWITCH_WHERE,['left: 305, top: 297, scale: 1.05, angle: -90'],
+      BOARD_7_SWITCH_WHERE,['left: 509, top: 839, scale: 2.9, angle: -90'],
       BOARD_7_PUSH_CNT,    0,
-      BOARD_7_THANKS_ARGS, ['['left: 760, top: 725, width: 120'], ['Efabless, Tiny Tapeout, and ']'],
-      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#ffff00"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
+      BOARD_7_THANKS_ARGS, ['['left: 1696, top: 2090, width: 283, scale: 4.5'], ['Efabless, Tiny Tapeout, and ']'],
+      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#ffff00", background: "#586068"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
    // Add custom boards here
 
 
@@ -399,12 +399,18 @@
             box: {
                fill: "#2a2a2a",
                strokeWidth: 0,
-            }
+            },
          },
          box: {
             width: 35,
             height: m5_if_eq(#_board, 3, 47, #_board, 5, 47, 60),
             strokeWidth: 0,
+         },
+         renderFill() {
+            debugger
+            let attributes = {m5_BOARD_ATTRIBUTES}
+            attributes = attributes.seven_seg ? attributes.seven_seg : {}
+            return attributes.background ? attributes.background : "#2a2a2a"
          },
          layout: {left: -35},
          where: {m5_BOARD_SSEG_WHERE}
@@ -926,9 +932,10 @@
       // 5: NEXYS_ID
       // 6: CLEAR_ID
       // 7: TINY_TAPEOUT_ID
-      m4+board(/board, /fpga, 3, *,
+      m4+board(/board, /fpga, 7, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
+      m5+tt_input_labels_viz(['"UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED"'])
 
       /// TODO: RGB LEDs and external 7-Segment remain to be cleaned up.
       ///m4+ifelse(m4_fpga_io_rgb_leds_defined, 1,
