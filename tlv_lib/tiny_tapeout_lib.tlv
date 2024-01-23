@@ -74,7 +74,7 @@
    /input_label[7:0]
       \viz_js
          box: {width: 40, height: 10, strokeWidth: 0, fill: "#ffffffa0", rx: 4, ry: 4},
-         layout: {left: 0, top: -18},
+         layout: {left: 0, top: 18},
          init() {
             let labels = [_labels_js]
             return {
@@ -88,4 +88,4 @@
                })
             }
          },
-         where: {left: 370, top: 432, scale: 2.9}
+         where: {left: 370, top: 437, scale: 2.9}
