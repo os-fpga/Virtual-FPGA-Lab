@@ -117,7 +117,7 @@
       BOARD_7_SSEG_CNT,    1,
       BOARD_7_SSEG_WHERE,  ['left: 1846, top: 1088, scale: 3.36'],
       BOARD_7_SWITCH_CNT,  8,
-      BOARD_7_SWITCH_WHERE,['left: 509, top: 839, scale: 2.9, angle: -90'],
+      BOARD_7_SWITCH_WHERE,['left: 611, top: 426, scale: 2.9, angle: 90'],
       BOARD_7_PUSH_CNT,    0,
       BOARD_7_THANKS_ARGS, ['['left: 1696, top: 2090, width: 283, scale: 4.5'], ['Efabless, Tiny Tapeout, and ']'],
       BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#ffff00", background: "#586068"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
