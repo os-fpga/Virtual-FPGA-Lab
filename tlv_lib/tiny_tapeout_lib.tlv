@@ -38,10 +38,10 @@
           end
           
           // Debounce.
-          `define DEBOUNCE_MAX_CNT 8'hff
+          `define DEBOUNCE_MAX_CNT m5_if(m5_MAKERCHIP, ['14'h8'], ['14'h3ffff'])
           logic [m5_input_range] inputs_candidate, inputs_captured;
           logic sync_rst_n = inputs_sync[0];
-          logic [7:0] cnt;
+          logic [13:0] cnt;
           always @(posedge clk) begin
               if (!sync_rst_n)
                  cnt <= `DEBOUNCE_MAX_CNT;
@@ -51,7 +51,7 @@
                  inputs_candidate <= inputs_sync;
               end
               else if (cnt > 0)
-                 cnt <= cnt - 8'b1;
+                 cnt <= cnt - 14'b1;
               else begin
                  // Cnt == 0. Capture candidate inputs.
                  inputs_captured <= inputs_candidate;
