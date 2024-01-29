@@ -3,6 +3,12 @@
    / A library for Tiny-Tapeout-specific projects.
    /use(m5-1.0)
 
+   default_var(target, FPGA)  /// Should be set externally. TODO: Currently named specifically for MEST course. Better to use tt_version or something.
+
+   fn(if_fpga, fpga_body, ?asic_body, {
+      ~if_eq(m5_target, FPGA, ['m5_fpga_body'], ['m5_asic_body'])
+   })
+
    / A macro that declares the real Tiny Tapeout top-level module that debounces and synchronizes inputs for
    / the user's Tiny Tapeout module.
    macro(tt_top, ['
@@ -14,23 +20,26 @@
       module $1 (
           input  wire [7:0] ui_in,    // Dedicated inputs - connected to the input switches
           output wire [7:0] uo_out,   // Dedicated outputs - connected to the 7 segment display
+          m5_if_fpga(['/']['*'])   // The FPGA is based on TinyTapeout 3 which has no bidirectional I/Os (vs. TT6 for the ASIC).
           input  wire [7:0] uio_in,   // IOs: Bidirectional Input path
           output wire [7:0] uio_out,  // IOs: Bidirectional Output path
           output wire [7:0] uio_oe,   // IOs: Bidirectional Enable path (active high: 0=input, 1=output)
+          m5_if_fpga(['*']['/'])
           input  wire       ena,      // will go high when the design is enabled
           input  wire       clk,      // clock
           input  wire       rst_n     // reset_n - low to reset
       );
+          m5_var(input_range, m5_if_fpga(['9:0'], ['17:0']))
           // Synchronize.
-          logic [17:0] inputs_ff, inputs_sync;
+          logic [m5_input_range] inputs_ff, inputs_sync;
           always @(posedge clk) begin
-              inputs_ff <= {ui_in, uio_in, ena, rst_n};
+              inputs_ff <= {ui_in, m5_if_fpga([''], ['uio_in, '])ena, rst_n};
               inputs_sync <= inputs_ff;
           end
           
           // Debounce.
           `define DEBOUNCE_MAX_CNT 8'hff
-          logic [17:0] inputs_candidate, inputs_captured;
+          logic [m5_input_range] inputs_candidate, inputs_captured;
           logic sync_rst_n = inputs_sync[0];
           logic [7:0] cnt;
           always @(posedge clk) begin
@@ -48,13 +57,13 @@
                  inputs_captured <= inputs_candidate;
               end
           end
-          logic [7:0] clean_ui_in, clean_uio_in;
+          logic [7:0] clean_ui_in\m5_if_fpga([''], [', clean_uio_in']);
           logic clean_ena, clean_rst_n;
-          assign {clean_ui_in, clean_uio_in, clean_ena, clean_rst_n} = inputs_captured;
+          assign {clean_ui_in, m5_if_fpga([''], ['clean_uio_in, '])clean_ena, clean_rst_n} = inputs_captured;
           
           my_design my_design (
               .ui_in(clean_ui_in),
-              .uio_in(clean_uio_in),
+              m5_if_fpga([''], ['.uio_in(clean_uio_in),'])
               .ena(clean_ena),
               .rst_n(clean_rst_n),
               .*);
