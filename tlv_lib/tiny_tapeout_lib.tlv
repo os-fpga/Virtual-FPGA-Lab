@@ -66,8 +66,8 @@
 // Map TT I/Os to Virtual Lab.
 \TLV tt_connections()
    $slideswitch[7:0] = *ui_in;
-   $sseg_segment_n[6:0] = *uo_out[6:0];
-   $sseg_decimal_point_n = *uo_out[7];
+   $sseg_segment_n[6:0] = ~ *uo_out[6:0];
+   $sseg_decimal_point_n = ~ *uo_out[7];
    $sseg_digit_n[7:0] = 8'b11111110;
 
 \TLV tt_input_labels_viz(_labels_js)
