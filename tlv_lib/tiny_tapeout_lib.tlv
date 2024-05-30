@@ -38,7 +38,7 @@
           end
           
           // Debounce.
-          `define DEBOUNCE_MAX_CNT m5_if(m5_MAKERCHIP, ['14'h8'], ['14'h3fff'])
+          `define DEBOUNCE_MAX_CNT m5_if_defined_as(MAKERCHIP, 1, ['14'h8'], ['14'h3fff'])
           logic [m5_input_range] inputs_candidate, inputs_captured;
           logic sync_rst_n = inputs_sync[0];
           logic [13:0] cnt;
