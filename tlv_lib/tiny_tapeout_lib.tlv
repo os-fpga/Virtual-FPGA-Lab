@@ -116,3 +116,21 @@
             );
             return {img};
          }
+
+\TLV tt_pmod_led(/_led, _sig_prefix)
+   /_led
+      \viz_js
+         box: {width: 100, height: 100, strokeWidth: 0},
+         where: {left: 0, top: 0},
+         init() {
+            let img = this.newImageFromURL(
+               "https://blastfromthepast.dev/assets/Pmod_LED.png",
+               "",
+               {
+                  left: 0,
+                  top: 0,
+                  width: 100,
+                  height: 100,
+               }
+            );
+        }
