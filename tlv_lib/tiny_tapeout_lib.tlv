@@ -99,13 +99,13 @@
          },
          where: {left: 370, top: 437, scale: 2.9}
 
- \TLV tt_pmod_led(/_led, _sig_prefix)
-   /_led
+\TLV tt_pmod_ssd(/_ssd, _sig_prefix)
+   /_ssd
       \viz_js
-         box: {width: 100, height: 100, strokeWidth: 0},
+         box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://blastfromthepast.dev/assets/Pmod_LED.png",
+               "https://blastfromthepast.dev/assets/Pmod_SSD.png",
                "",
                {
                   left: 0,
@@ -114,26 +114,5 @@
                   height: 100,
                }
             );
-            
-            let ledPositions = [30, 37, 45, 53];
-            let leds = [];
-            
-            for (let i = 0; i < 4; i++) {
-               leds.push(new fabric.Rect({
-                  left: 73,
-                  top: ledPositions[i],
-                  width: 3,
-                  height: 3,
-                  fill: "rgb(255, 43, 57)",
-                  stroke: "rgb(255, 43, 57)"
-               }));
-            }
-            
-            return {img, led0: leds[0], led1: leds[1], led2: leds[2], led3: leds[3]};
-         },
-         render() {
-            this.led0.fill = ['_sig_prefix']ld0 ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
-            this.led1.fill = ['_sig_prefix']ld1 ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
-            this.led2.fill = ['_sig_prefix']ld2 ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
-            this.led3.fill = ['_sig_prefix']ld3 ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+            return {img};
          }
