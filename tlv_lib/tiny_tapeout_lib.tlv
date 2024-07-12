@@ -100,34 +100,34 @@
          where: {left: 370, top: 437, scale: 2.9}
 
 \TLV tt_pmod_ssd(/_ssd, _sig_prefix)
-      \viz_js
-         box: {strokeWidth: 0},
-         init() {
-            let ssd_img = this.newImageFromURL(
-               "https://blastfromthepast.dev/assets/Pmod_SSD.png",
-               "",
-               {
-                  left: 0,
-                  top: 0,
-                  width: 100,
-                  height: 100,
-               }
-            );
-            return {ssd_img};
-         };
+   \viz_js
+      box: {strokeWidth: 0},
+      init() {
+         let ssd_img = this.newImageFromURL(
+            "https://blastfromthepast.dev/assets/Pmod_SSD.png",
+            "",
+            {
+               left: 0,
+               top: 0,
+               width: 100,
+               height: 100,
+            }
+         );
+         return {ssd_img};
+      };
 
 \TLV tt_pmod_led(/_led, _sig_prefix)
-      \viz_js
-         box: {strokeWidth: 0},
-         init() {
-            let led_img = this.newImageFromURL(
-               "https://blastfromthepast.dev/assets/Pmod_LED.png",
-               {
-                  left: 0,
-                  top: 0,
-                  width: 100,
-                  height: 100,
-               }
-            );
-            return {led_img};
-         };
+   \viz_js
+      box: {strokeWidth: 0},
+      init() {
+         let led_img = this.newImageFromURL(
+            "https://blastfromthepast.dev/assets/Pmod_LED.png",
+            {
+               left: 0,
+               top: 0,
+               width: 100,
+               height: 100,
+            }
+         );
+         return {led_img};
+      };
