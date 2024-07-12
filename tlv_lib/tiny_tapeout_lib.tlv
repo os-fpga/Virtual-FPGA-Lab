@@ -134,25 +134,5 @@
                }
             );
       
-            let ledPositions = [30, 37, 45, 53];
-            let leds = [];
-      
-            for (let i = 0; i < 4; i++) {
-               leds.push(new fabric.Rect({
-                  left: 73,
-                  top: ledPositions[i],
-                  width: 3,
-                  height: 3,
-                  fill: "rgb(255, 43, 57)",
-                  stroke: "rgb(255, 43, 57)"
-               }));
-            }
-      
-            return {img, led0: leds[0], led1: leds[1], led2: leds[2], led3: leds[3]};
-         },
-         render() {
-            this.led0.fill = ['_sig_prefix']ld0_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
-            this.led1.fill = ['_sig_prefix']ld1_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
-            this.led2.fill = ['_sig_prefix']ld2_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
-            this.led3.fill = ['_sig_prefix']ld3_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+            return {img};
          }
