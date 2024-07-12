@@ -105,7 +105,7 @@
          box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://blastfromthepast.dev/assets/Pmod_SSD.png",
+               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_SSD.png",
                "",
                {
                   left: 0,
@@ -115,4 +115,44 @@
                }
             );
             return {img};
+         }
+
+\TLV tt_pmod_led(/_led, _sig_prefix)
+   /_led
+      \viz_js
+         box: {width: 100, height: 100, strokeWidth: 0},
+         where: {left: 0, top: 0},
+         init() {
+            let img = this.newImageFromURL(
+               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_LED.png",
+               "",
+               {
+                  left: 0,
+                  top: 0,
+                  width: 100,
+                  height: 100,
+               }
+            );
+      
+            let ledPositions = [30, 37, 45, 53];
+            let leds = [];
+      
+            for (let i = 0; i < 4; i++) {
+               leds.push(new fabric.Rect({
+                  left: 73,
+                  top: ledPositions[i],
+                  width: 3,
+                  height: 3,
+                  fill: "rgb(255, 43, 57)",
+                  stroke: "rgb(255, 43, 57)"
+               }));
+            }
+      
+            return {img, led0: leds[0], led1: leds[1], led2: leds[2], led3: leds[3]};
+         },
+         render() {
+            this.led0.fill = ['_sig_prefix']ld0_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+            this.led1.fill = ['_sig_prefix']ld1_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+            this.led2.fill = ['_sig_prefix']ld2_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+            this.led3.fill = ['_sig_prefix']ld3_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
          }
