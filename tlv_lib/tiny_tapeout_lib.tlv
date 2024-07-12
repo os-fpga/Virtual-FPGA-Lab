@@ -104,7 +104,7 @@
       \viz_js
          box: {strokeWidth: 0},
          init() {
-            let img = this.newImageFromURL(
+            let ssd_img = this.newImageFromURL(
                "https://blastfromthepast.dev/assets/Pmod_SSD.png",
                "",
                {
@@ -114,18 +114,16 @@
                   height: 100,
                }
             );
-            return {img};
+            return {ssd_img};
          }
 
 \TLV tt_pmod_led(/_led, _sig_prefix)
-   /_led
+   /_ssd
       \viz_js
-         //box: {width: 100, height: 100, strokeWidth: 0},
          box: {strokeWidth: 0},
          init() {
-            let img = this.newImageFromURL(
+            let led_img = this.newImageFromURL(
                "https://blastfromthepast.dev/assets/Pmod_LED.png",
-               "",
                {
                   left: 0,
                   top: 0,
@@ -133,6 +131,5 @@
                   height: 100,
                }
             );
-            return {img};
-        }
-
+            return {led_img};
+         }
