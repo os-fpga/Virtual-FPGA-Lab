@@ -278,20 +278,20 @@
 \TLV fpga_refresh($_var, #_delay)
    /* verilator lint_save */
    /* verilator lint_off UNSIGNED */
-   $rst['']m4_plus_inst_id = *reset;
-   $count['']m4_plus_inst_id[31:0] = ($RETAIN >= #_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ;
-   $_var = ($count['']m4_plus_inst_id == #_delay - 1) ? 1'b1 : 1'b0 ;
+   $rst['']m5_plus_inst_id = *reset;
+   $count['']m5_plus_inst_id[31:0] = ($RETAIN >= #_delay - 1) | >>1$rst['']m5_plus_inst_id ? 1'b0 : $RETAIN + 1 ;
+   $_var = ($count['']m5_plus_inst_id == #_delay - 1) ? 1'b1 : 1'b0 ;
    /* verilator lint_restore */
    
 \TLV fpga_heartbeat($_var, #_sim_delay, #_fpga_delay)
    /* verilator lint_save */
    /* verilator lint_off UNSIGNED */
-   m4_push(delay, m5_if_defined_as(MAKERCHIP, 1, #_sim_delay, #_fpga_delay))
-   $rst['']m4_plus_inst_id = *reset;
-   $count['']m4_plus_inst_id[31:0] = ($RETAIN >= m4_delay - 1) | >>1$rst['']m4_plus_inst_id ? 1'b0 : $RETAIN + 1 ;
-   $_var = ($count['']m4_plus_inst_id == m4_delay - 1) ? 1'b1 : 1'b0 ;
+   m5_push_var(delay, m5_if_defined_as(MAKERCHIP, 1, #_sim_delay, #_fpga_delay))
+   $rst['']m5_plus_inst_id = *reset;
+   $count['']m5_plus_inst_id[31:0] = ($RETAIN >= m5_delay - 1) | >>1$rst['']m5_plus_inst_id ? 1'b0 : $RETAIN + 1 ; 
+   $_var = ($count['']m5_plus_inst_id == m5_delay - 1) ? 1'b1 : 1'b0 ;
    /* verilator lint_restore */
-   m4_pop(delay)
+   m5_pop(delay)
 
 
 // Instantiates a board.
