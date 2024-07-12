@@ -140,10 +140,11 @@
             }
 
 
-\TLV tt_pmod_ssd(/_ssd, _sig_prefix)
+\TLV tt_pmod_ssd(/_ssd, *sig*prefix, #_left, #_top)
    /_ssd
       \viz_js
          box: {strokeWidth: 0},
+         where: {left: #_left, top: #_top},
          init() {
             let img = this.newImageFromURL(
                "https://blastfromthepast.dev/assets/Pmod_SSD.png",
