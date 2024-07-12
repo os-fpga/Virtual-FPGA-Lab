@@ -114,7 +114,7 @@
                }
             );
             return {ssd_img};
-         }
+         };
 
 \TLV tt_pmod_led(/_led, _sig_prefix)
       \viz_js
@@ -130,4 +130,4 @@
                }
             );
             return {led_img};
-         }
+         };
