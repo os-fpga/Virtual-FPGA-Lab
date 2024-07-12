@@ -100,7 +100,6 @@
          where: {left: 370, top: 437, scale: 2.9}
 
 \TLV tt_pmod_ssd(/_ssd, _sig_prefix)
-   /_ssd
       \viz_js
          box: {strokeWidth: 0},
          init() {
@@ -118,7 +117,6 @@
          }
 
 \TLV tt_pmod_led(/_led, _sig_prefix)
-   /_led
       \viz_js
          box: {strokeWidth: 0},
          init() {
