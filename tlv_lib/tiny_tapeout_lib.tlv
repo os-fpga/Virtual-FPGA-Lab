@@ -118,7 +118,7 @@
          }
 
 \TLV tt_pmod_led(/_led, _sig_prefix)
-   /_ssd
+   /_led
       \viz_js
          box: {strokeWidth: 0},
          init() {
