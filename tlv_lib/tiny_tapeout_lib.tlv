@@ -140,7 +140,7 @@
             }
 
 
-\TLV tt_pmod_ssd(/_ssd, *sig*prefix, #_left, #_top)
+\TLV tt_pmod_ssd(/_ssd, _sig_prefix)
    /_ssd
       \viz_js
          box: {strokeWidth: 0},
