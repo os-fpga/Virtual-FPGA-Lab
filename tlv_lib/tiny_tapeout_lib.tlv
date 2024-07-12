@@ -105,7 +105,7 @@
          box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_LED.png",
+               "https://blastfromthepast.dev/assets/Pmod_LED.png",
                "",
                {
                   left: 0,
@@ -123,7 +123,7 @@
          box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_SSD.png",
+               "https://blastfromthepast.dev/assets/Pmod_SSD.png",
                "",
                {
                   left: 0,
@@ -141,7 +141,7 @@
          box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_BTN.png",
+               "https://blastfromthepast.dev/assets/Pmod_BTN.png",
                "",
                {
                   left: 0,
@@ -159,7 +159,7 @@
          box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_KYPD.png",
+               "https://blastfromthepast.dev/assets/Pmod_KYPD.png",
                "",
                {
                   left: 0,
