@@ -123,7 +123,7 @@
          box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_SSD.png",
+               "https://blastfromthepast.dev/assets/Pmod_SSD.png",
                "",
                {
                   left: 0,
