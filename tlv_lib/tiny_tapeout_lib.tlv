@@ -99,13 +99,13 @@
          },
          where: {left: 370, top: 437, scale: 2.9}
 
-\TLV tt_pmod_led(/_led, _sig_prefix)
-   /_led
+\TLV tt_pmod_ssd(/_ssd, _sig_prefix)
+   /_ssd
       \viz_js
-         box: {width: 100, height: 100, strokeWidth: 0},
+         box: {strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_LED.png",
+               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_SSD.png",
                "",
                {
                   left: 0,
@@ -117,13 +117,13 @@
             return {img};
          }
 
-\TLV tt_pmod_ssd(/_ssd, _sig_prefix)
-   /_ssd
+\TLV tt_pmod_led(/_led, _sig_prefix)
+   /_led
       \viz_js
-         box: {strokeWidth: 0},
+         box: {width: 100, height: 100, strokeWidth: 0},
          init() {
             let img = this.newImageFromURL(
-               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_SSD.png",
+               "https://github.com/syedomair0/Virtual-FPGA-Lab/blob/omair-changes/tlv_lib/Pmod_images/Pmod_LED.png",
                "",
                {
                   left: 0,
