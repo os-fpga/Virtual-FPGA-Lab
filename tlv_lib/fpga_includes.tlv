@@ -407,7 +407,6 @@
             strokeWidth: 0,
          },
          renderFill() {
-            debugger
             let attributes = {m5_BOARD_ATTRIBUTES}
             attributes = attributes.seven_seg ? attributes.seven_seg : {}
             return attributes.background ? attributes.background : "#2a2a2a"
