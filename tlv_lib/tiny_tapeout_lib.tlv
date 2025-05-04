@@ -98,3 +98,99 @@
             }
          },
          where: {left: 370, top: 437, scale: 2.9}
+
+\TLV tt_pmod_led(/_led, _sig_prefix)
+   /_led
+      \viz_js
+            box: {width: 100, height: 100, strokeWidth: 0},
+            where: {left: 0, top: 0},
+            init() {
+               let img = this.newImageFromURL(
+                  "https://blastfromthepast.dev/assets/Pmod_LED.png",
+                  "",
+                  {
+                     left: 0,
+                     top: 0,
+                     width: 100,
+                     height: 100,
+                  }
+               );
+         
+               let ledPositions = [30, 37, 45, 53];
+               let leds = [];
+         
+               for (let i = 0; i < 4; i++) {
+                  leds.push(new fabric.Rect({
+                     left: 73,
+                     top: ledPositions[i],
+                     width: 3,
+                     height: 3,
+                     fill: "rgb(255, 43, 57)",
+                     stroke: "rgb(255, 43, 57)"
+                  }));
+               }
+         
+               return {img, led0: leds[0], led1: leds[1], led2: leds[2], led3: leds[3]};
+            },
+            renderEach() {
+               this.led0.fill = $ld0_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+               this.led1.fill = $ld1_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+               this.led2.fill = $ld2_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+               this.led3.fill = $ld3_out ? "rgb(255, 43, 57)" : "rgb(100, 100, 100)";
+            }
+
+
+\TLV tt_pmod_ssd(/_ssd, _sig_prefix)
+   /_ssd
+      \viz_js
+         box: {strokeWidth: 0},
+         where: {left: #_left, top: #_top},
+         init() {
+            let img = this.newImageFromURL(
+               "https://blastfromthepast.dev/assets/Pmod_SSD.png",
+               "",
+               {
+                  left: 0,
+                  top: 0,
+                  width: 100,
+                  height: 100,
+               }
+            );
+            return {img};
+         }
+
+\TLV tt_pmod_btn(/_btn, _sig_prefix)
+   /_btn
+      \viz_js
+         box: {strokeWidth: 0},
+         init() {
+            let img = this.newImageFromURL(
+               "https://blastfromthepast.dev/assets/Pmod_BTN.png",
+               "",
+               {
+                  left: 0,
+                  top: 0,
+                  width: 100,
+                  height: 100,
+               }
+            );
+            return {img};
+         }
+
+\TLV tt_pmod_kypd(/_kypd, _sig_prefix)
+   /_kypd
+      \viz_js
+         box: {strokeWidth: 0},
+         init() {
+            let img = this.newImageFromURL(
+               "https://blastfromthepast.dev/assets/Pmod_KYPD.png",
+               "",
+               {
+                  left: 0,
+                  top: 0,
+                  width: 100,
+                  height: 100,
+               }
+            );
+            return {img};
+         }
