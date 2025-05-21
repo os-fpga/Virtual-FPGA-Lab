@@ -58,8 +58,7 @@ For simulation-based development, just click [here](http://www.makerchip.com/san
 
 You can also start from any of the [example project](#examples) here.
 
-For deployment to an FPGA, clone this repository or any other repository that uses this virtual lab, and open a starting-point (TL-)Verilog file in Makerchip. 
-Alternately, especially for local FPGA use, you can use [Makerchip-app](https://pypi.org/project/makerchip-app/) to edit files on your local machine (where you can maintain your git repository and run FPGA flows).
+For deployment to an FPGA, clone this repository or any other repository that uses this virtual lab, and copy an example or starting-point (TL-)Verilog template and open it from the Makerchip "Project" menu for editing with autosave.
 
 Once you have some logic running in simulation, you'll be able to export your design to any supported physical FPGA board using these [instructions](fpga/readme.md).
 
@@ -67,34 +66,36 @@ Once you have some logic running in simulation, you'll be able to export your de
 ## Starting Template
 
 ```
-\m4_TLV_version 1d: tl-x.org
+\m5_TLV_version 1d: tl-x.org
+\m5
+   use(m5-1.0)
 \SV
    m4_include_lib(['https://raw.githubusercontent.com/BalaDhinesh/Virtual-FPGA-Lab/main/tlv_lib/fpga_includes.tlv'])
    
-   m4_lab()
+   m5_lab()
 
    // ... SystemVerilog or TL-Verilog FPGA logic goes here ...
    
 \TLV
    /board
       // Board selection:
-      // 0: M4_FIRST_CLAAS_ID
-      // 1: M4_ZEDBOARD_ID
-      // 2: M4_ARTIX7_ID
-      // 3: M4_BASYS3_ID
-      // 4: M4_ICEBREAKER_ID
-      // 5: M4_NEXYS_ID
-      // 6: M4_CLEAR_ID
-      m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
+      // 0 m5_FIRST_CLAAS_ID
+      // 1 m5_ZEDBOARD_ID
+      // 2 m5_ARTIX7_ID
+      // 3 m5_BASYS3_ID
+      // 4 m5_ICEBREAKER_ID
+      // 5 m5_NEXYS_ID
+      // 6 m5_CLEAR_ID
+      m5+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 \SV
 
    endmodule
 
 ```
 
-The `m4+board(...)` macro (and peripheral macros, such as `m4+lcd(...)`, define the hardware).
+The `m5+board(...)` macro (and peripheral macros, such as `m5+lcd(...)`, define the hardware).
 
-`m4_lab()` provides a superset of signals for I/Os. Those that have corresponding components on the board or peripherals should be driven/used. These include:
+`m5_lab()` provides a superset of signals for I/Os. Those that have corresponding components on the board or peripherals should be driven/used. These include:
 
 ```
 logic [15:0] led;             // corresponding LEDs are lit when asserted
@@ -105,7 +106,7 @@ logic [7:0] sseg_digit_n;     // corresponding digits are enabled when deasserte
 
 ```
 
-You can see these signal declarations in the one-line expansion of the `m4_lab()` macro instantiation in the NAV-TLV tab.
+You can see these signal declarations in the one-line expansion of the `m5_lab()` macro instantiation in the NAV-TLV tab.
 
 
 ## Configuring and Driving the FPGA Board and Peripherals
@@ -123,7 +124,7 @@ In the starting template, the 3rd argument below can be used to select the board
 // 4 - Icebreaker
 // 5 - Nexys
 // 6 - CLEAR
-m4+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
+m5+board(/board, /fpga, 3, *)   // 3rd arg selects the board.
 ```
 
 Boards contain a subset of the following components, 
@@ -169,7 +170,7 @@ Boards contain a subset of the following components,
 
 ```
 // External to FPGA - instantiated using
-m4+fpga_lcd() 
+m5+fpga_lcd() 
 
 // Signals:
 // *out - 8-bit data/command line
@@ -181,7 +182,7 @@ m4+fpga_lcd()
 
 ```
 // External to FPGA - instantiated using, e.g.
-m4+fpga_vga(/board, 32)
+m5+fpga_vga(/board, 32)
 
 // Signals:
 // *vga_hsync - horizontal sync
@@ -190,7 +191,7 @@ m4+fpga_vga(/board, 32)
 // *vga_g - green signal
 // *vga_b - blue signal
 ```
-External and other peripherals can be instantiated using `m4+` macros.
+External and other peripherals can be instantiated using `m5+` macros.
 
 
 
@@ -247,14 +248,14 @@ Here's a sample code structure.
 ```
 ...
 \SV
-   m4_lab()
+   5_lab()
 
 \TLV my_fpga_logic(/_fpga)
    // ... Your TL-Verilog FPGA logic along with it's visualization ...
 
 \TLV
    /board
-      m4+board(/board, /fpga, 3, *, , my_fpga_logic)
+      m5+board(/board, /fpga, 3, *, , my_fpga_logic)
 ...
 ```
 
