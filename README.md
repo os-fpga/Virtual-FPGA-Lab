@@ -13,6 +13,8 @@ This document introduces the Virtual FPGA Lab. Separate documents will help you 
 
   - [FPGA training using this platform](https://github.com/stevehoover/GettingStartedWithFPGAs)
   - [Exporting to your FPGA board (if supported)](fpga/readme.md)
+  - TL-Verilog info: [for humans](https://tl-x.org) [for LLMs](https://gitlab.com/rweda/Makerchip-public)
+
 
 
 ## What are FPGAs?
@@ -297,6 +299,7 @@ In our efforts, we've come across the following related projects. (Appearance on
 
 
 ## Sponsors
+
 This work has been sponsored through the OSFPGA Foundation and Google Summer of Code (GSoC) 2021(with the Free and Open Source Silicon Foundation (FOSSi) as a GSoC umbrella organization), with mentorship from Redwood EDA, LLC, and with training support from VLSI System Design.
 <p>
     <img src="https://user-images.githubusercontent.com/64545984/152572571-1e10d2fa-acc6-4048-8d73-1be63267b778.png" alt="gsoc-logo" height="80"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>

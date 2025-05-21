@@ -931,11 +931,12 @@
       // 4: ICEBREAKER_ID
       // 5: NEXYS_ID
       // 6: CLEAR_ID
-      // 7: TINY_TAPEOUT_ID
-      m4+board(/board, /fpga, 7, *,
+      // 7: TINY_TAPEOUT_ID  // (Currently only in the "tt" branch.)
+      m5_var(board, 2)
+      m4+board(/board, /fpga, m5_board, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
-      m5+tt_input_labels_viz(['"UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED"'])
+      m5_if_eq(m5_board, 7, ['m5+tt_input_labels_viz(['"UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED"'])'])
 
       /// TODO: RGB LEDs and external 7-Segment remain to be cleaned up.
       ///m4+ifelse(m4_fpga_io_rgb_leds_defined, 1,
