@@ -1,0 +1,23 @@
+title: "Virtual FPGA Lab"
+authors:
+  - family-names: "Hoover"
+    given-names: "Steven"
+    orcid: "0000-0001-5844-2889"
+    affiliation: "Redwood EDA, LLC"
+contributors:
+  - family-names: "Bala"
+    given-names: "Dhinesh"
+date-released: "2018-08-14"
+repository-code: "https://github.com/os-fpga/Virtual-FPGA-Lab"
+url: "https://github.com/os-fpga/Virtual-FPGA-Lab"
+abstract: >
+  The Virtual FPGA Lab is a virtual environment for FPGA development using the Makerchip
+  IDE. It uses Makerchip's Visual Debug feature to provide a visual representation of the
+  workbench (the FPGA board and peripherals), showing how the logic affects I/Os, such as
+  LEDs and 7-segment displays.
+keywords:
+  - FPGA
+  - Digital Twin
+  - Open-source
+  - Web Platform
+license: "MIT"

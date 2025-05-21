@@ -59,6 +59,6 @@
                *vga_b = $vga_b;
          
       m4+board(/board, /fpga, 3, *, ['top: 0, left: -1500, width: 7000, height: 7000'])   // 3rd arg selects the board.
-   m4+fpga_vga()
+   m4+fpga_vga(/board, M4_COUNTER)
 \SV
    endmodule
