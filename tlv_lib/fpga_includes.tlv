@@ -2,7 +2,7 @@
 \SV
 \m5
    use(m5-1.0)
-   macro(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/0dc0c04745e0eaebbe2ca41710e4ffd61d29691c/viz/$1']'])
+   macro(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/d2e8ab2966ba5fe1a44f3fe97c84147816029ad0/viz/$1']'])
 
    /// TODO: The new convension would have all these definition in lower case.
 
@@ -107,24 +107,24 @@
       BOARD_6_PUSH_CNT,    0,
       BOARD_6_THANKS_ARGS, ['['left: 1700, top: 2030, width: 350'], ['Efabless and ']'])
    universal_vars(
-      /// Tiny Tapeout (Motherboard v2.1)
+      /// Tiny Tapeout (ChipDiscover Gen1)
       /// TODO: This currently uses an external link for the image.
       TINY_TAPEOUT_ID,     7,
-      BOARD_7_IMAGE_URL,   m5_local_img(tt3demoboardwFPGAcarrier2.jpg),
-      BOARD_7_IMAGE_SIZE,  ['width: 2600, height: 2044'],
-      BOARD_7_FPGA_WHERE,  m5_FPGA_WHERE_COMMON['left: 1221, top: 898, width: 142, height: 142'],
+      BOARD_7_IMAGE_URL,   m5_local_img(chipdiscover.png),
+      BOARD_7_IMAGE_SIZE,  ['width: 1569, height: 1957'],
+      BOARD_7_FPGA_WHERE,  m5_FPGA_WHERE_COMMON['left: 735, top: 1121, width: 150, height: 150'],
       BOARD_7_LED_CNT,     0,
       BOARD_7_SSEG_CNT,    1,
-      BOARD_7_SSEG_WHERE,  ['left: 1846, top: 1088, scale: 3.36'],
+      BOARD_7_SSEG_WHERE,  ['left: 1135, top: 1167, scale: 3.6'],
       BOARD_7_SWITCH_CNT,  8,
-      BOARD_7_SWITCH_WHERE,['left: 611, top: 426, scale: 2.9, angle: 90'],
+      BOARD_7_SWITCH_WHERE,['left: 350, top: 903, scale: 3.2, angle: 90'],
       BOARD_7_PUSH_CNT,    0,
-      BOARD_7_THANKS_ARGS, ['['left: 1696, top: 2090, width: 283, scale: 4.5'], ['Efabless, Tiny Tapeout, and ']'],
-      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#ffff00", background: "#586068"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
+      BOARD_7_THANKS_ARGS, ['['left: 1000, top: 1960, width: 283, scale: 4.5'], ['ChipFoundry, Tiny Tapeout, and ']'],
+      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#e0ff00", offColor: "#b8b491", background: "#8a948b"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
    // Add custom boards here
 
 
-   /**
+   /**-
    // These functions parameterize the top-level FPGA module interface and signal declarations.
    // Currently, they could be used by m5_lab(), but we currently define a fixed module interface defining the superset
    // of all possible interface signals. So there's no point to all these macros, unless we change our approach.
@@ -150,28 +150,28 @@
    // Declare LCD (JHD 162A).
    fn(fpga_io_lcd, {
       universal_var(fpga_io_lcd_defined, 1)
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[7:0] out']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['lcd_reset']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['lcd_enable']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[7:0] out']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['lcd_reset']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['lcd_enable']))
    })
                        
    // Declare pushbuttons.
    fn(fpga_io_push, {
       universal_var(fpga_io_push_defined, 1)
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[4:0] push']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[4:0] push']))
    })
                 
    // Declare seven-segment.
    fn(fpga_io_sseg, {
       universal_var(fpga_io_sseg_defined, 1)
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[6:0] sseg_segment_n']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['sseg_decimal_point_n']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[$1] sseg_digit_n']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[6:0] sseg_segment_n']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['sseg_decimal_point_n']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[$1] sseg_digit_n']))
    })
    
    
    // Define IOs as, e.g.:
-   //   m4_fpga_ios(leds(7:0), ...)
+   //   m5_fpga_ios(leds(7:0), ...)
    fn(fpga_ios, Arg, {
       if_eq(['$1'], [''], {
       }, {
@@ -185,12 +185,12 @@
       fpga_ios($@)
       ~if_defined_as(MAKERCHIP, 1, ['
          // Makerchip module.
-         var(fpga_io_sig, [' logic ']m4_arg(2)[';'])
-         m4_output(['m4_makerchip_module m4_echo(m4_fpga_ios_list)'])
+         var(fpga_io_sig, [' logic ']m5_arg(2)[';'])
+         ~eval(['m5_makerchip_module m5_echo(m5_fpga_ios_list)'])
       '], ['
          // FPGA module.
-         m4_def(fpga_io_sig, [', ']m4_arg(1)['put reg ']m4_arg(2))
-         m4_output(['module top(input clk, input reset['']m4_echo(m4_fpga_ios_list))'])
+         macro(fpga_io_sig, [', ']m5_arg(1)['put reg ']m5_arg(2))
+         ~eval(['module top(input clk, input reset['']m5_echo(m5_fpga_ios_list))'])
       '])
    })
    
@@ -253,8 +253,8 @@
       ///-              logic [6:0] sseg_segment_n: corresponding segments are lit for selected digit(s) when deasserted 
       ///-              logic sseg_decimal_point_n: decimal point is lit for selected digit(s) when deasserted
       ///-              logic [x:0] sseg_digit_n: corresponding digits are enabled when deasserted
-      ///- Eg: m4_fpga_module(leds(7:0), sseg(3:0))
-      ///-m4_output(['m4_fpga_module(leds(15:0), sseg(7:0))'])
+      ///- Eg: m5_fpga_module(leds(7:0), sseg(3:0))
+      ///-fpga_module(leds(15:0), sseg(7:0))
       ~(['
          module top(input wire clk, input wire reset, input wire [31:0] cyc_cnt, output wire passed, output wire failed);    /* verilator lint_save */ /* verilator lint_off UNOPTFLAT */  bit [256:0] RW_rand_raw; bit [256+63:0] RW_rand_vect; pseudo_rand #(.WIDTH(257)) pseudo_rand (clk, reset, RW_rand_raw[256:0]); assign RW_rand_vect[256+63:0] = {RW_rand_raw[62:0], RW_rand_raw};  /* verilator lint_restore */  /* verilator lint_off WIDTH */ /* verilator lint_off UNOPTFLAT */  
             logic [15:0] led; logic [6:0] sseg_segment_n; logic sseg_decimal_point_n; logic [7:0] sseg_digit_n;
@@ -306,7 +306,7 @@
 //                passed a single /_fpga argument.
 \TLV board(/_board, /_fpga, #_board, _sig_prefix, _where, _fpga_macro)
    m5_board_defs(#_board)
-   m4+thanks(m5_eval(m5_BOARD_THANKS_ARGS))
+   m5+thanks(m5_eval(m5_BOARD_THANKS_ARGS))
    m4_def(sig_prefix, m5_if_eq(_sig_prefix, *, *, /_board$))
    
    // Board VIZ.
@@ -337,19 +337,19 @@
          where: {m5_BOARD_FPGA_WHERE},
          box: {strokeWidth: 0}
       /_fpga
-         m5_if_eq(/_fpga, , , ['m4+_fpga_macro(/_fpga)'])
+         m5_if_eq(/_fpga, , , ['m5+_fpga_macro(/_fpga)'])
    
    // LEDs.
-   m5_if_eq(m5_BOARD_LED_CNT, 0, , ['m4+fpga_leds(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_LED_CNT, 0, , ['m5+fpga_leds(/_board, #_board, m4_sig_prefix)'])
    
    // 7-Segment
-   m5_if_eq(m5_BOARD_SSEG_CNT, 0, , ['m4+fpga_sseg(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_SSEG_CNT, 0, , ['m5+fpga_sseg(/_board, #_board, m4_sig_prefix)'])
    
    // slideswitches
-   m5_if_eq(m5_BOARD_SWITCH_CNT, 0, , ['m4+fpga_switch(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_SWITCH_CNT, 0, , ['m5+fpga_switch(/_board, #_board, m4_sig_prefix)'])
    
    // pushbuttons
-   m5_if_eq(m5_BOARD_PUSH_CNT, 0, , ['m4+fpga_push(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_PUSH_CNT, 0, , ['m5+fpga_push(/_board, #_board, m4_sig_prefix)'])
 
 // VIZ providing a "Thanks to our sponsors" message.
 \TLV thanks(_where, _who)
@@ -380,7 +380,7 @@
          where: {_where}
 
 \TLV fpga_leds(/_board, #_board, _sig_prefix)
-   /leds[m4_eval(m5_BOARD_LED_CNT - 1):0]
+   /leds[m5_calc(m5_BOARD_LED_CNT - 1):0]
       $viz_lit = ['_sig_prefix']led\[#leds\];
       \viz_js
          box: {width: 12, height: 16, fill: m5_RED_LED_COLOR,
@@ -393,7 +393,7 @@
          where: {m5_BOARD_LED_WHERE}
 
 \TLV fpga_sseg(/_board, #_board, _sig_prefix)
-   /digit[m4_eval(m5_BOARD_SSEG_CNT - 1):0]
+   /digit[m5_calc(m5_BOARD_SSEG_CNT - 1):0]
       \viz_js
          all: {
             box: {
@@ -446,12 +446,13 @@
                let attributes = {m5_BOARD_ATTRIBUTES}
                attributes = attributes.seven_seg ? attributes.seven_seg : {}
                let color = attributes.color ? attributes.color : m5_RED_SEGMENT_COLOR
-               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? color : m5_OFF_SEGMENT_COLOR})
+               let offColor = attributes.offColor ? attributes.offColor : m5_OFF_SEGMENT_COLOR
+               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? color : offColor})
             },
             layout: {left: 0, top: 0}
             
 \TLV fpga_switch(/_board, #_board, _sig_prefix)
-   /switch[m4_eval(m5_BOARD_SWITCH_CNT - 1):0]
+   /switch[m5_calc(m5_BOARD_SWITCH_CNT - 1):0]
       $viz_switch = ['_sig_prefix']slideswitch\[#switch\];
       \viz_js
          box: { width: 18, height: 35, strokeWidth: 0},
@@ -918,7 +919,7 @@
    // Include WARP-V. Typically, this would be done from an \SV region, but we need to
    // avoid the inclusion if this file is used as a library, so it is under \TLV. It expands
    // to multiple comment lines, so we reset the line numbering with a \m5 region.
-   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/bc141b721d1c863dc10305d6e3e4ba38a81dd2eb/warp-v.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/e8a9031da74774771118696fffb08a9d3d744882/warp-v.tlv'])
 \m5
 \TLV
    /board
@@ -932,25 +933,25 @@
       // 6: CLEAR_ID
       // 7: TINY_TAPEOUT_ID  // (Currently only in the "tt" branch.)
       m5_var(board, 2)
-      m4+board(/board, /fpga, m5_board, *,
+      m5+board(/board, /fpga, m5_board, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
       m5_if_eq(m5_board, 7, ['m5+tt_input_labels_viz(['"UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED"'])'])
 
       /// TODO: RGB LEDs and external 7-Segment remain to be cleaned up.
-      ///m4+ifelse(m4_fpga_io_rgb_leds_defined, 1,
+      ///m5+ifelse(m4_fpga_io_rgb_leds_defined, 1,
       ///   \TLV
       ///      // FIX
-      ///      m4+led_rgb(/_board, *led)
+      ///      m5+led_rgb(/_board, *led)
       ///   )
-      ///m4+ifelse(m4_fpga_io_sseg_defined, 1,
+      ///m5+ifelse(m4_fpga_io_sseg_defined, 1,
       ///   \TLV
       ///      // FIX
-      ///      m4+fpga_sseg(/_board, *digit_n, *segment_n, *decimal_point_n)
+      ///      m5+fpga_sseg(/_board, *digit_n, *segment_n, *decimal_point_n)
       ///   )
       
    // Instantiate each board with simple TLV outputs.
-   m4+forloop(board, 0, 8,
+   m5+forloop(board, 0, 8,
       \TLV
          /board['']m4_board
             /default_inputs
@@ -968,7 +969,7 @@
             `BOGUS_USE($dummy)
             // For 4th arg, use $ to visualize the associated TLV logic,
             //               or * to connect with the global SV outputs (from the main board).
-            m4+board(/board['']m4_board, /fpga, m4_board, $, ['left: -1100, top: m4_board['']000, height: 1000, width: 1000'])
+            m5+board(/board['']m4_board, /fpga, m4_board, $, ['left: -1100, top: m4_board['']000, height: 1000, width: 1000'])
       )
 \SV
    endmodule
