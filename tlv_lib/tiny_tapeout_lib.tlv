@@ -70,7 +70,7 @@
       endmodule
    '])
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/0993955ce39bc1f4b1eaf4741e15ff3bddfe6ba7/tlv_lib/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/5fc13e0e8c9b8b0060bb88235de4635c6ce378f1/tlv_lib/fpga_includes.tlv'])
 
 // Map TT I/Os to Virtual Lab.
 \TLV tt_connections()
