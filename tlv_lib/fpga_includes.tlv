@@ -838,6 +838,48 @@
       )
 
       
+/// Tiny VGA Pmod (https://github.com/mole99/tiny-vga, as used by Tiny Tapeout: https://tinytapeout.com/specs/pinouts/).
+\m5
+   / Display timing, in pixels and lines: 640x480 at 60 Hz, one pixel per clock cycle at 25.175 MHz. Define any of these
+   / before including this library to override it.
+   default_var(
+      vga_h_visible, 640, vga_h_front, 16, vga_h_sync, 96, vga_h_back, 48,
+      vga_v_visible, 480, vga_v_front, 10, vga_v_sync, 2, vga_v_back, 33)
+
+// Drives a Tiny VGA Pmod with the 2-bit red, green and blue that your logic computes from the position of the pixel
+// being displayed. Instantiate once, in the scope of your logic, e.g.:
+//    m5+tiny_vga_pmod(*reset, 0, $rr, $gg, $bb, *uo_out)
+//    $rr[1:0] = ...;  $gg[1:0] = ...;  $bb[1:0] = ...;  // From $Hpos and $Vpos.
+// Params:
+//   $_reset: reset, an expression (e.g. *reset).
+//   #_latency: the cycles from a pixel's position to its color. For pixels that take N cycles to compute, pass N:
+//              the sync is delayed to match (3 bits, so 3N flops).
+//   $_r, $_g, $_b: 2-bit color signals (e.g. $rr or *R). Ignored outside the picture.
+//   $_pmod: the Pmod's 8 pins, an output signal (e.g. *uo_out), driven (registered) as
+//           {hsync, B[0], G[0], R[0], vsync, B[1], G[1], R[1]}.
+// Provides, in the instantiating scope:
+//   $Hpos[9:0], $Vpos[9:0]: the column and line of the pixel to compute, including the blanking around the picture.
+//   $video_active: the pixel is within the picture.
+//   $line_end, $frame_end: the last cycle of each line and frame, e.g. for per-line or per-frame updates.
+//   (Also $hsync, $vsync and $vga_pins[7:0], internally.)
+\TLV tiny_vga_pmod($_reset, #_latency, $_r, $_g, $_b, $_pmod)
+   $line_end = $Hpos == 10'd['']m5_calc(m5_vga_h_visible + m5_vga_h_front + m5_vga_h_sync + m5_vga_h_back - 1);
+   $frame_end = $line_end && $Vpos == 10'd['']m5_calc(m5_vga_v_visible + m5_vga_v_front + m5_vga_v_sync + m5_vga_v_back - 1);
+   $Hpos[9:0] <= $_reset || $line_end ? 10'd0 : $Hpos + 10'd1;
+   $Vpos[9:0] <= $_reset || $frame_end ? 10'd0 : $line_end ? $Vpos + 10'd1 : $RETAIN;
+   $video_active = $Hpos < 10'd['']m5_vga_h_visible && $Vpos < 10'd['']m5_vga_v_visible;
+   $hsync = ! ($Hpos >= 10'd['']m5_calc(m5_vga_h_visible + m5_vga_h_front) &&
+               $Hpos < 10'd['']m5_calc(m5_vga_h_visible + m5_vga_h_front + m5_vga_h_sync));
+   $vsync = ! ($Vpos >= 10'd['']m5_calc(m5_vga_v_visible + m5_vga_v_front) &&
+               $Vpos < 10'd['']m5_calc(m5_vga_v_visible + m5_vga_v_front + m5_vga_v_sync));
+   // (['']: a # parameter needs separating from a following $.)
+   $vga_pins[7:0] = {>>['']#_latency['']$hsync,
+                     >>['']#_latency['']$video_active ? {$_b[0], $_g[0], $_r[0]} : 3'b0,
+                     >>['']#_latency['']$vsync,
+                     >>['']#_latency['']$video_active ? {$_b[1], $_g[1], $_r[1]} : 3'b0};
+   $_pmod = >>1$vga_pins;
+
+
 /// Convenience macros:
 
 /// Simple 7-segment decoder.

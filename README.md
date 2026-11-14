@@ -191,6 +191,15 @@ m5+fpga_vga(/board, 32)
 // *vga_g - green signal
 // *vga_b - blue signal
 ```
+#### Tiny VGA Pmod
+
+```
+// External to FPGA (e.g. the Tiny Tapeout VGA Pmod) - instantiated using, e.g.
+m5+tiny_vga_pmod(*reset, 0, $rr, $gg, $bb, *uo_out)
+
+// 640x480 at 60 Hz, one pixel per clock cycle. Your logic computes 2-bit $rr, $gg, $bb from $Hpos and $Vpos.
+// See the macro's comments in tlv_lib/fpga_includes.tlv.
+```
 External and other peripherals can be instantiated using `m5+` macros.
 
 
