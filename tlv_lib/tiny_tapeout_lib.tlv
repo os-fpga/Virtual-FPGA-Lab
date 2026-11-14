@@ -70,7 +70,7 @@
       endmodule
    '])
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/bf50eed22d9fcdcd1142221fa4abe3066e1eab75/tlv_lib/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/0993955ce39bc1f4b1eaf4741e15ff3bddfe6ba7/tlv_lib/fpga_includes.tlv'])
 
 // Map TT I/Os to Virtual Lab.
 \TLV tt_connections()
@@ -87,6 +87,7 @@
 // documents these signals.
 \TLV tt_vga(#_latency)
    m5+tiny_vga_pmod(*reset, #_latency, *R, *G, *B, *uo_out)
+   m5+tiny_vga_pmod_viz(*uo_out, )
    \SV_plus
       // makerchip-tt: vga   (Marks a VGA design for Makerchip's Tiny Tapeout tools; see github.com/stevehoover/makerchip-tt-views.)
       /* verilator lint_save */ /* verilator lint_off UNUSED */
@@ -94,6 +95,31 @@
       wire video_active = $video_active, line_end = $line_end, frame_end = $frame_end;
       /* verilator lint_restore */
       logic [1:0] R, G, B;
+
+// The Gamepad Pmod (on ui_in[6:4]) for a Tiny Tapeout module, for #_controllers (1 or 2). Instantiate once, in the
+// module's \TLV region; it uses the module's reset signal. It declares Verilog signals for your logic, in Verilog or
+// TL-Verilog (as *gamepad_up, etc.), with a bit per controller: gamepad_present, and gamepad_up, gamepad_down,
+// gamepad_left, gamepad_right, gamepad_a, gamepad_b, gamepad_x, gamepad_y, gamepad_l, gamepad_r, gamepad_start and
+// gamepad_select (1 = pressed). TL-Verilog logic can read /gamepad[i]$up, etc., instead. See gamepad_pmod() in
+// fpga_includes.tlv.
+\TLV tt_gamepad(#_controllers)
+   m5+gamepad_pmod(/top, *reset, #_controllers, *ui_in[4], *ui_in[5], *ui_in[6])
+   \SV_plus
+      /* verilator lint_save */ /* verilator lint_off UNUSED */
+      wire [m5_calc(#_controllers - 1):0] gamepad_present = /gamepad[*]$present;
+      wire [m5_calc(#_controllers - 1):0] gamepad_up = /gamepad[*]$up;
+      wire [m5_calc(#_controllers - 1):0] gamepad_down = /gamepad[*]$down;
+      wire [m5_calc(#_controllers - 1):0] gamepad_left = /gamepad[*]$left;
+      wire [m5_calc(#_controllers - 1):0] gamepad_right = /gamepad[*]$right;
+      wire [m5_calc(#_controllers - 1):0] gamepad_a = /gamepad[*]$a;
+      wire [m5_calc(#_controllers - 1):0] gamepad_b = /gamepad[*]$b;
+      wire [m5_calc(#_controllers - 1):0] gamepad_x = /gamepad[*]$x;
+      wire [m5_calc(#_controllers - 1):0] gamepad_y = /gamepad[*]$y;
+      wire [m5_calc(#_controllers - 1):0] gamepad_l = /gamepad[*]$l;
+      wire [m5_calc(#_controllers - 1):0] gamepad_r = /gamepad[*]$r;
+      wire [m5_calc(#_controllers - 1):0] gamepad_start = /gamepad[*]$start;
+      wire [m5_calc(#_controllers - 1):0] gamepad_select = /gamepad[*]$select;
+      /* verilator lint_restore */
 
 \TLV tt_input_labels_viz(_labels_js)
    /input_label[7:0]
