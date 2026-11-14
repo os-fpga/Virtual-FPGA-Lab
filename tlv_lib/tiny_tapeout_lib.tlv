@@ -87,7 +87,7 @@
 // documents these signals.
 \TLV tt_vga(#_latency)
    m5+tiny_vga_pmod(*reset, #_latency, *R, *G, *B, *uo_out)
-   m5+tiny_vga_pmod_viz(*uo_out, )
+   m5+tiny_vga_pmod_viz(*uo_out, ['left: 1650, top: 0, width: 1600'])  // (Right of the TT demo board, if any.)
    \SV_plus
       // makerchip-tt: vga   (Marks a VGA design for Makerchip's Tiny Tapeout tools; see github.com/stevehoover/makerchip-tt-views.)
       /* verilator lint_save */ /* verilator lint_off UNUSED */
