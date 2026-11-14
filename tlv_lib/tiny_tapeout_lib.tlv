@@ -70,7 +70,7 @@
       endmodule
    '])
 \SV
-   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/b31497efd986ebf6cab7da96d34b2b923a475950/tlv_lib/fpga_includes.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/bf50eed22d9fcdcd1142221fa4abe3066e1eab75/tlv_lib/fpga_includes.tlv'])
 
 // Map TT I/Os to Virtual Lab.
 \TLV tt_connections()
@@ -78,6 +78,21 @@
    $sseg_segment_n[6:0] = ~ *uo_out[6:0];
    $sseg_decimal_point_n = ~ *uo_out[7];
    $sseg_digit_n[7:0] = 8'b11111110;
+
+// VGA for a Tiny Tapeout module, on the Tiny VGA Pmod (uo_out). Instantiate once, in the module's \TLV region; it uses
+// the module's reset signal. It declares Verilog signals for your logic, in Verilog or TL-Verilog (as *R, etc.):
+//   to read: hpos[9:0], vpos[9:0] (the pixel to compute), video_active, line_end, frame_end;
+//   to drive: R[1:0], G[1:0], B[1:0] (its color).
+// TL-Verilog logic can read $Hpos, etc., instead. #_latency: as for tiny_vga_pmod() in fpga_includes.tlv, which
+// documents these signals.
+\TLV tt_vga(#_latency)
+   m5+tiny_vga_pmod(*reset, #_latency, *R, *G, *B, *uo_out)
+   \SV_plus
+      /* verilator lint_save */ /* verilator lint_off UNUSED */
+      wire [9:0] hpos = $Hpos, vpos = $Vpos;
+      wire video_active = $video_active, line_end = $line_end, frame_end = $frame_end;
+      /* verilator lint_restore */
+      logic [1:0] R, G, B;
 
 \TLV tt_input_labels_viz(_labels_js)
    /input_label[7:0]
