@@ -841,10 +841,20 @@
 /// Tiny VGA Pmod (https://github.com/mole99/tiny-vga, as used by Tiny Tapeout: https://tinytapeout.com/specs/pinouts/).
 \m5
    / Display timing, in pixels and lines: 640x480 at 60 Hz, one pixel per clock cycle at 25.175 MHz. Define any of these
-   / before including this library to override it.
+   / before including this library to override it. vga_scale divides the default timing (keeping each porch and sync
+   / at least 1), e.g. so that whole frames fit in a short simulation.
+   default_var(vga_scale, 1)
+   fn(vga_scaled, val, ['m5_calc(m5_val / m5_vga_scale + (m5_val / m5_vga_scale < 1))'])
    default_var(
-      vga_h_visible, 640, vga_h_front, 16, vga_h_sync, 96, vga_h_back, 48,
-      vga_v_visible, 480, vga_v_front, 10, vga_v_sync, 2, vga_v_back, 33)
+      vga_h_visible, m5_vga_scaled(640), vga_h_front, m5_vga_scaled(16), vga_h_sync, m5_vga_scaled(96),
+      vga_h_back, m5_vga_scaled(48),
+      vga_v_visible, m5_vga_scaled(480), vga_v_front, m5_vga_scaled(10), vga_v_sync, m5_vga_scaled(2),
+      vga_v_back, m5_vga_scaled(33))
+   var(vga_line_cycles, m5_calc(m5_vga_h_visible + m5_vga_h_front + m5_vga_h_sync + m5_vga_h_back))
+   var(vga_frame_cycles, m5_calc(m5_vga_line_cycles * (m5_vga_v_visible + m5_vga_v_front + m5_vga_v_sync + m5_vga_v_back)))
+   / A simulation length for a VGA design: two frames if the timing is scaled down, else four lines (a frame at full
+   / scale is 420,000 cycles).
+   var(vga_sim_cycles, m5_if(m5_calc(m5_vga_scale > 1), ['m5_calc(2 * m5_vga_frame_cycles)'], ['m5_calc(4 * m5_vga_line_cycles)']))
 
 // Drives a Tiny VGA Pmod with the 2-bit red, green and blue that your logic computes from the position of the pixel
 // being displayed. Instantiate once, in the scope of your logic, e.g.:
@@ -878,6 +888,97 @@
                      >>['']#_latency['']$vsync,
                      >>['']#_latency['']$video_active ? {$_b[1], $_g[1], $_r[1]} : 3'b0};
    $_pmod = >>1$vga_pins;
+
+
+// Visualizes a Tiny VGA Pmod's output as a monitor showing it, as VGA Playground does: a line starts as hsync ends,
+// a frame as vsync ends (active-low sync), and the image includes the porches before and after the picture. It
+// shows the simulated pixels (all of the trace) and marks the beam at the current cycle. For any design driving the
+// Pmod (not only tiny_vga_pmod()); the image is sized for the vga_* timing. Instantiate once.
+//   $_pins: the Pmod's 8 pins, an expression (e.g. *uo_out).
+//   _where: the \viz_js `where` properties (e.g. ['left: 0, top: 0']), if any.
+\TLV tiny_vga_pmod_viz($_pins, _where)
+   /tiny_vga_viz
+      $pins[7:0] = $_pins;
+      \viz_js
+         m5_var(W, m5_calc(m5_vga_h_back + m5_vga_h_visible + m5_vga_h_front))
+         m5_var(H, m5_calc(m5_vga_v_back + m5_vga_v_visible + m5_vga_v_front))
+         m5_var(Scale, m5_calc(640 / m5_vga_h_visible))
+         box: {left: -10, top: -10, width: m5_W * m5_Scale + 20, height: m5_H * m5_Scale + 20, fill: "#303030",
+               strokeWidth: 0},
+         where: {_where},
+         init() {
+            return {beam: new fabric.Rect({width: 3 * m5_Scale, height: 3 * m5_Scale, fill: "transparent",
+                                           stroke: "red", strokeWidth: m5_Scale, visible: false})}
+         },
+         onTraceData() {
+            // Decode the whole trace into an image, recording each cycle's beam position for render().
+            const screen = new this.global.Grid(window, this, m5_W, m5_H, {left: 0, top: 0, scaleX: m5_Scale, scaleY: m5_Scale})
+            const ctx = screen.canvasEl.getContext("2d")
+            ctx.fillStyle = "black"
+            ctx.fillRect(0, 0, m5_W, m5_H)
+            this.beam = {}
+            const pins = '$pins'.goTo(0)
+            let x = null, y = null, hsyncWas = false, vsyncWas = false
+            for (; !pins.offEnd(); pins.step()) {
+               const v = pins.asInt(0)
+               const hsync = !(v & 0x80), vsync = !(v & 0x08)
+               if (vsyncWas && !vsync) { x = 0; y = 0 }
+               else if (hsyncWas && !hsync && y !== null) { x = 0; y++ }
+               else if (x !== null) { x++ }
+               hsyncWas = hsync; vsyncWas = vsync
+               if (y === null || hsync || vsync || x >= m5_W || y >= m5_H) { continue }
+               this.beam[pins.getCycle()] = [x, y]
+               const level = (hi, lo) => (((v >> hi) & 1) * 2 + ((v >> lo) & 1)) * 85
+               screen.setCellColor(x, y, `rgb(${level(0, 4)},${level(1, 5)},${level(2, 6)})`)
+            }
+            return {objects: {screen: screen.getFabricObject()}}
+         },
+         render() {
+            const pos = this.beam && this.beam[this.getCycle()]
+            this.obj.beam.set(pos ? {visible: true, left: (pos[0] - 1) * m5_Scale, top: (pos[1] - 1) * m5_Scale}
+                                  : {visible: false})
+            this.obj.beam.bringToFront()
+            return []
+         }
+
+// The Gamepad Pmod (https://github.com/psychogenic/gamepad-pmod, as used by Tiny Tapeout), for one or two
+// controllers: receives the button states it sends serially. A TL-Verilog port of the Apache-2.0 gamepad_pmod.v in
+// VGA Playground (github.com/TinyTapeout/vga-playground, (c) 2025 Pat Deegan). Instantiate once.
+//   /_top: the instantiating scope.
+//   $_reset: reset, an expression (e.g. *reset).
+//   #_controllers: 1 or 2.
+//   $_latch, $_clk, $_data: the Pmod's pins, expressions (e.g. *ui_in[4], *ui_in[5], *ui_in[6] for Tiny Tapeout).
+// Provides /gamepad[#_controllers-1:0], each with $present (a controller is connected) and, while it is, its
+// buttons: $up, $down, $left, $right, $a, $b, $x, $y, $l, $r, $start, $select (1 = pressed).
+\TLV gamepad_pmod(/_top, $_reset, #_controllers, $_latch, $_clk, $_data)
+   // Synchronize the pins (2 flops), then take serial data on each rising edge of the Pmod's clock, and the
+   // shifted-in buttons on each rising edge of its latch. All 1s (the reset value) means "no controller".
+   $gamepad_latch_in = $_latch;
+   $gamepad_clk_in = $_clk;
+   $gamepad_data_in = $_data;
+   $gamepad_clk_rise = >>2$gamepad_clk_in && ! >>3$gamepad_clk_in;
+   $gamepad_latch_rise = >>2$gamepad_latch_in && ! >>3$gamepad_latch_in;
+   $GamepadShift[m5_calc(#_controllers * 12 - 1):0] <=
+      $_reset ? '1 :
+      $gamepad_clk_rise ? {$GamepadShift['']m5_if_eq(#_controllers, 1, ['[10:0]'], ['[22:0]']), >>2$gamepad_data_in} :
+      $RETAIN;
+   $GamepadButtons[m5_calc(#_controllers * 12 - 1):0] <=
+      $_reset ? '1 : $gamepad_latch_rise ? $GamepadShift : $RETAIN;
+   /gamepad[m5_calc(#_controllers - 1):0]
+      $raw[11:0] = /_top$GamepadButtons[#gamepad * 12 +: 12];
+      $present = $raw != 12'hfff;
+      $b = $present && $raw[11];
+      $y = $present && $raw[10];
+      $select = $present && $raw[9];
+      $start = $present && $raw[8];
+      $up = $present && $raw[7];
+      $down = $present && $raw[6];
+      $left = $present && $raw[5];
+      $right = $present && $raw[4];
+      $a = $present && $raw[3];
+      $x = $present && $raw[2];
+      $l = $present && $raw[1];
+      $r = $present && $raw[0];
 
 
 /// Convenience macros:

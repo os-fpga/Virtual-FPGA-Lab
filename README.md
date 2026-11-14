@@ -200,6 +200,18 @@ m5+tiny_vga_pmod(*reset, 0, $rr, $gg, $bb, *uo_out)
 // 640x480 at 60 Hz, one pixel per clock cycle. Your logic computes 2-bit $rr, $gg, $bb from $Hpos and $Vpos.
 // See the macro's comments in tlv_lib/fpga_includes.tlv.
 ```
+
+For a VIZ of its output (a monitor, decoded from the pins): `m5+tiny_vga_pmod_viz(*uo_out, )`.
+
+#### Gamepad Pmod
+
+```
+// External to FPGA (e.g. the Tiny Tapeout Gamepad Pmod) - instantiated using, e.g.
+m5+gamepad_pmod(/top, *reset, 1, *ui_in[4], *ui_in[5], *ui_in[6])
+
+// Signals: /gamepad[0]$up, $down, $left, $right, $a, $b, $x, $y, $l, $r, $start, $select, $present.
+// See the macro's comments in tlv_lib/fpga_includes.tlv.
+```
 External and other peripherals can be instantiated using `m5+` macros.
 
 
