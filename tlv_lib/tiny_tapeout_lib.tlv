@@ -88,6 +88,7 @@
 \TLV tt_vga(#_latency)
    m5+tiny_vga_pmod(*reset, #_latency, *R, *G, *B, *uo_out)
    \SV_plus
+      // makerchip-tt: vga   (Marks a VGA design for Makerchip's Tiny Tapeout tools; see github.com/stevehoover/makerchip-tt-views.)
       /* verilator lint_save */ /* verilator lint_off UNUSED */
       wire [9:0] hpos = $Hpos, vpos = $Vpos;
       wire video_active = $video_active, line_end = $line_end, frame_end = $frame_end;
