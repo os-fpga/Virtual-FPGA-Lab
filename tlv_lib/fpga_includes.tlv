@@ -918,15 +918,17 @@
             ctx.fillRect(0, 0, m5_W, m5_H)
             this.beam = {}
             const pins = '$pins'.goTo(0)
-            let x = null, y = null, hsyncWas = false, vsyncWas = false
+            // Until the syncs say otherwise, assume the beam starts at the picture's top-left (as tiny_vga_pmod()'s
+            // does after reset), so a short simulation still shows its first lines.
+            let x = m5_vga_h_back, y = m5_vga_v_back, hsyncWas = false, vsyncWas = false
             for (; !pins.offEnd(); pins.step()) {
                const v = pins.asInt(0)
                const hsync = !(v & 0x80), vsync = !(v & 0x08)
                if (vsyncWas && !vsync) { x = 0; y = 0 }
-               else if (hsyncWas && !hsync && y !== null) { x = 0; y++ }
-               else if (x !== null) { x++ }
+               else if (hsyncWas && !hsync) { x = 0; y++ }
+               else { x++ }
                hsyncWas = hsync; vsyncWas = vsync
-               if (y === null || hsync || vsync || x >= m5_W || y >= m5_H) { continue }
+               if (hsync || vsync || x >= m5_W || y >= m5_H) { continue }
                this.beam[pins.getCycle()] = [x, y]
                const level = (hi, lo) => (((v >> hi) & 1) * 2 + ((v >> lo) & 1)) * 85
                screen.setCellColor(x, y, `rgb(${level(0, 4)},${level(1, 5)},${level(2, 6)})`)
