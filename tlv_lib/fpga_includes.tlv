@@ -2,7 +2,7 @@
 \SV
 \m5
    use(m5-1.0)
-   macro(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/0dc0c04745e0eaebbe2ca41710e4ffd61d29691c/viz/$1']'])
+   macro(local_img, ['['https://raw.githubusercontent.com/os-fpga/Virtual-FPGA-Lab/d2e8ab2966ba5fe1a44f3fe97c84147816029ad0/viz/$1']'])
 
    /// TODO: The new convension would have all these definition in lower case.
 
@@ -107,24 +107,24 @@
       BOARD_6_PUSH_CNT,    0,
       BOARD_6_THANKS_ARGS, ['['left: 1700, top: 2030, width: 350'], ['Efabless and ']'])
    universal_vars(
-      /// Tiny Tapeout (Motherboard v2.1)
+      /// Tiny Tapeout (ChipDiscover Gen1)
       /// TODO: This currently uses an external link for the image.
       TINY_TAPEOUT_ID,     7,
-      BOARD_7_IMAGE_URL,   m5_local_img(tt3demoboardwFPGAcarrier2.jpg),
-      BOARD_7_IMAGE_SIZE,  ['width: 2600, height: 2044'],
-      BOARD_7_FPGA_WHERE,  m5_FPGA_WHERE_COMMON['left: 1221, top: 898, width: 142, height: 142'],
+      BOARD_7_IMAGE_URL,   m5_local_img(chipdiscover.png),
+      BOARD_7_IMAGE_SIZE,  ['width: 1569, height: 1957'],
+      BOARD_7_FPGA_WHERE,  m5_FPGA_WHERE_COMMON['left: 735, top: 1121, width: 150, height: 150'],
       BOARD_7_LED_CNT,     0,
       BOARD_7_SSEG_CNT,    1,
-      BOARD_7_SSEG_WHERE,  ['left: 1846, top: 1088, scale: 3.36'],
+      BOARD_7_SSEG_WHERE,  ['left: 1135, top: 1167, scale: 3.6'],
       BOARD_7_SWITCH_CNT,  8,
-      BOARD_7_SWITCH_WHERE,['left: 611, top: 426, scale: 2.9, angle: 90'],
+      BOARD_7_SWITCH_WHERE,['left: 350, top: 903, scale: 3.2, angle: 90'],
       BOARD_7_PUSH_CNT,    0,
-      BOARD_7_THANKS_ARGS, ['['left: 1696, top: 2090, width: 283, scale: 4.5'], ['Efabless, Tiny Tapeout, and ']'],
-      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#ffff00", background: "#586068"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
+      BOARD_7_THANKS_ARGS, ['['left: 1000, top: 1960, width: 283, scale: 4.5'], ['ChipFoundry, Tiny Tapeout, and ']'],
+      BOARD_7_ATTRIBUTES,  ['seven_seg: {color: "#e0ff00", offColor: "#b8b491", background: "#8a948b"}, switch: {background: "transparent", foreground: "#bab496", foreground_width: 0.7}'])
    // Add custom boards here
 
 
-   /**
+   /**-
    // These functions parameterize the top-level FPGA module interface and signal declarations.
    // Currently, they could be used by m5_lab(), but we currently define a fixed module interface defining the superset
    // of all possible interface signals. So there's no point to all these macros, unless we change our approach.
@@ -150,28 +150,28 @@
    // Declare LCD (JHD 162A).
    fn(fpga_io_lcd, {
       universal_var(fpga_io_lcd_defined, 1)
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[7:0] out']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['lcd_reset']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['lcd_enable']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[7:0] out']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['lcd_reset']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['lcd_enable']))
    })
                        
    // Declare pushbuttons.
    fn(fpga_io_push, {
       universal_var(fpga_io_push_defined, 1)
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[4:0] push']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[4:0] push']))
    })
                 
    // Declare seven-segment.
    fn(fpga_io_sseg, {
       universal_var(fpga_io_sseg_defined, 1)
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[6:0] sseg_segment_n']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['sseg_decimal_point_n']))
-      append_var(fpga_ios_list, m4_fpga_io_sig(out, ['[$1] sseg_digit_n']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[6:0] sseg_segment_n']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['sseg_decimal_point_n']))
+      append_var(fpga_ios_list, m5_fpga_io_sig(out, ['[$1] sseg_digit_n']))
    })
    
    
    // Define IOs as, e.g.:
-   //   m4_fpga_ios(leds(7:0), ...)
+   //   m5_fpga_ios(leds(7:0), ...)
    fn(fpga_ios, Arg, {
       if_eq(['$1'], [''], {
       }, {
@@ -185,12 +185,12 @@
       fpga_ios($@)
       ~if_defined_as(MAKERCHIP, 1, ['
          // Makerchip module.
-         var(fpga_io_sig, [' logic ']m4_arg(2)[';'])
-         m4_output(['m4_makerchip_module m4_echo(m4_fpga_ios_list)'])
+         var(fpga_io_sig, [' logic ']m5_arg(2)[';'])
+         ~eval(['m5_makerchip_module m5_echo(m5_fpga_ios_list)'])
       '], ['
          // FPGA module.
-         m4_def(fpga_io_sig, [', ']m4_arg(1)['put reg ']m4_arg(2))
-         m4_output(['module top(input clk, input reset['']m4_echo(m4_fpga_ios_list))'])
+         macro(fpga_io_sig, [', ']m5_arg(1)['put reg ']m5_arg(2))
+         ~eval(['module top(input clk, input reset['']m5_echo(m5_fpga_ios_list))'])
       '])
    })
    
@@ -253,8 +253,8 @@
       ///-              logic [6:0] sseg_segment_n: corresponding segments are lit for selected digit(s) when deasserted 
       ///-              logic sseg_decimal_point_n: decimal point is lit for selected digit(s) when deasserted
       ///-              logic [x:0] sseg_digit_n: corresponding digits are enabled when deasserted
-      ///- Eg: m4_fpga_module(leds(7:0), sseg(3:0))
-      ///-m4_output(['m4_fpga_module(leds(15:0), sseg(7:0))'])
+      ///- Eg: m5_fpga_module(leds(7:0), sseg(3:0))
+      ///-fpga_module(leds(15:0), sseg(7:0))
       ~(['
          module top(input wire clk, input wire reset, input wire [31:0] cyc_cnt, output wire passed, output wire failed);    /* verilator lint_save */ /* verilator lint_off UNOPTFLAT */  bit [256:0] RW_rand_raw; bit [256+63:0] RW_rand_vect; pseudo_rand #(.WIDTH(257)) pseudo_rand (clk, reset, RW_rand_raw[256:0]); assign RW_rand_vect[256+63:0] = {RW_rand_raw[62:0], RW_rand_raw};  /* verilator lint_restore */  /* verilator lint_off WIDTH */ /* verilator lint_off UNOPTFLAT */  
             logic [15:0] led; logic [6:0] sseg_segment_n; logic sseg_decimal_point_n; logic [7:0] sseg_digit_n;
@@ -306,7 +306,7 @@
 //                passed a single /_fpga argument.
 \TLV board(/_board, /_fpga, #_board, _sig_prefix, _where, _fpga_macro)
    m5_board_defs(#_board)
-   m4+thanks(m5_eval(m5_BOARD_THANKS_ARGS))
+   m5+thanks(m5_eval(m5_BOARD_THANKS_ARGS))
    m4_def(sig_prefix, m5_if_eq(_sig_prefix, *, *, /_board$))
    
    // Board VIZ.
@@ -337,19 +337,19 @@
          where: {m5_BOARD_FPGA_WHERE},
          box: {strokeWidth: 0}
       /_fpga
-         m5_if_eq(/_fpga, , , ['m4+_fpga_macro(/_fpga)'])
+         m5_if_eq(/_fpga, , , ['m5+_fpga_macro(/_fpga)'])
    
    // LEDs.
-   m5_if_eq(m5_BOARD_LED_CNT, 0, , ['m4+fpga_leds(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_LED_CNT, 0, , ['m5+fpga_leds(/_board, #_board, m4_sig_prefix)'])
    
    // 7-Segment
-   m5_if_eq(m5_BOARD_SSEG_CNT, 0, , ['m4+fpga_sseg(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_SSEG_CNT, 0, , ['m5+fpga_sseg(/_board, #_board, m4_sig_prefix)'])
    
    // slideswitches
-   m5_if_eq(m5_BOARD_SWITCH_CNT, 0, , ['m4+fpga_switch(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_SWITCH_CNT, 0, , ['m5+fpga_switch(/_board, #_board, m4_sig_prefix)'])
    
    // pushbuttons
-   m5_if_eq(m5_BOARD_PUSH_CNT, 0, , ['m4+fpga_push(/_board, #_board, m4_sig_prefix)'])
+   m5_if_eq(m5_BOARD_PUSH_CNT, 0, , ['m5+fpga_push(/_board, #_board, m4_sig_prefix)'])
 
 // VIZ providing a "Thanks to our sponsors" message.
 \TLV thanks(_where, _who)
@@ -380,7 +380,7 @@
          where: {_where}
 
 \TLV fpga_leds(/_board, #_board, _sig_prefix)
-   /leds[m4_eval(m5_BOARD_LED_CNT - 1):0]
+   /leds[m5_calc(m5_BOARD_LED_CNT - 1):0]
       $viz_lit = ['_sig_prefix']led\[#leds\];
       \viz_js
          box: {width: 12, height: 16, fill: m5_RED_LED_COLOR,
@@ -393,7 +393,7 @@
          where: {m5_BOARD_LED_WHERE}
 
 \TLV fpga_sseg(/_board, #_board, _sig_prefix)
-   /digit[m4_eval(m5_BOARD_SSEG_CNT - 1):0]
+   /digit[m5_calc(m5_BOARD_SSEG_CNT - 1):0]
       \viz_js
          all: {
             box: {
@@ -446,12 +446,13 @@
                let attributes = {m5_BOARD_ATTRIBUTES}
                attributes = attributes.seven_seg ? attributes.seven_seg : {}
                let color = attributes.color ? attributes.color : m5_RED_SEGMENT_COLOR
-               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? color : m5_OFF_SEGMENT_COLOR})
+               let offColor = attributes.offColor ? attributes.offColor : m5_OFF_SEGMENT_COLOR
+               this.getObjects().sseg.set({fill: '$viz_lit'.asBool() ? color : offColor})
             },
             layout: {left: 0, top: 0}
             
 \TLV fpga_switch(/_board, #_board, _sig_prefix)
-   /switch[m4_eval(m5_BOARD_SWITCH_CNT - 1):0]
+   /switch[m5_calc(m5_BOARD_SWITCH_CNT - 1):0]
       $viz_switch = ['_sig_prefix']slideswitch\[#switch\];
       \viz_js
          box: { width: 18, height: 35, strokeWidth: 0},
@@ -837,6 +838,149 @@
       )
 
       
+/// Tiny VGA Pmod (https://github.com/mole99/tiny-vga, as used by Tiny Tapeout: https://tinytapeout.com/specs/pinouts/).
+\m5
+   / Display timing, in pixels and lines: 640x480 at 60 Hz, one pixel per clock cycle at 25.175 MHz. Define any of these
+   / before including this library to override it. vga_scale divides the default timing (keeping each porch and sync
+   / at least 1), e.g. so that whole frames fit in a short simulation.
+   default_var(vga_scale, 1)
+   fn(vga_scaled, val, ['m5_calc(m5_val / m5_vga_scale + (m5_val / m5_vga_scale < 1))'])
+   default_var(
+      vga_h_visible, m5_vga_scaled(640), vga_h_front, m5_vga_scaled(16), vga_h_sync, m5_vga_scaled(96),
+      vga_h_back, m5_vga_scaled(48),
+      vga_v_visible, m5_vga_scaled(480), vga_v_front, m5_vga_scaled(10), vga_v_sync, m5_vga_scaled(2),
+      vga_v_back, m5_vga_scaled(33))
+   var(vga_line_cycles, m5_calc(m5_vga_h_visible + m5_vga_h_front + m5_vga_h_sync + m5_vga_h_back))
+   var(vga_frame_cycles, m5_calc(m5_vga_line_cycles * (m5_vga_v_visible + m5_vga_v_front + m5_vga_v_sync + m5_vga_v_back)))
+   / A simulation length for a VGA design: two frames if the timing is scaled down, else four lines (a frame at full
+   / scale is 420,000 cycles).
+   var(vga_sim_cycles, m5_if(m5_calc(m5_vga_scale > 1), ['m5_calc(2 * m5_vga_frame_cycles)'], ['m5_calc(4 * m5_vga_line_cycles)']))
+
+// Drives a Tiny VGA Pmod with the 2-bit red, green and blue that your logic computes from the position of the pixel
+// being displayed. Instantiate once, in the scope of your logic, e.g.:
+//    m5+tiny_vga_pmod(*reset, 0, $rr, $gg, $bb, *uo_out)
+//    $rr[1:0] = ...;  $gg[1:0] = ...;  $bb[1:0] = ...;  // From $Hpos and $Vpos.
+// Params:
+//   $_reset: reset, an expression (e.g. *reset).
+//   #_latency: the cycles from a pixel's position to its color. For pixels that take N cycles to compute, pass N:
+//              the sync is delayed to match (3 bits, so 3N flops).
+//   $_r, $_g, $_b: 2-bit color signals (e.g. $rr or *R). Ignored outside the picture.
+//   $_pmod: the Pmod's 8 pins, an output signal (e.g. *uo_out), driven (registered) as
+//           {hsync, B[0], G[0], R[0], vsync, B[1], G[1], R[1]}.
+// Provides, in the instantiating scope:
+//   $Hpos[9:0], $Vpos[9:0]: the column and line of the pixel to compute, including the blanking around the picture.
+//   $video_active: the pixel is within the picture.
+//   $line_end, $frame_end: the last cycle of each line and frame, e.g. for per-line or per-frame updates.
+//   (Also $hsync, $vsync and $vga_pins[7:0], internally.)
+\TLV tiny_vga_pmod($_reset, #_latency, $_r, $_g, $_b, $_pmod)
+   $line_end = $Hpos == 10'd['']m5_calc(m5_vga_h_visible + m5_vga_h_front + m5_vga_h_sync + m5_vga_h_back - 1);
+   $frame_end = $line_end && $Vpos == 10'd['']m5_calc(m5_vga_v_visible + m5_vga_v_front + m5_vga_v_sync + m5_vga_v_back - 1);
+   $Hpos[9:0] <= $_reset || $line_end ? 10'd0 : $Hpos + 10'd1;
+   $Vpos[9:0] <= $_reset || $frame_end ? 10'd0 : $line_end ? $Vpos + 10'd1 : $RETAIN;
+   $video_active = $Hpos < 10'd['']m5_vga_h_visible && $Vpos < 10'd['']m5_vga_v_visible;
+   $hsync = ! ($Hpos >= 10'd['']m5_calc(m5_vga_h_visible + m5_vga_h_front) &&
+               $Hpos < 10'd['']m5_calc(m5_vga_h_visible + m5_vga_h_front + m5_vga_h_sync));
+   $vsync = ! ($Vpos >= 10'd['']m5_calc(m5_vga_v_visible + m5_vga_v_front) &&
+               $Vpos < 10'd['']m5_calc(m5_vga_v_visible + m5_vga_v_front + m5_vga_v_sync));
+   // (['']: a # parameter needs separating from a following $.)
+   $vga_pins[7:0] = {>>['']#_latency['']$hsync,
+                     >>['']#_latency['']$video_active ? {$_b[0], $_g[0], $_r[0]} : 3'b0,
+                     >>['']#_latency['']$vsync,
+                     >>['']#_latency['']$video_active ? {$_b[1], $_g[1], $_r[1]} : 3'b0};
+   $_pmod = >>1$vga_pins;
+
+
+// Visualizes a Tiny VGA Pmod's output as a monitor showing it, as VGA Playground does: a line starts as hsync ends,
+// a frame as vsync ends (active-low sync), and the image includes the porches before and after the picture. It
+// shows the simulated pixels (all of the trace) and marks the beam at the current cycle. For any design driving the
+// Pmod (not only tiny_vga_pmod()); the image is sized for the vga_* timing. Instantiate once.
+//   $_pins: the Pmod's 8 pins, an expression (e.g. *uo_out).
+//   _where: the \viz_js `where` properties (e.g. ['left: 0, top: 0']), if any.
+\TLV tiny_vga_pmod_viz($_pins, _where)
+   /tiny_vga_viz
+      $pins[7:0] = $_pins;
+      \viz_js
+         m5_var(W, m5_calc(m5_vga_h_back + m5_vga_h_visible + m5_vga_h_front))
+         m5_var(H, m5_calc(m5_vga_v_back + m5_vga_v_visible + m5_vga_v_front))
+         m5_var(Scale, m5_calc(640 / m5_vga_h_visible))
+         box: {left: -10, top: -10, width: m5_W * m5_Scale + 20, height: m5_H * m5_Scale + 20, fill: "#303030",
+               strokeWidth: 0},
+         where: {_where},
+         init() {
+            return {beam: new fabric.Rect({width: 3 * m5_Scale, height: 3 * m5_Scale, fill: "transparent",
+                                           stroke: "red", strokeWidth: m5_Scale, visible: false})}
+         },
+         onTraceData() {
+            // Decode the whole trace into an image, recording each cycle's beam position for render().
+            const screen = new this.global.Grid(window, this, m5_W, m5_H, {left: 0, top: 0, scaleX: m5_Scale, scaleY: m5_Scale})
+            const ctx = screen.canvasEl.getContext("2d")
+            ctx.fillStyle = "black"
+            ctx.fillRect(0, 0, m5_W, m5_H)
+            this.beam = {}
+            const pins = '$pins'.goTo(0)
+            let x = null, y = null, hsyncWas = false, vsyncWas = false
+            for (; !pins.offEnd(); pins.step()) {
+               const v = pins.asInt(0)
+               const hsync = !(v & 0x80), vsync = !(v & 0x08)
+               if (vsyncWas && !vsync) { x = 0; y = 0 }
+               else if (hsyncWas && !hsync && y !== null) { x = 0; y++ }
+               else if (x !== null) { x++ }
+               hsyncWas = hsync; vsyncWas = vsync
+               if (y === null || hsync || vsync || x >= m5_W || y >= m5_H) { continue }
+               this.beam[pins.getCycle()] = [x, y]
+               const level = (hi, lo) => (((v >> hi) & 1) * 2 + ((v >> lo) & 1)) * 85
+               screen.setCellColor(x, y, `rgb(${level(0, 4)},${level(1, 5)},${level(2, 6)})`)
+            }
+            return {objects: {screen: screen.getFabricObject()}}
+         },
+         render() {
+            const pos = this.beam && this.beam[this.getCycle()]
+            this.obj.beam.set(pos ? {visible: true, left: (pos[0] - 1) * m5_Scale, top: (pos[1] - 1) * m5_Scale}
+                                  : {visible: false})
+            this.obj.beam.bringToFront()
+            return []
+         }
+
+// The Gamepad Pmod (https://github.com/psychogenic/gamepad-pmod, as used by Tiny Tapeout), for one or two
+// controllers: receives the button states it sends serially. A TL-Verilog port of the Apache-2.0 gamepad_pmod.v in
+// VGA Playground (github.com/TinyTapeout/vga-playground, (c) 2025 Pat Deegan). Instantiate once.
+//   /_top: the instantiating scope.
+//   $_reset: reset, an expression (e.g. *reset).
+//   #_controllers: 1 or 2.
+//   $_latch, $_clk, $_data: the Pmod's pins, expressions (e.g. *ui_in[4], *ui_in[5], *ui_in[6] for Tiny Tapeout).
+// Provides /gamepad[#_controllers-1:0], each with $present (a controller is connected) and, while it is, its
+// buttons: $up, $down, $left, $right, $a, $b, $x, $y, $l, $r, $start, $select (1 = pressed).
+\TLV gamepad_pmod(/_top, $_reset, #_controllers, $_latch, $_clk, $_data)
+   // Synchronize the pins (2 flops), then take serial data on each rising edge of the Pmod's clock, and the
+   // shifted-in buttons on each rising edge of its latch. All 1s (the reset value) means "no controller".
+   $gamepad_latch_in = $_latch;
+   $gamepad_clk_in = $_clk;
+   $gamepad_data_in = $_data;
+   $gamepad_clk_rise = >>2$gamepad_clk_in && ! >>3$gamepad_clk_in;
+   $gamepad_latch_rise = >>2$gamepad_latch_in && ! >>3$gamepad_latch_in;
+   $GamepadShift[m5_calc(#_controllers * 12 - 1):0] <=
+      $_reset ? '1 :
+      $gamepad_clk_rise ? {$GamepadShift['']m5_if_eq(#_controllers, 1, ['[10:0]'], ['[22:0]']), >>2$gamepad_data_in} :
+      $RETAIN;
+   $GamepadButtons[m5_calc(#_controllers * 12 - 1):0] <=
+      $_reset ? '1 : $gamepad_latch_rise ? $GamepadShift : $RETAIN;
+   /gamepad[m5_calc(#_controllers - 1):0]
+      $raw[11:0] = /_top$GamepadButtons[#gamepad * 12 +: 12];
+      $present = $raw != 12'hfff;
+      $b = $present && $raw[11];
+      $y = $present && $raw[10];
+      $select = $present && $raw[9];
+      $start = $present && $raw[8];
+      $up = $present && $raw[7];
+      $down = $present && $raw[6];
+      $left = $present && $raw[5];
+      $right = $present && $raw[4];
+      $a = $present && $raw[3];
+      $x = $present && $raw[2];
+      $l = $present && $raw[1];
+      $r = $present && $raw[0];
+
+
 /// Convenience macros:
 
 /// Simple 7-segment decoder.
@@ -918,7 +1062,7 @@
    // Include WARP-V. Typically, this would be done from an \SV region, but we need to
    // avoid the inclusion if this file is used as a library, so it is under \TLV. It expands
    // to multiple comment lines, so we reset the line numbering with a \m5 region.
-   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/bc141b721d1c863dc10305d6e3e4ba38a81dd2eb/warp-v.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/warp-v/e8a9031da74774771118696fffb08a9d3d744882/warp-v.tlv'])
 \m5
 \TLV
    /board
@@ -932,25 +1076,25 @@
       // 6: CLEAR_ID
       // 7: TINY_TAPEOUT_ID  // (Currently only in the "tt" branch.)
       m5_var(board, 2)
-      m4+board(/board, /fpga, m5_board, *,
+      m5+board(/board, /fpga, m5_board, *,
                ['top: 0, left: 0, width: 7000, height: 7000'],
                riscv_main)  // riscv_main or simple_main.
       m5_if_eq(m5_board, 7, ['m5+tt_input_labels_viz(['"UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED", "UNUSED"'])'])
 
       /// TODO: RGB LEDs and external 7-Segment remain to be cleaned up.
-      ///m4+ifelse(m4_fpga_io_rgb_leds_defined, 1,
+      ///m5+ifelse(m4_fpga_io_rgb_leds_defined, 1,
       ///   \TLV
       ///      // FIX
-      ///      m4+led_rgb(/_board, *led)
+      ///      m5+led_rgb(/_board, *led)
       ///   )
-      ///m4+ifelse(m4_fpga_io_sseg_defined, 1,
+      ///m5+ifelse(m4_fpga_io_sseg_defined, 1,
       ///   \TLV
       ///      // FIX
-      ///      m4+fpga_sseg(/_board, *digit_n, *segment_n, *decimal_point_n)
+      ///      m5+fpga_sseg(/_board, *digit_n, *segment_n, *decimal_point_n)
       ///   )
       
    // Instantiate each board with simple TLV outputs.
-   m4+forloop(board, 0, 8,
+   m5+forloop(board, 0, 8,
       \TLV
          /board['']m4_board
             /default_inputs
@@ -968,7 +1112,7 @@
             `BOGUS_USE($dummy)
             // For 4th arg, use $ to visualize the associated TLV logic,
             //               or * to connect with the global SV outputs (from the main board).
-            m4+board(/board['']m4_board, /fpga, m4_board, $, ['left: -1100, top: m4_board['']000, height: 1000, width: 1000'])
+            m5+board(/board['']m4_board, /fpga, m4_board, $, ['left: -1100, top: m4_board['']000, height: 1000, width: 1000'])
       )
 \SV
    endmodule
