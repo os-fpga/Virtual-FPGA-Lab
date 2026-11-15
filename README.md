@@ -13,7 +13,7 @@ This document introduces the Virtual FPGA Lab. Separate documents will help you 
 
   - [FPGA training using this platform](https://github.com/stevehoover/GettingStartedWithFPGAs)
   - [Exporting to your FPGA board (if supported)](fpga/readme.md)
-  - TL-Verilog info: [for humans](https://tl-x.org) [for LLMs](https://gitlab.com/rweda/Makerchip-public)
+  - TL-Verilog info: [for humans](https://tl-x.org) [for LLMs](https://github.com/rweda/Makerchip-public)
 
 
 
