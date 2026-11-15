@@ -79,15 +79,14 @@
    $sseg_decimal_point_n = ~ *uo_out[7];
    $sseg_digit_n[7:0] = 8'b11111110;
 
-// VGA for a Tiny Tapeout module, on the Tiny VGA Pmod (uo_out). Instantiate once, in the module's \TLV region; it uses
-// the module's reset signal. It declares Verilog signals for your logic, in Verilog or TL-Verilog (as *R, etc.):
+// VGA for a Tiny Tapeout module, on the Tiny VGA Pmod (uo_out). Instantiate once, in the scope of your TL-Verilog logic
+// (e.g. the FPGA's, on the TT demo board); it uses the module's reset signal. It declares Verilog signals for your logic, in Verilog or TL-Verilog (as *R, etc.):
 //   to read: hpos[9:0], vpos[9:0] (the pixel to compute), video_active, line_end, frame_end;
 //   to drive: R[1:0], G[1:0], B[1:0] (its color).
 // TL-Verilog logic can read $Hpos, etc., instead. #_latency: as for tiny_vga_pmod() in fpga_includes.tlv, which
 // documents these signals.
 \TLV tt_vga(#_latency)
    m5+tiny_vga_pmod(*reset, #_latency, *R, *G, *B, *uo_out)
-   m5+tiny_vga_pmod_viz(*uo_out, ['left: 1650, top: 0, width: 1600'])  // (Right of the TT demo board, if any.)
    \SV_plus
       // makerchip-tt: vga   (Marks a VGA design for Makerchip's Tiny Tapeout tools; see github.com/stevehoover/makerchip-tt-views.)
       /* verilator lint_save */ /* verilator lint_off UNUSED */
@@ -97,13 +96,13 @@
       logic [1:0] R, G, B;
 
 // The Gamepad Pmod (on ui_in[6:4]) for a Tiny Tapeout module, for #_controllers (1 or 2). Instantiate once, in the
-// module's \TLV region; it uses the module's reset signal. It declares Verilog signals for your logic, in Verilog or
+// scope of your TL-Verilog logic, /_top (e.g. /fpga, on the TT demo board, or /top); it uses the module's reset signal. It declares Verilog signals for your logic, in Verilog or
 // TL-Verilog (as *gamepad_up, etc.), with a bit per controller: gamepad_present, and gamepad_up, gamepad_down,
 // gamepad_left, gamepad_right, gamepad_a, gamepad_b, gamepad_x, gamepad_y, gamepad_l, gamepad_r, gamepad_start and
 // gamepad_select (1 = pressed). TL-Verilog logic can read /gamepad[i]$up, etc., instead. See gamepad_pmod() in
 // fpga_includes.tlv.
-\TLV tt_gamepad(#_controllers)
-   m5+gamepad_pmod(/top, *reset, #_controllers, *ui_in[4], *ui_in[5], *ui_in[6])
+\TLV tt_gamepad(/_top, #_controllers)
+   m5+gamepad_pmod(/_top, *reset, #_controllers, *ui_in[4], *ui_in[5], *ui_in[6])
    \SV_plus
       /* verilator lint_save */ /* verilator lint_off UNUSED */
       wire [m5_calc(#_controllers - 1):0] gamepad_present = /gamepad[*]$present;
@@ -120,6 +119,11 @@
       wire [m5_calc(#_controllers - 1):0] gamepad_start = /gamepad[*]$start;
       wire [m5_calc(#_controllers - 1):0] gamepad_select = /gamepad[*]$select;
       /* verilator lint_restore */
+
+// A VGA monitor, showing the Tiny VGA Pmod's output (uo_out), right of the TT demo board. Instantiate once, in the
+// module's \TLV region (beside the board, not in its FPGA). See tiny_vga_pmod_viz() in fpga_includes.tlv.
+\TLV tt_vga_viz()
+   m5+tiny_vga_pmod_viz(*uo_out, ['left: 1650, top: 0, width: 1600'])
 
 \TLV tt_input_labels_viz(_labels_js)
    /input_label[7:0]
